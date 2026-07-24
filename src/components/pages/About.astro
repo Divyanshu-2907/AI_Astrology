@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "हमारे बारे में | AI Astrology" : "About Us | AI Astrology"} 
+  description={lang === 'hi' ? "एआई एस्ट्रोलॉजी, हमारे मिशन और हमारी ब्रह्मांडीय अंतर्दृष्टि के पीछे की तकनीक के बारे में जानें।" : "Learn about AI Astrology, our mission, and the technology behind our cosmic insights."}
+>
+  <div class="max-w-4xl mx-auto px-4 py-16">
+    <div class="glass-card p-8 md:p-12 text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-6">{lang === 'hi' ? 'एआई एस्ट्रोलॉजी के बारे में' : 'About AI Astrology'}</h1>
+      <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light leading-relaxed">
+        {lang === 'hi' ? 'प्राचीन ज्योतिषीय ज्ञान और आधुनिक कृत्रिम बुद्धिमत्ता के बीच की खाई को पाटना।' : 'Bridging the gap between ancient astrological wisdom and modern artificial intelligence.'}
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4 text-primary">{lang === 'hi' ? 'हमारा मिशन' : 'Our Mission'}</h2>
+        <p class="text-theme-muted leading-relaxed">
+          {lang === 'hi' 
+            ? 'हम मानते हैं कि ब्रह्मांड में गहन ज्ञान है जो हमें अधिक पूर्ण जीवन की ओर मार्गदर्शन कर सकता है। हमारा मिशन उन्नत तकनीक की शक्ति का उपयोग करके प्रामाणिक ज्योतिषीय, अंक ज्योतिष और आध्यात्मिक अंतर्दृष्टि को हर किसी के लिए सुलभ बनाना है।'
+            : 'We believe that the cosmos holds profound wisdom that can guide us towards a more fulfilled life. Our mission is to make authentic astrological, numerological, and spiritual insights accessible to everyone, everywhere, using the power of advanced technology.'}
+        </p>
+      </div>
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4 text-highlight">{lang === 'hi' ? 'तकनीकी' : 'The Technology'}</h2>
+        <p class="text-theme-muted leading-relaxed">
+          {lang === 'hi'
+            ? 'एआई एस्ट्रोलॉजी आपके जन्म के समय की सटीक ग्रहीय स्थिति की गणना करने के लिए सटीक खगोलीय एफेमेरिस एल्गोरिदम का उपयोग करता है। फिर हम इस डेटा को गहरे व्यक्तिगत पठन को संश्लेषित करने के लिए वैदिक और पश्चिमी ज्योतिषीय ग्रंथों के विशाल पुस्तकालयों पर प्रशिक्षित उन्नत एआई मॉडल में डालते हैं।'
+            : 'AI Astrology uses precise astronomical ephemeris algorithms to calculate planetary positions exactly as they were at your time of birth. We then feed this data into advanced AI models trained on vast libraries of Vedic and Western astrological texts to synthesize deeply personalized readings.'}
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

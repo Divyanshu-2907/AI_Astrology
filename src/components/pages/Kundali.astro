@@ -1,0 +1,263 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { calculateBirthChart, calculateVimshottariDasha } from '../../lib/astro-calc';
+import { getGemstone } from '../../data/gemstones';
+import FaqJsonLd from '../FaqJsonLd.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const faqs = [
+  { question: "What is a Kundali?", answer: "A Kundali, or birth chart, is a map of the sky at the exact moment and place of your birth. It shows the positions of the Sun, Moon, and all planets across the 12 houses and zodiac signs." },
+  { question: "What is the Lagna or Ascendant?", answer: "The Lagna (Ascendant) is the zodiac sign rising on the eastern horizon at the time of your birth. It represents your physical appearance, personality, and how others perceive you." },
+  { question: "Do I need my exact birth time for a Kundali?", answer: "Yes, the birth time is critical for an accurate Kundali as it determines your Ascendant and house placements. Even a 4-minute difference can change the Lagna. If unknown, a Rectification reading can help estimate it." },
+  { question: "What is a Dasha in Vedic astrology?", answer: "Dasha is a planetary period system in Vedic astrology. The Vimshottari Dasha divides life into periods ruled by different planets, each influencing career, relationships, health, and spiritual growth." },
+  { question: "What is the difference between Vedic and Western birth charts?", answer: "Vedic charts use the sidereal zodiac and a square house format (North Indian style). Western charts use the tropical zodiac and a circular format. Vedic astrology places more emphasis on the Moon sign and Dashas for predictions." }
+];
+
+const lang = getLangFromUrl(Astro.url);
+
+let chartData = null;
+let dashaInfo: any = null;
+let gemstoneInfo: any = null;
+let planetsByHouse: Record<number, string[]> = {};
+
+if (Astro.request.method === 'POST') {
+    try {
+        const data = await Astro.request.formData();
+        const date = data.get('dob') as string;
+        const time = data.get('tob') as string;
+        const place = data.get('place') as string;
+        
+        chartData = await calculateBirthChart(date, time, place, lang);
+        
+        dashaInfo = calculateVimshottariDasha(chartData.moonLongitude, lang);
+        gemstoneInfo = getGemstone(chartData.lagna, lang);
+        
+        for (let i = 1; i <= 12; i++) {
+            planetsByHouse[i] = [];
+        }
+        if (chartData && chartData.planets) {
+            chartData.planets.forEach((p: any) => {
+                if (planetsByHouse[p.house]) {
+                    planetsByHouse[p.house].push(p.name);
+                }
+            });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "मुफ्त जन्म कुंडली बनाएं | AI कुंडली विश्लेषण - AI ज्योतिष" : "Your Kundali (Birth Chart) | AI Astrology"} 
+  description={lang === 'hi' ? "अपनी जन्म तारीख, समय और स्थान से मुफ्त में सटीक जन्म कुंडली बनाएं। एआई-आधारित विस्तृत ग्रह विश्लेषण तुरंत प्राप्त करें।" : "Generate your precise Vedic birth chart."}
+>
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-4">{lang === 'hi' ? 'वैदिक कुंडली' : 'Vedic Kundali'}</h1>
+      <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+        {lang === 'hi' ? 'अपनी व्यापक जन्म कुंडली बनाने के लिए अपना सटीक जन्म विवरण दर्ज करें। बुनियादी चार्ट मुफ्त हैं!' : 'Enter your exact birth details to generate your comprehensive birth chart. Basic charts are free!'}
+      </p>
+    </div>
+
+  {!chartData ? (
+      <div class="max-w-xl mx-auto glass-card p-8 md:p-10">
+        <form method="POST" class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'पूरा नाम' : 'Full Name'}</label>
+            <input type="text" name="name" required class="w-full bg-background/50 border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म की तारीख' : 'Date of Birth'}</label>
+                <div class="relative">
+                  <input type="date" name="dob" required class="flatpickr-date w-full bg-background/50 border border-glass-border rounded-lg pl-4 pr-10 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary [color-scheme:dark]">
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-theme-muted">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म का समय' : 'Time of Birth'}</label>
+                <div class="relative">
+                  <input type="time" name="tob" required class="flatpickr-time w-full bg-background/50 border border-glass-border rounded-lg pl-4 pr-10 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary [color-scheme:dark]">
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-theme-muted">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म स्थान (शहर, देश)' : 'Place of Birth (City, Country)'}</label>
+            <input type="text" name="place" required placeholder={lang === 'hi' ? 'उदा. नई दिल्ली, भारत' : 'e.g. New Delhi, India'} class="w-full bg-background/50 border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+          </div>
+          <button type="submit" class="btn-primary w-full py-3 mt-4">{lang === 'hi' ? 'कुंडली बनाएं' : 'Generate Chart'}</button>
+        </form>
+      </div>
+  ) : (
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="glass-card p-8">
+              <h2 class="text-2xl font-serif text-theme-main mb-6">{lang === 'hi' ? 'ग्रहीय स्थितियाँ' : 'Planetary Positions'}</h2>
+              <div class="overflow-x-auto">
+                  <table class="w-full text-left text-sm">
+                      <thead>
+                          <tr class="border-b border-glass-border text-theme-muted">
+                              <th class="pb-2 font-medium">{lang === 'hi' ? 'ग्रह' : 'Planet'}</th>
+                              <th class="pb-2 font-medium">{lang === 'hi' ? 'राशि' : 'Sign'}</th>
+                              <th class="pb-2 font-medium">{lang === 'hi' ? 'भाव' : 'House'}</th>
+                              <th class="pb-2 font-medium">{lang === 'hi' ? 'डिग्री' : 'Degree'}</th>
+                              <th class="pb-2 font-medium">{lang === 'hi' ? 'स्थिति' : 'Status'}</th>
+                          </tr>
+                      </thead>
+                      <tbody class="divide-y divide-glass-border">
+                          {chartData.planets.map(p => (
+                              <tr>
+                                  <td class="py-3 text-theme-main font-medium">{p.name}</td>
+                                  <td class="py-3 text-theme-muted">{p.sign}</td>
+                                  <td class="py-3 text-theme-muted">{p.house}</td>
+                                  <td class="py-3 text-theme-muted">{p.degree}°</td>
+                                  <td class="py-3 text-highlight">{p.status}</td>
+                              </tr>
+                          ))}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          
+          <div class="space-y-8">
+              <div class="glass-card p-8">
+                  <h2 class="text-xl font-serif text-theme-main mb-4">{lang === 'hi' ? 'उत्तर भारतीय कुंडली (लग्न)' : 'North Indian Chart (Lagna)'}</h2>
+                  <div class="aspect-square w-full max-w-sm mx-auto border-2 border-primary/50 relative bg-background/30 rounded-sm">
+                      <svg viewBox="0 0 100 100" class="w-full h-full stroke-primary/50 stroke-1 fill-none">
+                          <rect x="0" y="0" width="100" height="100" />
+                          <line x1="0" y1="0" x2="100" y2="100" />
+                          <line x1="100" y1="0" x2="0" y2="100" />
+                          <line x1="50" y1="0" x2="100" y2="50" />
+                          <line x1="100" y1="50" x2="50" y2="100" />
+                          <line x1="50" y1="100" x2="0" y2="50" />
+                          <line x1="0" y1="50" x2="50" y2="0" />
+                          
+                          <!-- Planet Texts -->
+                          <text x="50" y="25" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[1]?.join(', ')}</text>
+                          <text x="25" y="15" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[2]?.join(', ')}</text>
+                          <text x="15" y="25" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[3]?.join(', ')}</text>
+                          <text x="25" y="50" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[4]?.join(', ')}</text>
+                          <text x="15" y="75" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[5]?.join(', ')}</text>
+                          <text x="25" y="85" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[6]?.join(', ')}</text>
+                          <text x="50" y="75" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[7]?.join(', ')}</text>
+                          <text x="75" y="85" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[8]?.join(', ')}</text>
+                          <text x="85" y="75" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[9]?.join(', ')}</text>
+                          <text x="75" y="50" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[10]?.join(', ')}</text>
+                          <text x="85" y="25" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[11]?.join(', ')}</text>
+                          <text x="75" y="15" class="text-[4px] fill-theme-main stroke-none font-medium" text-anchor="middle" dominant-baseline="middle">{planetsByHouse[12]?.join(', ')}</text>
+                          
+                          <!-- House Numbers -->
+                          <text x="50" y="32" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">1</text>
+                          <text x="32" y="15" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">2</text>
+                          <text x="15" y="32" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">3</text>
+                          <text x="32" y="50" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">4</text>
+                          <text x="15" y="68" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">5</text>
+                          <text x="32" y="85" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">6</text>
+                          <text x="50" y="68" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">7</text>
+                          <text x="68" y="85" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">8</text>
+                          <text x="85" y="68" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">9</text>
+                          <text x="68" y="50" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">10</text>
+                          <text x="85" y="32" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">11</text>
+                          <text x="68" y="15" class="text-[3px] fill-theme-muted/50 stroke-none" text-anchor="middle">12</text>
+                      </svg>
+                  </div>
+              </div>
+              
+              
+                  {gemstoneInfo && (
+                  <div class="glass-card p-8 border border-emerald-500/20 bg-emerald-500/5 mt-8">
+                      <h3 class="text-lg font-serif text-theme-main mb-2 flex items-center">
+                        <span class="text-emerald-400 mr-2">💎</span> {lang === 'hi' ? 'भाग्यशाली रत्न' : 'Lucky Gemstone'}
+                      </h3>
+                      <div class="text-xl text-emerald-400 font-bold mb-1">{gemstoneInfo.stone}</div>
+                      <div class="text-sm text-theme-muted mb-2">{lang === 'hi' ? 'शासक ग्रह:' : 'Ruling Planet:'} {gemstoneInfo.planet}</div>
+                      <p class="text-sm text-theme-main">{gemstoneInfo.benefit}</p>
+                  </div>
+                  )}
+
+                  {dashaInfo && (
+                  <div class="glass-card p-8 mt-8">
+                      <h3 class="text-lg font-serif text-theme-main mb-4">{lang === 'hi' ? 'विंशोत्तरी दशा' : 'Vimshottari Dasha'}</h3>
+                      <div class="mb-4 p-4 bg-primary/10 border border-primary/20 rounded-lg">
+                        <div class="text-sm text-theme-muted mb-1">{lang === 'hi' ? 'जन्म के समय आरंभिक दशा:' : 'Starting Dasha at Birth:'}</div>
+                        <div class="text-lg text-primary font-bold">{dashaInfo.startPlanet} ({dashaInfo.balanceYears.toFixed(1)} {lang === 'hi' ? 'वर्ष शेष' : 'years left'})</div>
+                      </div>
+                      
+                      <div class="overflow-x-auto mt-4">
+                        <table class="w-full text-left text-sm">
+                          <thead>
+                            <tr class="border-b border-glass-border text-theme-muted">
+                              <th class="pb-2">{lang === 'hi' ? 'ग्रह' : 'Planet'}</th>
+                              <th class="pb-2 text-right">{lang === 'hi' ? 'अवधि (वर्ष)' : 'Duration (Years)'}</th>
+                            </tr>
+                          </thead>
+                          <tbody class="divide-y divide-glass-border">
+                            {dashaInfo.totalSequence.map((d: any, index: number) => (
+                              <tr class={index === dashaInfo.startIndex ? 'bg-primary/5' : ''}>
+                                <td class="py-2 text-theme-main font-medium flex items-center">
+                                  {index === dashaInfo.startIndex && <span class="w-2 h-2 rounded-full bg-primary mr-2"></span>}
+                                  {d.planet}
+                                </td>
+                                <td class="py-2 text-theme-muted text-right">{d.years}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  )}
+                
+          </div>
+          
+          <div class="lg:col-span-2 mt-4">
+              <div class="glass-card p-8">
+                      <h2 class="text-2xl font-serif text-theme-main mb-6 flex items-center">
+                          <span class="mr-3">🤖</span> {lang === 'hi' ? 'एआई चार्ट व्याख्या' : 'AI Chart Interpretation'}
+                      </h2>
+                      <div class="prose prose-invert max-w-none text-theme-muted">
+                          <p>
+                            {lang === 'hi' 
+                                ? `आपका लग्न (Lagna) <strong>${chartData.lagna}</strong> है, जो आपको एक स्वाभाविक अग्रणी बनाता है। सूर्य अपनी ही राशि में आपके 5वें भाव में स्थित होने के कारण, आपमें मजबूत रचनात्मक बुद्धि और स्वाभाविक नेतृत्व के गुण हैं।` 
+                                : `Your Ascendant (Lagna) is <strong>${chartData.lagna}</strong>, which makes you a natural pioneer. With the Sun placed in your 5th house in its own sign, you possess strong creative intelligence and natural leadership qualities.`}
+                          </p>
+                          <p>
+                            {lang === 'hi'
+                                ? 'आपके दूसरे भाव में उच्च का चंद्रमा परिवार और भौतिक सुरक्षा से जुड़ी एक स्थिर भावनात्मक नींव का सुझाव देता है। यह स्थान अंतर्ज्ञान या जनता के साथ व्यवहार के माध्यम से धन संचय को इंगित करता है।'
+                                : 'The exalted Moon in your 2nd house suggests a stable emotional foundation tied to family and material security. This placement indicates wealth accumulation through intuition or dealing with the public.'}
+                          </p>
+                          <p>
+                            {lang === 'hi'
+                                ? '12वें भाव में उच्च का शुक्र गहरी आध्यात्मिक भक्ति, कला में छिपी हुई प्रतिभा और विदेशों या अलग-थलग वातावरण में लाभ की संभावना को इंगित करता है।'
+                                : 'Venus exalted in the 12th house indicates deep spiritual devotion, hidden talents in the arts, and the potential for gains in foreign lands or isolated environments.'}
+                          </p>
+                          <p class="text-xs text-gray-500 italic mt-8 border-t border-glass-border pt-4">
+                            {lang === 'hi'
+                                ? 'यह गणना की गई ग्रहीय स्थितियों के आधार पर एक संश्लेषित एआई रीडिंग है। संपूर्ण विश्लेषण के लिए, हमारे एआई ज्योतिषी से चैट करें।'
+                                : 'This is a synthesized AI reading based on the calculated planetary positions. For a complete deep dive, consult our AI Astrologer chat.'}
+                          </p>
+                      </div>
+                  </div>
+          </div>
+      </div>
+  )}
+
+  <FaqJsonLd faqs={faqs} />
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mt-12">
+    <h2 class="text-2xl font-serif mb-6 text-theme-main">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      {faqs.map(faq => (
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">{faq.answer}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  </div>
+</BaseLayout>

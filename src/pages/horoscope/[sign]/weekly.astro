@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+import HoroscopeInternalLinks from '../../../components/HoroscopeInternalLinks.astro';
+import JsonLdArticle from '../../../components/JsonLdArticle.astro';
+import JsonLdFAQ from '../../../components/JsonLdFAQ.astro';
+
+// No getStaticPaths or prerender = true because this uses SSR for Llama 3.1
+
+const { sign } = Astro.params;
+const lang = getLangFromUrl(Astro.url);
+
+// Get current week string (e.g., "Week of July 24, 2026")
+const today = new Date();
+const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+const displayDate = `Week of ${firstDayOfWeek.toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+// Use year and week number for cache key
+const getWeekNumber = (d: Date) => {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    var weekNo = Math.ceil(( ( (d.getTime() - yearStart.getTime()) / 86400000) + 1)/7);
+    return `${d.getUTCFullYear()}-W${weekNo}`;
+};
+const weekId = getWeekNumber(new Date());
+
+import { env } from 'cloudflare:workers';
+
+let contentData: any = null;
+let errorMsg = "";
+
+try {
+  const cache = env.ASTRO_BLOG_CACHE;
+  const ai = env.AI;
+  const cacheKey = `horoscope:weekly:${sign}:${weekId}`;
+  
+  if (cache) {
+    let cachedContent = await cache.get(cacheKey);
+    
+    if (cachedContent) {
+      contentData = JSON.parse(cachedContent);
+    } else if (ai) {
+      const prompt = `Write a weekly astrology horoscope for the zodiac sign ${sign} for this week (${displayDate}).
+      
+      You must output ONLY valid JSON matching this exact structure:
+      {
+        "seo_title": "Under 60 chars, include ${sign} and 'Weekly Horoscope'",
+        "meta_description": "150-160 chars summary for search engines",
+        "overview": "3-4 sentences overview of the week specifically for ${sign}.",
+        "love": "100-120 words about love for the week.",
+        "career": "100-120 words about career/finance for the week.",
+        "health": "100-120 words about health/wellness for the week.",
+        "lucky_number": "A number",
+        "lucky_color": "A color",
+        "faqs": [
+          { "question": "What is the key focus for ${sign} this week?", "answer": "40-60 words answer" },
+          { "question": "Are there any challenges for ${sign} this week?", "answer": "40-60 words answer" }
+        ]
+      }`;
+
+      const response = await ai.run('@cf/meta/llama-3.1-8b-instruct-fp8', {
+        max_tokens: 2048,
+        messages: [
+          { role: 'system', content: 'You are an expert astrologer. You only respond in pure JSON format without markdown blocks.' },
+          { role: 'user', content: prompt }
+        ]
+      });
+      
+      let responseText = response.response;
+      responseText = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+      
+      contentData = JSON.parse(responseText);
+      
+      // Save to cache for the week (e.g. 7 days in seconds)
+      await cache.put(cacheKey, JSON.stringify(contentData), { expirationTtl: 604800 });
+    }
+  } else {
+    // Development fallback
+    contentData = {
+      seo_title: `${sign} Weekly Horoscope: Development Mode`,
+      meta_description: "Cloudflare Workers AI and KV are not available in standard local dev mode.",
+      overview: "Deploy to Cloudflare to see the magic!",
+      love: "Dev mode love forecast.",
+      career: "Dev mode career forecast.",
+      health: "Dev mode health forecast.",
+      lucky_number: "7",
+      lucky_color: "Blue",
+      faqs: []
+    };
+  }
+} catch (e) {
+  console.error("Error with AI/KV:", e);
+  errorMsg = e instanceof Error ? e.message : String(e);
+}
+---
+
+<BaseLayout 
+  title={contentData ? contentData.seo_title : `${sign} Weekly Horoscope for ${displayDate} | AI Astrology`}
+  description={contentData ? contentData.meta_description : `Read the weekly astrological insights for ${sign} for the week of ${displayDate}.`}
+>
+  {contentData && (
+    <>
+      <JsonLdArticle 
+        title={contentData.seo_title}
+        datePublished={new Date().toISOString()}
+        bodyText={`${contentData.overview} ${contentData.love} ${contentData.career} ${contentData.health}`}
+      />
+      {contentData.faqs && contentData.faqs.length > 0 && (
+        <JsonLdFAQ faqs={contentData.faqs} />
+      )}
+    </>
+  )}
+
+  <main class="container mx-auto px-4 pt-32 pb-24">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-8">
+      
+      <div class="md:w-2/3">
+        <a href='/blog' class="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-8">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to all signs
+        </a>
+
+        {errorMsg ? (
+          <div class="glass-card p-8 md:p-12 text-red-400">
+            <h2>Error loading horoscope</h2>
+            <p>{errorMsg}</p>
+          </div>
+        ) : contentData ? (
+          <article class="glass-card p-8 md:p-12 mb-8">
+            <header class="mb-10 border-b border-glass-border pb-8">
+              <div class="inline-block bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-medium mb-4 capitalize">
+                {sign} Weekly Horoscope
+              </div>
+              <h1 class="text-3xl md:text-5xl font-serif text-theme-main mb-4 leading-tight capitalize">
+                {sign} Weekly Horoscope
+              </h1>
+              <p class="text-lg text-theme-muted mb-6">{displayDate}</p>
+              
+              <div class="flex flex-wrap gap-4 text-sm mt-6">
+                <div class="bg-glass-bg border border-glass-border rounded-lg px-4 py-2 text-center">
+                  <span class="block text-xs text-theme-muted uppercase tracking-wider mb-1">Lucky Number</span>
+                  <strong class="text-lg text-theme-main">{contentData.lucky_number}</strong>
+                </div>
+                <div class="bg-glass-bg border border-glass-border rounded-lg px-4 py-2 text-center">
+                  <span class="block text-xs text-theme-muted uppercase tracking-wider mb-1">Lucky Color</span>
+                  <strong class="text-lg text-theme-main">{contentData.lucky_color}</strong>
+                </div>
+              </div>
+            </header>
+
+            <div class="prose prose-invert prose-lg max-w-none prose-headings:text-theme-main prose-headings:font-serif prose-p:text-theme-muted prose-li:text-theme-muted prose-a:text-primary hover:prose-a:text-primary/80">
+              <h2 class="text-2xl font-serif text-theme-main mb-4">Overview</h2>
+              <p class="mb-8">{contentData.overview}</p>
+
+              <h2 class="text-2xl font-serif text-theme-main mb-4">Love & Relationships</h2>
+              <p class="mb-8">{contentData.love}</p>
+
+              <h2 class="text-2xl font-serif text-theme-main mb-4">Career & Finance</h2>
+              <p class="mb-8">{contentData.career}</p>
+
+              <h2 class="text-2xl font-serif text-theme-main mb-4">Health & Wellness</h2>
+              <p class="mb-8">{contentData.health}</p>
+            </div>
+            
+            {contentData.faqs && contentData.faqs.length > 0 && (
+              <div class="mt-12 pt-8 border-t border-glass-border">
+                <h3 class="text-xl font-serif text-theme-main mb-6">Frequently Asked Questions</h3>
+                <div class="space-y-6">
+                  {contentData.faqs.map((faq: any) => (
+                    <div>
+                      <h4 class="font-medium text-theme-main mb-2">{faq.question}</h4>
+                      <p class="text-theme-muted text-sm">{faq.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </article>
+        ) : (
+          <div class="glass-card p-8 md:p-12 text-theme-muted">
+            <p>Loading your cosmic forecast...</p>
+          </div>
+        )}
+      </div>
+
+      <div class="md:w-1/3">
+        <HoroscopeInternalLinks sign={sign} date="weekly" lang="en" />
+      </div>
+      
+    </div>
+  </main>
+</BaseLayout>

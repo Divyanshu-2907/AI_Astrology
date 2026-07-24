@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "सेवा की शर्तें | AI Astrology" : "Terms of Service | AI Astrology"} 
+  description={lang === 'hi' ? "एआई एस्ट्रोलॉजी के लिए सेवा की शर्तें।" : "Terms of service for AI Astrology."}
+>
+  <div class="max-w-3xl mx-auto px-4 py-16">
+    <div class="glass-card p-8 md:p-12 prose prose-invert max-w-none">
+      <h1 class="text-4xl font-serif text-theme-main mb-8">{lang === 'hi' ? 'सेवा की शर्तें' : 'Terms of Service'}</h1>
+      <p>{lang === 'hi' ? 'अंतिम अपडेट: जून 2026' : 'Last updated: June 2026'}</p>
+      
+      <h2>{lang === 'hi' ? '1. शर्तों की स्वीकृति' : '1. Acceptance of Terms'}</h2>
+      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी को एक्सेस और उपयोग करके, आप इस समझौते की शर्तों और प्रावधानों से बंधे होने के लिए सहमत और स्वीकार करते हैं।' : 'By accessing and using AI Astrology, you accept and agree to be bound by the terms and provision of this agreement.'}</p>
+      
+      <h2>{lang === 'hi' ? '2. केवल मनोरंजन के उद्देश्य से' : '2. Entertainment Purposes Only'}</h2>
+      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी द्वारा प्रदान किए गए सभी ज्योतिषीय पठन, राशिफल, टैरो कार्ड और अंक ज्योतिष गणना केवल मनोरंजन और आत्म-चिंतन के उद्देश्यों के लिए हैं। वे पेशेवर चिकित्सा, कानूनी, वित्तीय या मनोवैज्ञानिक सलाह का गठन नहीं करते हैं।' : 'All astrological readings, horoscopes, tarot draws, and numerology calculations provided by AI Astrology are for entertainment and self-reflection purposes only. They do not constitute professional medical, legal, financial, or psychological advice.'}</p>
+      
+      <h2>{lang === 'hi' ? '3. प्रीमियम सदस्यता' : '3. Premium Subscriptions'}</h2>
+      <p>{lang === 'hi' ? 'प्रीमियम सुविधाओं का बिल आवर्ती मासिक या वार्षिक आधार पर लिया जाता है। आप किसी भी समय अपनी सदस्यता रद्द कर सकते हैं। आंशिक महीनों के लिए रिफंड प्रदान नहीं किए जाते हैं।' : 'Premium features are billed on a recurring monthly or annual basis. You may cancel your subscription at any time. Refunds are not provided for partial months.'}</p>
+      
+      <h2>{lang === 'hi' ? '4. उपयोगकर्ता आचरण' : '4. User Conduct'}</h2>
+      <p>{lang === 'hi' ? 'आप किसी भी गैरकानूनी उद्देश्य के लिए सेवा का उपयोग नहीं करने या किसी भी ऐसी गतिविधि का संचालन नहीं करने के लिए सहमत हैं जो नागरिक या आपराधिक अपराध का गठन करेगी या किसी कानून का उल्लंघन करेगी।' : 'You agree not to use the service for any unlawful purpose or to conduct any activity that would constitute a civil or criminal offense or violate any law.'}</p>
+    </div>
+  </div>
+</BaseLayout>
+

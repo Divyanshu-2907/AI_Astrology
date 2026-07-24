@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+import { env } from 'cloudflare:workers';
+
+let posts: string[] = [];
+
+try {
+  const cache = env.ASTRO_BLOG_CACHE;
+  if (cache) {
+    const listResult = await cache.list();
+    posts = listResult.keys
+      .map(k => k.name)
+      .filter(name => name.endsWith(`-${lang}`))
+      .map(name => name.replace(`-${lang}`, ''))
+      .sort((a, b) => b.localeCompare(a));
+  } else {
+    // Development fallback
+    posts = [new Date().toISOString().split('T')[0]];
+  }
+} catch (e) {
+  console.error("Error fetching blog posts from KV:", e);
+}
+
+// Generate today's date in YYYY-MM-DD
+const today = new Date().toISOString().split('T')[0];
+if (!posts.includes(today)) {
+  posts.unshift(today);
+}
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "ज्योतिष ब्लॉग | दैनिक ब्रह्मांडीय अपडेट - AI ज्योतिष" : "Daily Astrology Blog | AI Astrology"}
+  description={lang === 'hi' ? "ग्रहों की चाल, राशिफल और ज्योतिषीय ज्ञान पर रोज़ाना नए लेख पढ़ें। एआई द्वारा तैयार, विशेषज्ञों जैसी सटीकता के साथ।" : "Read daily astrological insights and cosmic energy updates."}
+>
+  <main class="container mx-auto px-4 pt-32 pb-24">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-4">
+          {lang === 'hi' ? 'दैनिक ब्रह्मांडीय अंतर्दृष्टि' : 'Daily Cosmic Insights'}
+        </h1>
+        <p class="text-xl text-theme-muted font-light">
+          {lang === 'hi' ? 'हमारे AI ज्योतिषियों से दैनिक अद्यतन और मार्गदर्शन।' : 'Daily updates and guidance from our AI astrologers.'}
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        {posts.map(date => {
+          const displayDate = new Date(date).toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+          });
+          
+          return (
+            <a href={lang === 'hi' ? `/hi/blog/${date}` : `/blog/${date}`} class="block glass-card p-6 hover:border-primary/50 transition-all group">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h2 class="text-2xl font-serif text-theme-main mb-2 group-hover:text-primary transition-colors">
+                    {lang === 'hi' ? `${displayDate} का ज्योतिषीय पूर्वानुमान` : `Astrological Forecast for ${displayDate}`}
+                  </h2>
+                  <p class="text-theme-muted text-sm">
+                    {lang === 'hi' ? 'दैनिक राशिफल, ग्रह गोचर और लौकिक मार्गदर्शन पढ़ें।' : 'Read the daily horoscope, planetary transits, and cosmic guidance.'}
+                  </p>
+                </div>
+                <div class="text-primary opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </main>
+</BaseLayout>

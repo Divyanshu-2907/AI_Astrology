@@ -1,0 +1,106 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageToggle from './LanguageToggle.astro';
+import { getLangFromUrl, useTranslations, getRelativeLocaleUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const homePath = getRelativeLocaleUrl(lang, '/');
+---
+<nav class="site-nav sticky top-0 z-50 rounded-none border-t-0 border-l-0 border-r-0 border-b border-glass-border transition-colors duration-300" style="background: var(--theme-nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center">
+        <a href={homePath} class="nav-logo heading-display text-2xl text-theme-main">AI <span class="logo-accent font-bold">Astrology</span></a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-8 items-center">
+        <a href={getRelativeLocaleUrl(lang, '/horoscope')} class="nav-link text-theme-muted hover:text-theme-main transition-colors">{t('nav.horoscope')}</a>
+        <div class="relative group">
+          <button class="nav-link text-theme-muted hover:text-theme-main transition-colors flex items-center">
+            {t('nav.tools')}
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="absolute left-0 mt-2 w-48 rounded-xl shadow-lg glass-card py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <a href={getRelativeLocaleUrl(lang, '/numerology')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.numerology')}</a>
+            <a href={getRelativeLocaleUrl(lang, '/compatibility')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.compatibility')}</a>
+            <a href={getRelativeLocaleUrl(lang, '/moon-phase')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.moon_phase')}</a>
+            <a href={getRelativeLocaleUrl(lang, '/panchang')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.panchang')}</a>
+            <a href={getRelativeLocaleUrl(lang, '/tarot')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.tarot')}</a>
+          </div>
+        </div>
+        
+        <a href={getRelativeLocaleUrl(lang, '/kundali')} class="nav-link text-theme-muted hover:text-highlight transition-colors flex items-center">
+          {t('nav.kundali')}
+        </a>
+        <a href={getRelativeLocaleUrl(lang, '/ai-astrologer')} class="nav-link text-theme-muted hover:text-highlight transition-colors flex items-center">
+          {t('nav.ai_astrologer')}
+        </a>
+        <a href={getRelativeLocaleUrl(lang, '/blog')} class="nav-link text-theme-muted hover:text-highlight transition-colors flex items-center">
+          {lang === 'hi' ? 'ब्लॉग' : 'Blog'}
+        </a>
+        
+
+        <div class="relative group">
+          <button class="nav-link text-theme-muted hover:text-theme-main transition-colors flex items-center">
+            {lang === 'hi' ? 'हमारे बारे में' : 'About'}
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="absolute left-0 mt-2 w-48 rounded-xl shadow-lg glass-card py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <a href={getRelativeLocaleUrl(lang, '/about')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'हमारे बारे में' : 'About Us'}</a>
+            <a href={getRelativeLocaleUrl(lang, '/contact')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'संपर्क करें' : 'Contact Us'}</a>
+            <a href={getRelativeLocaleUrl(lang, '/privacy-policy')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'गोपनीयता नीति' : 'Privacy Policy'}</a>
+            <a href={getRelativeLocaleUrl(lang, '/terms')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'सेवा की शर्तें' : 'Terms & Conditions'}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-4">
+        <LanguageToggle />
+        <ThemeToggle />
+      </div>
+      
+      <!-- Mobile menu button -->
+      <div class="md:hidden flex items-center space-x-4">
+        <LanguageToggle />
+        <ThemeToggle />
+        <button id="mobile-menu-button" class="text-theme-muted hover:text-theme-main focus:outline-none">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden glass-card rounded-none border-x-0 border-b-0 absolute w-full left-0 mt-0 py-2">
+    <a href={getRelativeLocaleUrl(lang, '/horoscope')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.horoscope')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/numerology')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.numerology')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/compatibility')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.compatibility')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/moon-phase')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.moon_phase')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/panchang')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.panchang')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/tarot')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.tarot')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/kundali')} class="block px-4 py-2 text-base font-medium text-highlight hover:text-theme-main hover:bg-theme-main/5 flex items-center">{t('nav.kundali')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/ai-astrologer')} class="block px-4 py-2 text-base font-medium text-highlight hover:text-theme-main hover:bg-theme-main/5 flex items-center">{t('nav.ai_astrologer')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/blog')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'ब्लॉग' : 'Blog'}</a>
+
+    <a href={getRelativeLocaleUrl(lang, '/about')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'हमारे बारे में' : 'About Us'}</a>
+    <a href={getRelativeLocaleUrl(lang, '/contact')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'संपर्क करें' : 'Contact Us'}</a>
+    <a href={getRelativeLocaleUrl(lang, '/privacy-policy')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'गोपनीयता नीति' : 'Privacy Policy'}</a>
+    <a href={getRelativeLocaleUrl(lang, '/terms')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'सेवा की शर्तें' : 'Terms & Conditions'}</a>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  if(btn && menu) {
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+</script>

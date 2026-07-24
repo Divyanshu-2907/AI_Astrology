@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+export const prerender = true;
+
+const lang = getLangFromUrl(Astro.url);
+const title = lang === 'hi' ? "शुक्र और मंगल कैलकुलेटर | AI Astrology" : "Venus & Mars Calculator | AI Astrology";
+const description = lang === 'hi' ? "प्रेम (शुक्र) और जुनून (मंगल) में अपनी ब्रह्मांडीय शैली की खोज करें।" : "Discover your cosmic style in love (Venus) and passion (Mars).";
+---
+
+<BaseLayout title={title} description={description} canonicalUrl="https://freeastrologyai.com/venus-mars">
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-6">{lang === 'hi' ? 'शुक्र और मंगल कैलकुलेटर' : 'Venus & Mars Calculator'}</h1>
+            <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+                {lang === 'hi' ? 'शुक्र नियंत्रित करता है कि आप कैसे प्यार करते हैं, जबकि मंगल नियंत्रित करता है कि आप कैसे काम करते हैं। मिलकर, वे आपके रोमांटिक खाके को परिभाषित करते हैं।' : 'Venus rules how you love, while Mars rules how you act on it. Together, they define your romantic blueprint.'}
+            </p>
+        </div>
+
+        <div class="glass-card p-8 md:p-12 mb-12">
+            <form id="venus-mars-form" class="space-y-6 max-w-2xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म तिथि' : 'Date of Birth'}</label>
+                        <input type="date" required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म समय' : 'Time of Birth'}</label>
+                        <input type="time" required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म स्थान' : 'Place of Birth'}</label>
+                    <input type="text" placeholder={lang === 'hi' ? 'उदा. नई दिल्ली, भारत' : 'e.g., New York, NY'} required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                </div>
+                <button type="submit" class="btn-primary w-full py-4 text-lg mt-4 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 shadow-lg shadow-pink-500/25 border-none">{lang === 'hi' ? 'मेरा प्रेम प्रोफ़ाइल प्रकट करें' : 'Reveal My Love Profile'}</button>
+            </form>
+            
+            <div id="venus-mars-result" class="hidden mt-10 border-t border-glass-border pt-10">
+                <h3 class="text-3xl font-serif text-theme-main text-center mb-8">{lang === 'hi' ? 'आपका रोमांटिक खाका' : 'Your Romantic Blueprint'}</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Venus Card -->
+                    <div class="bg-gradient-to-br from-pink-500/10 to-transparent p-8 rounded-3xl border border-pink-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 text-9xl opacity-5">♀</div>
+                        <div class="relative z-10">
+                            <h4 class="text-sm font-bold tracking-widest text-pink-400 uppercase mb-2">{lang === 'hi' ? 'शुक्र (प्यार और आकर्षण)' : 'Venus (Love & Attraction)'}</h4>
+                            <div class="text-3xl font-serif text-theme-main mb-4 flex items-center">
+                                <span>Venus in <span id="venus-sign" class="text-pink-400">Taurus</span></span>
+                            </div>
+                            <p class="text-theme-muted leading-relaxed">
+                                You value stability, loyalty, and physical affection. Your approach to love is sensual, patient, and grounded. You look for a partner who can offer security and shares your appreciation for the finer things in life.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Mars Card -->
+                    <div class="bg-gradient-to-br from-red-500/10 to-transparent p-8 rounded-3xl border border-red-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 text-9xl opacity-5">♂</div>
+                        <div class="relative z-10">
+                            <h4 class="text-sm font-bold tracking-widest text-red-400 uppercase mb-2">{lang === 'hi' ? 'मंगल (जुनून और ड्राइव)' : 'Mars (Passion & Drive)'}</h4>
+                            <div class="text-3xl font-serif text-theme-main mb-4 flex items-center">
+                                <span>Mars in <span id="mars-sign" class="text-red-400">Aries</span></span>
+                            </div>
+                            <p class="text-theme-muted leading-relaxed">
+                                You are direct, passionate, and fiercely independent. When you want someone, you go after them without hesitation. Your energy is dynamic, and you thrive on excitement and a little bit of chase in relationships.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('venus-mars-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+            
+            const venus = signs[Math.floor(Math.random() * signs.length)];
+            const mars = signs[Math.floor(Math.random() * signs.length)];
+            
+            const elVenus = document.getElementById('venus-sign');
+            const elMars = document.getElementById('mars-sign');
+            const elResult = document.getElementById('venus-mars-result');
+            
+            if (elVenus && elMars && elResult) {
+                elVenus.textContent = venus;
+                elMars.textContent = mars;
+                elResult.classList.remove('hidden');
+                elResult.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</BaseLayout>

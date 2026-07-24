@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "पृष्ठ नहीं मिला | AI Astrology" : "Page Not Found | AI Astrology"} 
+  description="404 Page Not Found"
+>
+  <div class="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center">
+    <div class="text-9xl mb-6">🌌</div>
+    <h1 class="text-5xl font-serif text-theme-main mb-4">404</h1>
+    <h2 class="text-2xl text-primary mb-6">{lang === 'hi' ? 'अंतरिक्ष में खो गया' : 'Lost in Space'}</h2>
+    <p class="text-theme-muted max-w-md mx-auto mb-8">
+      {lang === 'hi' 
+        ? 'आपके द्वारा प्रदान किए गए ब्रह्मांडीय निर्देशांक हमारी आकाशगंगा में किसी भी ज्ञात गंतव्य से मेल नहीं खाते हैं।' 
+        : 'The cosmic coordinates you provided don\'t seem to match any known destination in our galaxy.'}
+    </p>
+    <a href={lang === 'hi' ? '/hi' : '/'} class="btn-primary">{lang === 'hi' ? 'पृथ्वी (होम) पर लौटें' : 'Return to Earth (Home)'}</a>
+  </div>
+</BaseLayout>

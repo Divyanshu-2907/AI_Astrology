@@ -1,0 +1,157 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import { getPanchang } from '../../lib/panchang';
+import FaqJsonLd from '../FaqJsonLd.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const faqs = [
+  { question: "What is Panchang?", answer: "Panchang is a Hindu almanac that provides daily astrological data including Tithi (lunar day), Nakshatra (lunar mansion), Yoga (auspicious combination), Karana (half-day period), and Vara (weekday deity)." },
+  { question: "What is Rahu Kalam?", answer: "Rahu Kalam is a daily inauspicious period of approximately 90 minutes associated with Rahu, a shadow planet. Important tasks, travel, and new beginnings are traditionally avoided during this time." },
+  { question: "What is a Muhurta?", answer: "A Muhurta is an auspicious time period selected through Vedic astrology for starting important activities like weddings, business launches, travel, or property purchase to ensure success and positive outcomes." },
+  { question: "What is a Nakshatra?", answer: "A Nakshatra is one of 27 lunar mansions in Vedic astrology. The Moon passes through one Nakshatra approximately every day, each influencing the energy and auspiciousness of activities undertaken." },
+  { question: "What is Abhijit Muhurta?", answer: "Abhijit Muhurta is considered the most auspicious time of day, occurring around solar noon. It lasts approximately 48 minutes and is believed to neutralize negative influences for any activity started during this period." }
+];
+
+const lang = getLangFromUrl(Astro.url);
+const panchang = getPanchang(new Date(), lang);
+---
+
+<ToolLayout 
+  title={lang === 'hi' ? "आज का पंचांग | तिथि, नक्षत्र, राहुकाल - AI ज्योतिष" : "Today's Panchang & Hindu Calendar | AI Astrology"} 
+  description={lang === 'hi' ? "आज का सटीक पंचांग देखें - तिथि, नक्षत्र, योग, राहु काल और शुभ मुहूर्त। रोज़ अपडेट होने वाली जानकारी।" : "Check today's accurate Panchang, Tithi, Nakshatra, Yoga, Karana, and auspicious timings (Muhurta)."}
+>
+  
+  <div class="text-center mb-12">
+    <div class="inline-block bg-secondary/20 text-secondary px-4 py-1 rounded-full text-sm font-medium mb-4">
+      {lang === 'hi' ? '🕉️ वैदिक कैलेंडर' : '🕉️ Vedic Calendar'}
+    </div>
+    <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-4">{lang === 'hi' ? 'आज का पंचांग' : "Today's Panchang"}</h1>
+    <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+      {lang === 'hi' ? 'समय के पांच अंग। आज के लिए शुभ क्षण खोजें।' : 'The five limbs of time. Find auspicious moments for today.'}
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+    <!-- Main 5 Limbs -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="glass-card p-8">
+        <div class="flex justify-between items-end border-b border-glass-border pb-4 mb-6">
+          <h2 class="text-2xl font-serif text-theme-main">{lang === 'hi' ? 'पांच अंग' : 'The Five Limbs'}</h2>
+          <span class="text-primary font-medium">{panchang.date}</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Tithi -->
+          <div class="bg-background/40 p-4 rounded-xl border border-glass-border">
+            <h3 class="text-sm text-gray-500 uppercase tracking-wider mb-1">{lang === 'hi' ? 'तिथि (चंद्र दिवस)' : 'Tithi (Lunar Day)'}</h3>
+            <div class="text-lg font-serif text-theme-main mb-1">{panchang.tithi.name}</div>
+            <p class="text-xs text-theme-muted">{panchang.tithi.meaning}</p>
+          </div>
+          
+          <!-- Nakshatra -->
+          <div class="bg-background/40 p-4 rounded-xl border border-glass-border">
+            <h3 class="text-sm text-gray-500 uppercase tracking-wider mb-1">{lang === 'hi' ? 'नक्षत्र (तारा)' : 'Nakshatra (Star)'}</h3>
+            <div class="text-lg font-serif text-theme-main mb-1">{panchang.nakshatra.name}</div>
+            <p class="text-xs text-theme-muted">{lang === 'hi' ? 'शासक:' : 'Ruled by'} {panchang.nakshatra.ruler} • {panchang.nakshatra.characteristics}</p>
+          </div>
+          
+          <!-- Yoga -->
+          <div class="bg-background/40 p-4 rounded-xl border border-glass-border">
+            <h3 class="text-sm text-gray-500 uppercase tracking-wider mb-1">{lang === 'hi' ? 'योग' : 'Yoga'}</h3>
+            <div class="text-lg font-serif text-theme-main mb-1">{panchang.yoga.name}</div>
+            <p class="text-xs text-theme-muted">{panchang.yoga.meaning}</p>
+          </div>
+          
+          <!-- Karana -->
+          <div class="bg-background/40 p-4 rounded-xl border border-glass-border">
+            <h3 class="text-sm text-gray-500 uppercase tracking-wider mb-1">{lang === 'hi' ? 'करण (आधा-तिथि)' : 'Karana (Half-Tithi)'}</h3>
+            <div class="text-lg font-serif text-theme-main mb-1">{panchang.karana.name}</div>
+            <p class="text-xs text-theme-muted">{panchang.karana.meaning}</p>
+          </div>
+          
+          <!-- Vara -->
+          <div class="bg-background/40 p-4 rounded-xl border border-glass-border md:col-span-2">
+            <h3 class="text-sm text-gray-500 uppercase tracking-wider mb-1">{lang === 'hi' ? 'वार (सप्ताह का दिन)' : 'Vara (Weekday)'}</h3>
+            <div class="text-lg font-serif text-theme-main mb-1">{panchang.vara.name}</div>
+            <p class="text-xs text-theme-muted">{lang === 'hi' ? 'शासक:' : 'Ruled by'} {panchang.vara.deity}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timings -->
+    <div class="lg:col-span-1 space-y-6">
+      <!-- Sun -->
+      <div class="glass-card p-6">
+        <h3 class="text-lg font-serif text-theme-main mb-4 border-b border-glass-border pb-2">{lang === 'hi' ? 'सूर्य और चंद्रमा' : 'Sun & Moon'}</h3>
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-theme-muted flex items-center"><span class="mr-2">🌅</span> {lang === 'hi' ? 'सूर्योदय' : 'Sunrise'}</span>
+            <span class="text-theme-main font-medium">{panchang.sunrise}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-theme-muted flex items-center"><span class="mr-2">🌇</span> {lang === 'hi' ? 'सूर्यास्त' : 'Sunset'}</span>
+            <span class="text-theme-main font-medium">{panchang.sunset}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Auspicious -->
+      <div class="glass-card p-6 border-l-4 border-l-emerald-500">
+        <h3 class="text-lg font-serif text-theme-main mb-4 border-b border-glass-border pb-2">{lang === 'hi' ? 'शुभ समय' : 'Auspicious Timings'}</h3>
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-theme-muted text-sm">{lang === 'hi' ? 'अभिजित मुहूर्त' : 'Abhijit Muhurta'}</span>
+            <span class="text-emerald-400 text-sm font-medium">{panchang.abhijit}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inauspicious -->
+      <div class="glass-card p-6 border-l-4 border-l-rose-500">
+        <h3 class="text-lg font-serif text-theme-main mb-4 border-b border-glass-border pb-2">{lang === 'hi' ? 'अशुभ समय' : 'Inauspicious Timings'}</h3>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-theme-muted text-sm">{lang === 'hi' ? 'राहु काल' : 'Rahu Kalam'}</span>
+            <span class="text-rose-400 text-sm font-medium">{panchang.rahukaal}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-theme-muted text-sm">{lang === 'hi' ? 'यमगंड' : 'Yama Gandam'}</span>
+            <span class="text-rose-400 text-sm font-medium">{panchang.yamaganda}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mb-12">
+    <h2 class="text-3xl font-serif mb-6 text-theme-main">{lang === 'hi' ? 'पंचांग क्या है?' : 'What is a Panchang?'}</h2>
+    <p class="text-theme-muted text-sm leading-relaxed mb-4">
+      {lang === 'hi' ? 'संस्कृत में "पंचांग" शब्द का अनुवाद "पांच अंग" होता है। यह पारंपरिक वैदिक हिंदू कैलेंडर है जो दिन के शुभ (मुहूर्त) और अशुभ समय को निर्धारित करने के लिए खगोलीय पिंडों की दैनिक स्थिति को ट्रैक करता है। कोई भी नया उद्यम शुरू करने, संपत्ति खरीदने या आध्यात्मिक समारोह करने से पहले <strong>आज का पंचांग</strong> जाँचना एक आम बात है।' : 'The word "Panchang" translates to "five limbs" in Sanskrit. It is the traditional Vedic Hindu calendar that tracks the daily positions of celestial bodies to determine auspicious (Muhurta) and inauspicious times of the day. Checking the <strong>panchang today</strong> is a common practice before starting any new venture, buying property, or performing spiritual ceremonies.'}
+    </p>
+    
+    <h3 class="text-xl font-serif mt-8 mb-4 text-theme-main">{lang === 'hi' ? 'पांच तत्व (अंग)' : 'The Five Elements (Limbs)'}</h3>
+    <ul class="space-y-4 text-theme-muted text-sm">
+      <li><strong>{lang === 'hi' ? 'तिथि (Tithi):' : 'Tithi:'}</strong> {lang === 'hi' ? 'चंद्र दिवस, जो सूर्य और चंद्रमा के बीच कोणीय संबंध का प्रतिनिधित्व करता है। यह मानव भावनाओं और कुछ गतिविधियों की सफलता को प्रभावित करता है।' : 'The lunar day, representing the angular relationship between the Sun and Moon. It affects human emotions and the success of certain activities.'}</li>
+      <li><strong>{lang === 'hi' ? 'वार (Vara):' : 'Vara:'}</strong> {lang === 'hi' ? 'सप्ताह का दिन, प्रत्येक पर एक विशिष्ट ग्रह देवता का शासन होता है (जैसे, रविवार सूर्य द्वारा, सोमवार चंद्रमा द्वारा)।' : 'The weekday, each ruled by a specific planetary deity (e.g., Sunday by the Sun, Monday by the Moon).'}</li>
+      <li><strong>{lang === 'hi' ? 'नक्षत्र (Nakshatra):' : 'Nakshatra:'}</strong> {lang === 'hi' ? 'चंद्र हवेली या तारा नक्षत्र जिसे चंद्रमा वर्तमान में पार कर रहा है। यह दैनिक ऊर्जा और व्यक्तिगत मानसिकता को बहुत प्रभावित करता है।' : 'The lunar mansion or star constellation the moon is currently transiting. It heavily influences daily energy and individual mindset.'}</li>
+      <li><strong>{lang === 'hi' ? 'योग (Yoga):' : 'Yoga:'}</strong> {lang === 'hi' ? 'सूर्य और चंद्रमा के देशांतरों का संयोजन। यह दिन की समग्र शुभता या चुनौतियों को इंगित करता है।' : "A combination of the Sun and Moon's longitudes. It indicates the overall auspiciousness or challenges of the day."}</li>
+      <li><strong>{lang === 'hi' ? 'करण (Karana):' : 'Karana:'}</strong> {lang === 'hi' ? 'एक तिथि का आधा भाग। यह दिन के भीतर विशिष्ट अवधियों को इंगित करता है जो विशिष्ट प्रकार के काम के लिए अत्यधिक अनुकूल हैं।' : 'Half of a Tithi. It points to specific periods within the day that are highly favorable for specific types of work.'}</li>
+    </ul>
+  </div>
+
+  <FaqJsonLd faqs={faqs} />
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mb-12">
+    <h2 class="text-2xl font-serif mb-6 text-theme-main">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      {faqs.map(faq => (
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">{faq.answer}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+</ToolLayout>
+

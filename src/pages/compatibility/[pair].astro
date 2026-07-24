@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FaqJsonLd from '../../components/FaqJsonLd.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import CompatibilityComponent from '../../components/pages/Compatibility.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  const signs = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
+  const paths = [];
+  for (const s1 of signs) {
+    for (const s2 of signs) {
+      if (s1 !== s2) {
+        paths.push({ params: { pair: `${s1}-${s2}` } });
+      }
+    }
+  }
+  return paths;
+}
+
+const { pair } = Astro.params;
+const [sign1, sign2] = pair.split('-');
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+const s1 = capitalize(sign1);
+const s2 = capitalize(sign2);
+
+const lang = getLangFromUrl(Astro.url);
+const ogImage = new URL(`/api/og-compatibility?signs=${pair}&lang=${lang}`, Astro.url.origin).href;
+---
+
+<BaseLayout 
+  title={`${s1} and ${s2} Compatibility — Love, Friendship & Marriage | AI Astrology`}
+  description={`Discover ${s1} and ${s2} compatibility in love, friendship, and marriage. Get a detailed compatibility score, analysis, and relationship advice.`}
+  ogImage={ogImage}
+>
+  <!-- Redirect to the compatibility tool with pre-filled signs -->
+  <script define:vars={{ sign1, sign2 }}>
+    // Store the pre-selected signs in sessionStorage and redirect to the main tool
+    sessionStorage.setItem('AI Astrology_sign1', sign1);
+    sessionStorage.setItem('AI Astrology_sign2', sign2);
+    // When the component mounts, it will read this if we use the same form
+  </script>
+
+  <div class="pt-24 pb-12 text-center max-w-4xl mx-auto px-4">
+    <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-6">{s1} and {s2} Compatibility</h1>
+    <p class="text-xl text-theme-muted font-light mb-12">
+      Explore the unique dynamic between {s1} and {s2}. Find out if the stars align for your relationship.
+    </p>
+
+    <!-- 400-word SEO content about this specific pairing -->
+    <section class="prose prose-invert max-w-none glass-card p-8 md:p-12 text-left mb-12">
+      <h2 class="text-2xl font-serif text-theme-main mb-4">{s1} and {s2}: Understanding Your Connection</h2>
+      <p class="text-theme-muted mb-4">When {s1} meets {s2}, the cosmic energies create a unique and fascinating dynamic. Understanding how these two signs interact can provide profound insights into your relationship, whether you are exploring a romantic connection, building a friendship, or navigating a professional partnership.</p>
+
+      <p class="text-theme-muted mb-4">In Vedic astrology, compatibility between signs is determined by multiple factors including the elements they belong to, their ruling planets, their modal quality (Cardinal, Fixed, or Mutable), and the angular relationship between them in the zodiac wheel. These factors combine to create the distinctive energy pattern that defines {s1} and {s2} relationships.</p>
+
+      <p class="text-theme-muted mb-4">While sun sign compatibility offers a valuable starting point, a complete astrological compatibility analysis — known as Kundali matching in Vedic astrology — examines the full birth charts of both individuals. This includes the Moon sign (which governs emotions and instincts), Venus (which rules love and attraction), Mars (which governs desire and energy), and the 8 Ashtakoot factors that Vedic astrology uses to assess relationship harmony on a scale of 36 points.</p>
+
+      <p class="text-theme-muted">Use the AI Astrology compatibility calculator to instantly discover the love compatibility, friendship compatibility, and overall harmony score for {s1} and {s2}. For a comprehensive relationship analysis based on your exact birth data, try our full Kundali Matching tool which provides a detailed report including Ashtakoot score, Mangal Dosha analysis, and personalized relationship guidance.</p>
+    </section>
+
+    <div class="mt-8">
+      <a href={`/compatibility?s1=${sign1}&s2=${sign2}`} class="btn-primary py-3 px-8 text-lg">Check Full {s1} & {s2} Compatibility Score</a>
+    </div>
+
+    <FaqJsonLd faqs={[
+      { question: `Are ${s1} and ${s2} compatible?`, answer: `${s1} and ${s2} have a unique dynamic. Use our compatibility calculator above to get a detailed score across love, friendship, and career dimensions.` },
+      { question: `Can ${s1} and ${s2} fall in love?`, answer: `Any two signs can build a loving relationship with understanding and effort. Planetary placements in the full birth chart, especially Venus and Mars, often matter more than sun sign compatibility alone.` },
+      { question: `What attracts ${s1} to ${s2}?`, answer: `${s1} is drawn to ${s2}'s unique qualities. Check the compatibility report above for a detailed analysis of what creates attraction between these two signs.` },
+      { question: `Should ${s1} marry ${s2}?`, answer: `Sun sign compatibility is one factor in marriage decisions. For a complete picture, get a full Kundali matching which compares all planetary positions and calculates an Ashtakoot score out of 36.` },
+      { question: `What is the compatibility score for ${s1} and ${s2}?`, answer: `Use the compatibility tool above to instantly calculate the love, friendship, and overall compatibility score for ${s1} and ${s2} based on traditional Vedic and Western astrological principles.` }
+    ]} />
+
+    <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mt-12 text-left">
+      <h2 class="text-2xl font-serif mb-6 text-theme-main">Frequently Asked Questions</h2>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">Are {s1} and {s2} compatible?</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">{s1} and {s2} have a unique dynamic. Use our compatibility calculator to get a detailed score across love, friendship, and career dimensions.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">Can {s1} and {s2} fall in love?</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">Any two signs can build a loving relationship with understanding and effort. Planetary placements in the full birth chart, especially Venus and Mars, often matter more than sun sign compatibility alone.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">What attracts {s1} to {s2}?</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">{s1} is drawn to {s2}'s unique qualities. Check the compatibility report for a detailed analysis of what creates attraction between these two signs.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">Should {s1} marry {s2}?</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">Sun sign compatibility is one factor in marriage decisions. For a complete picture, get a full Kundali matching which compares all planetary positions and calculates an Ashtakoot score out of 36.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">What is the compatibility score for {s1} and {s2}?</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">Use the compatibility tool to instantly calculate the love, friendship, and overall compatibility score for {s1} and {s2} based on traditional Vedic and Western astrological principles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

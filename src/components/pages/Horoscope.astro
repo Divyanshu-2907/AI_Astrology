@@ -1,0 +1,136 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import ZodiacCard from '../../components/ZodiacCard.astro';
+import FaqJsonLd from '../FaqJsonLd.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+const faqs = [
+  { question: "What is a horoscope?", answer: "A horoscope is an astrological chart or forecast based on the positions of the Sun, Moon, and planets at a specific time, used to predict future events and understand personality traits." },
+  { question: "How accurate are AI horoscopes?", answer: "AI Astrology's AI horoscopes combine traditional astrological principles with advanced AI to analyze planetary movements, offering more personalized insights than generic sun-sign predictions." },
+  { question: "What is the difference between daily, weekly, and monthly horoscopes?", answer: "Daily horoscopes focus on immediate influences and energy for the day. Weekly horoscopes reveal broader themes and opportunities for the week. Monthly horoscopes show major life themes, opportunities, and challenges for the entire month." },
+  { question: "Which zodiac sign am I?", answer: "Your zodiac sign is determined by the position of the Sun at your birth. For example, if you were born between March 21 and April 19, your sun sign is Aries." },
+  { question: "What is the difference between Western and Vedic astrology?", answer: "Western astrology uses the tropical zodiac based on the seasons and the Sun's position. Vedic (Jyotish) astrology uses the sidereal zodiac based on the actual constellations of stars, resulting in signs that are approximately 23 degrees apart from Western signs." }
+];
+
+const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+const signs = lang === 'hi' ? [
+  { sign: 'Aries', name: 'मेष', dates: '21 मार्च - 19 अप्रैल', glyph: '♈' },
+  { sign: 'Taurus', name: 'वृषभ', dates: '20 अप्रैल - 20 मई', glyph: '♉' },
+  { sign: 'Gemini', name: 'मिथुन', dates: '21 मई - 20 जून', glyph: '♊' },
+  { sign: 'Cancer', name: 'कर्क', dates: '21 जून - 22 जुलाई', glyph: '♋' },
+  { sign: 'Leo', name: 'सिंह', dates: '23 जुलाई - 22 अगस्त', glyph: '♌' },
+  { sign: 'Virgo', name: 'कन्या', dates: '23 अगस्त - 22 सितंबर', glyph: '♍' },
+  { sign: 'Libra', name: 'तुला', dates: '23 सितंबर - 22 अक्टूबर', glyph: '♎' },
+  { sign: 'Scorpio', name: 'वृश्चिक', dates: '23 अक्टूबर - 21 नवंबर', glyph: '♏' },
+  { sign: 'Sagittarius', name: 'धनु', dates: '22 नवंबर - 21 दिसंबर', glyph: '♐' },
+  { sign: 'Capricorn', name: 'मकर', dates: '22 दिसंबर - 19 जनवरी', glyph: '♑' },
+  { sign: 'Aquarius', name: 'कुंभ', dates: '20 जनवरी - 18 फरवरी', glyph: '♒' },
+  { sign: 'Pisces', name: 'मीन', dates: '19 फरवरी - 20 मार्च', glyph: '♓' }
+] : [
+  { sign: 'Aries', name: 'Aries', dates: 'Mar 21 - Apr 19', glyph: '♈' },
+  { sign: 'Taurus', name: 'Taurus', dates: 'Apr 20 - May 20', glyph: '♉' },
+  { sign: 'Gemini', name: 'Gemini', dates: 'May 21 - Jun 20', glyph: '♊' },
+  { sign: 'Cancer', name: 'Cancer', dates: 'Jun 21 - Jul 22', glyph: '♋' },
+  { sign: 'Leo', name: 'Leo', dates: 'Jul 23 - Aug 22', glyph: '♌' },
+  { sign: 'Virgo', name: 'Virgo', dates: 'Aug 23 - Sep 22', glyph: '♍' },
+  { sign: 'Libra', name: 'Libra', dates: 'Sep 23 - Oct 22', glyph: '♎' },
+  { sign: 'Scorpio', name: 'Scorpio', dates: 'Oct 23 - Nov 21', glyph: '♏' },
+  { sign: 'Sagittarius', name: 'Sagittarius', dates: 'Nov 22 - Dec 21', glyph: '♐' },
+  { sign: 'Capricorn', name: 'Capricorn', dates: 'Dec 22 - Jan 19', glyph: '♑' },
+  { sign: 'Aquarius', name: 'Aquarius', dates: 'Jan 20 - Feb 18', glyph: '♒' },
+  { sign: 'Pisces', name: 'Pisces', dates: 'Feb 19 - Mar 20', glyph: '♓' }
+];
+---
+
+<ToolLayout 
+  title={lang === 'hi' ? "दैनिक राशिफल | सभी 12 राशियों का आज का राशिफल - AI ज्योतिष" : "Daily Horoscope for All Zodiac Signs | AI Astrology"} 
+  description={lang === 'hi' ? "सभी राशियों के लिए सटीक दैनिक राशिफल पढ़ें। प्यार, करियर और स्वास्थ्य पर आज की एआई-संचालित भविष्यवाणियां, बिल्कुल मुफ्त।" : "Read your free daily horoscope. Get insights into love, career, and life for all 12 zodiac signs."}
+>
+  
+  <div class="text-center mb-12">
+    <div class="inline-block bg-primary/20 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">
+      {today}
+    </div>
+    <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-4">{lang === 'hi' ? 'आज का राशिफल' : "Today's Horoscopes"}</h1>
+    <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+      {lang === 'hi' ? 'अपना व्यक्तिगत एआई-जनित दैनिक राशिफल पढ़ने के लिए अपनी राशि चुनें।' : 'Select your zodiac sign to read your personalized AI-generated daily horoscope.'}
+    </p>
+  </div>
+
+  <div class="glass-card p-2 mb-12 flex justify-center max-w-sm mx-auto">
+    <div class="flex space-x-2 w-full" id="period-selector">
+      <button data-period="today" class="period-btn flex-1 py-2 px-4 rounded-lg bg-primary text-theme-main text-sm font-medium transition-colors">{lang === 'hi' ? 'दैनिक' : 'Daily'}</button>
+      <button data-period="weekly" class="period-btn flex-1 py-2 px-4 rounded-lg text-theme-muted hover:text-theme-main text-sm font-medium transition-colors">{lang === 'hi' ? 'साप्ताहिक' : 'Weekly'}</button>
+      <button data-period="monthly" class="period-btn flex-1 py-2 px-4 rounded-lg text-theme-muted hover:text-theme-main text-sm font-medium transition-colors">{lang === 'hi' ? 'मासिक' : 'Monthly'}</button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16" id="zodiac-grid">
+    {signs.map(s => (
+      <div class="relative group">
+        <ZodiacCard sign={s.sign} name={s.name} dates={s.dates} glyph={s.glyph} />
+      </div>
+    ))}
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('.period-btn');
+      const cards = document.querySelectorAll('#zodiac-grid a');
+      
+      buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLButtonElement;
+          const period = target.dataset.period;
+          
+          // Update active state
+          buttons.forEach(b => {
+            b.classList.remove('bg-primary', 'text-theme-main');
+            b.classList.add('text-theme-muted');
+          });
+          target.classList.add('bg-primary', 'text-theme-main');
+          target.classList.remove('text-theme-muted');
+          
+          // Update links
+          cards.forEach(card => {
+            const a = card as HTMLAnchorElement;
+            const url = new URL(a.href);
+            if (period === 'today') {
+              url.searchParams.delete('period');
+            } else {
+              url.searchParams.set('period', period!);
+            }
+            a.href = url.toString();
+          });
+        });
+      });
+    });
+  </script>
+
+  <div class="prose prose-invert max-w-none glass-card p-8">
+    <h2 class="text-2xl font-serif mb-4 text-theme-main">{lang === 'hi' ? 'अपना दैनिक राशिफल समझना' : 'Understanding Your Daily Horoscope'}</h2>
+    <p class="text-theme-muted mb-4 text-sm leading-relaxed">
+      {lang === 'hi' ? 'दैनिक राशिफल ग्रहों की वर्तमान स्थिति और वे आपकी सूर्य राशि के साथ कैसे संपर्क करते हैं, इस पर आधारित एक त्वरित पूर्वानुमान है। जबकि आपकी सूर्य राशि (आपकी जन्म तिथि से निर्धारित) आपके मूल व्यक्तित्व को रेखांकित करती है, चंद्रमा, बुध, शुक्र और मंगल की दैनिक हलचल आपके मूड, संचार और ऊर्जा में सूक्ष्म बदलाव लाती है।' : 'A daily horoscope is a quick forecast based on the current position of the planets and how they interact with your sun sign. While your sun sign (determined by your birth date) outlines your core personality, the daily movements of the moon, Mercury, Venus, and Mars bring subtle shifts in your mood, communication, and energy.'}
+    </p>
+    <p class="text-theme-muted text-sm leading-relaxed">
+      {lang === 'hi' ? 'हमारे एआई-संचालित राशिफल आपको आगे के दिन के लिए सटीक, कार्रवाई योग्य सलाह देने के लिए इन जटिल ज्योतिषीय गोचरों का विश्लेषण करते हैं। चाहे आप अपने करियर में चुनौतियों का सामना कर रहे हों या अपने प्रेम जीवन में चिंगारी की तलाश कर रहे हों, आज अपना राशिफल जांचने से आपको आवश्यक स्पष्टता मिल सकती है।' : "Our AI-powered horoscopes analyze these complex astrological transits to give you precise, actionable advice for the day ahead. Whether you're navigating challenges in your career or looking for a spark in your love life, checking your horoscope today can provide the clarity you need."}
+    </p>
+  </div>
+
+  <FaqJsonLd faqs={faqs} />
+  <div class="prose prose-invert max-w-none glass-card p-8 mt-8">
+    <h2 class="text-2xl font-serif mb-6 text-theme-main">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      {faqs.map(faq => (
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">{faq.answer}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+</ToolLayout>

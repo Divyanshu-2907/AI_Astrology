@@ -1,0 +1,218 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import FaqJsonLd from '../FaqJsonLd.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+
+const faqs = [
+  { question: "What is numerology?", answer: "Numerology is the study of the mystical relationship between numbers and life events. It uses your birth date and name to calculate key numbers that reveal your personality, strengths, challenges, and life purpose." },
+  { question: "How do I calculate my Life Path number?", answer: "Add all the digits of your birth date together and reduce to a single digit. For example, born on 15/08/1995: 1+5+0+8+1+9+9+5 = 38, 3+8 = 11, 1+1 = 2. Your Life Path number is 2." },
+  { question: "What is the most important number in numerology?", answer: "The Life Path number is considered the most significant as it represents your life's purpose and the path you are meant to walk. It is derived from your birth date and never changes." },
+  { question: "What are master numbers in numerology?", answer: "Master numbers are 11, 22, and 33. They carry amplified energy and are not reduced to a single digit. They represent heightened spiritual potential and unique challenges." },
+  { question: "Can numerology predict the future?", answer: "Numerology does not predict specific events but reveals underlying energies and tendencies that influence your life. It helps you understand your strengths, challenges, and the themes likely to appear in each life phase." }
+];
+---
+
+<ToolLayout 
+  title={lang === 'hi' ? "अंक ज्योतिष कैलकुलेटर | अपना भाग्यांक जानें - AI ज्योतिष" : "Free Numerology Calculator | AI Astrology"} 
+  description={lang === 'hi' ? "अपने जीवन पथ अंक और भाग्यांक की मुफ्त गणना करें। नाम और जन्मतिथि के आधार पर सटीक अंक ज्योतिष विश्लेषण पाएं।" : "Calculate your Life Path, Destiny, Soul Urge, and Personality numbers instantly with our free numerology calculator."}
+>
+  
+  <div class="text-center mb-12" id="numerology-container" data-lang={lang}>
+    <div class="inline-block bg-secondary/20 text-secondary px-4 py-1 rounded-full text-sm font-medium mb-4">
+      {lang === 'hi' ? '🔢 निःशुल्क कैलकुलेटर' : '🔢 Free Calculator'}
+    </div>
+    <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-4">{lang === 'hi' ? 'अंक ज्योतिष कैलकुलेटर' : 'Numerology Calculator'}</h1>
+    <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+      {lang === 'hi' ? 'अपने नाम और जन्म तिथि के पीछे छिपे अर्थों की खोज करें।' : 'Discover the hidden meanings behind your name and birth date.'}
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+    <div class="lg:col-span-1">
+      <div class="glass-card p-6 md:p-8 sticky top-24">
+        <h2 class="text-xl font-serif text-theme-main mb-6">{lang === 'hi' ? 'अपना विवरण दर्ज करें' : 'Enter Your Details'}</h2>
+        <form id="numerology-form" class="space-y-6">
+          <div>
+            <label for="fullName" class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'पूरा जन्म नाम' : 'Full Birth Name'}</label>
+            <input type="text" id="fullName" required placeholder={lang === 'hi' ? "उदा. राम कुमार" : "e.g. John Doe"} class="w-full bg-background/50 border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+            <p class="text-xs text-gray-500 mt-1">{lang === 'hi' ? 'अपना सटीक नाम दर्ज करें जैसा कि आपके जन्म प्रमाण पत्र पर दिखाई देता है।' : 'Enter your exact name as it appears on your birth certificate.'}</p>
+          </div>
+          <div>
+            <label for="dob" class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म की तारीख' : 'Date of Birth'}</label>
+            <input type="date" id="dob" required class="w-full bg-background/50 border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors [color-scheme:dark]">
+          </div>
+          <button type="submit" class="btn-primary w-full py-3">{lang === 'hi' ? 'मेरे नंबरों की गणना करें' : 'Calculate My Numbers'}</button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="lg:col-span-2">
+      <div id="results-container" class="hidden space-y-6">
+        <h2 class="text-2xl font-serif text-theme-main mb-6 border-b border-glass-border pb-4">{lang === 'hi' ? 'आपकी अंक ज्योतिष प्रोफाइल' : 'Your Numerology Profile'}</h2>
+        
+        <!-- Life Path -->
+        <div class="glass-card p-6 border-l-4 border-l-primary relative overflow-hidden">
+          <div class="absolute -right-4 -top-4 text-9xl text-theme-main/5 font-serif font-bold pointer-events-none" id="lp-bg"></div>
+          <div class="flex items-start">
+            <div class="w-16 h-16 rounded-xl bg-primary/20 text-primary flex items-center justify-center text-3xl font-bold font-serif mr-6 flex-shrink-0" id="lp-num"></div>
+            <div>
+              <h3 class="text-xl font-serif text-theme-main mb-1">{lang === 'hi' ? 'जीवन पथ संख्या:' : 'Life Path Number:'} <span id="lp-title" class="text-primary"></span></h3>
+              <p class="text-theme-muted text-sm mb-4 leading-relaxed" id="lp-desc"></p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <span class="text-gray-500 uppercase tracking-wider block mb-1">{lang === 'hi' ? 'ताकत' : 'Strengths'}</span>
+                  <span class="text-theme-muted" id="lp-strengths"></span>
+                </div>
+                <div>
+                  <span class="text-gray-500 uppercase tracking-wider block mb-1">{lang === 'hi' ? 'चुनौतियां' : 'Challenges'}</span>
+                  <span class="text-theme-muted" id="lp-challenges"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Destiny -->
+          <div class="glass-card p-6 border-t-2 border-t-secondary">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 rounded-lg bg-secondary/20 text-secondary flex items-center justify-center text-xl font-bold font-serif mr-3 flex-shrink-0" id="destiny-num"></div>
+              <h3 class="text-lg font-serif text-theme-main">{lang === 'hi' ? 'भाग्य संख्या' : 'Destiny Number'}</h3>
+            </div>
+            <p class="text-theme-muted text-sm leading-relaxed" id="destiny-desc"></p>
+          </div>
+
+          <!-- Soul Urge -->
+          <div class="glass-card p-6 border-t-2 border-t-highlight">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 rounded-lg bg-highlight/20 text-highlight flex items-center justify-center text-xl font-bold font-serif mr-3 flex-shrink-0" id="soul-num"></div>
+              <h3 class="text-lg font-serif text-theme-main">{lang === 'hi' ? 'आत्मा की इच्छा संख्या' : 'Soul Urge Number'}</h3>
+            </div>
+            <p class="text-theme-muted text-sm leading-relaxed" id="soul-desc"></p>
+          </div>
+          
+          <!-- Personality -->
+          <div class="glass-card p-6 border-t-2 border-t-rose-400">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 rounded-lg bg-rose-400/20 text-rose-400 flex items-center justify-center text-xl font-bold font-serif mr-3 flex-shrink-0" id="pers-num"></div>
+              <h3 class="text-lg font-serif text-theme-main">{lang === 'hi' ? 'व्यक्तित्व संख्या' : 'Personality Number'}</h3>
+            </div>
+            <p class="text-theme-muted text-sm leading-relaxed" id="pers-desc"></p>
+          </div>
+          
+          <!-- Birthday -->
+          <div class="glass-card p-6 border-t-2 border-t-emerald-400">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 rounded-lg bg-emerald-400/20 text-emerald-400 flex items-center justify-center text-xl font-bold font-serif mr-3 flex-shrink-0" id="bday-num"></div>
+              <h3 class="text-lg font-serif text-theme-main">{lang === 'hi' ? 'जन्मदिन संख्या' : 'Birthday Number'}</h3>
+            </div>
+            <p class="text-theme-muted text-sm leading-relaxed">{lang === 'hi' ? 'आपके जन्म के महीने के दिन से लिया गया, यह संख्या एक विशिष्ट प्रतिभा को प्रकट करती है जो आपके जीवन पथ पर आपकी मदद करेगी।' : 'Derived from the day of the month you were born, this number reveals a specific talent that will help you on your life path.'}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="initial-state" class="glass-card p-12 text-center h-full flex flex-col items-center justify-center border-dashed border-2 border-glass-border">
+        <div class="text-5xl mb-4 text-gray-600">✨</div>
+        <h3 class="text-xl font-serif text-theme-main mb-2">{lang === 'hi' ? 'ब्रह्मांड की प्रतीक्षा' : 'Awaiting the Universe'}</h3>
+        <p class="text-theme-muted text-sm max-w-sm mx-auto">{lang === 'hi' ? 'अपनी व्यक्तिगत अंक ज्योतिष प्रोफाइल को प्रकट करने के लिए फॉर्म में अपना विवरण दर्ज करें।' : 'Enter your details in the form to reveal your personalized numerology profile.'}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mb-12">
+    <h2 class="text-3xl font-serif mb-6 text-theme-main">{lang === 'hi' ? 'अंक ज्योतिष कैलकुलेटर क्या है?' : 'What is a Numerology Calculator?'}</h2>
+    <p class="text-theme-muted text-sm leading-relaxed mb-4">
+      {lang === 'hi' ? 'अंक ज्योतिष संख्याओं और हमारे जीवन में उनके रहस्यमय संबंध का प्राचीन अध्ययन है। एआई एस्ट्रोलॉजी पर निःशुल्क अंक ज्योतिष कैलकुलेटर का उपयोग करके आप अपने नाम और जन्म तिथि की ऊर्जावान आवृत्तियों को डिकोड कर सकते हैं। प्रत्येक अक्षर को एक संख्यात्मक मान दिया जाता है, और इन संख्याओं को एकल अंकों (या मास्टर नंबर 11, 22, 33) में घटाकर आपके व्यक्तित्व, उद्देश्य और भाग्य में गहरी अंतर्दृष्टि प्रकट की जाती है।' : 'Numerology is the ancient study of numbers and their mystical relationship to our lives. Using a numerology calculator free of charge on AI Astrology allows you to decode the energetic frequencies of your name and birth date. Each letter is assigned a numerical value, and these numbers are reduced to single digits (or Master Numbers 11, 22, 33) to reveal deep insights into your personality, purpose, and destiny.'}
+    </p>
+    
+    <h3 class="text-xl font-serif mt-8 mb-4 text-theme-main">{lang === 'hi' ? 'मूल संख्याएँ' : 'The Core Numbers'}</h3>
+    <ul class="space-y-4 text-theme-muted text-sm">
+      <li><strong>{lang === 'hi' ? 'जीवन पथ संख्या:' : 'Life Path Number:'}</strong> {lang === 'hi' ? 'आपकी जन्म तिथि से गणना की गई, यह आपके चार्ट में सबसे महत्वपूर्ण संख्या है। यह आपके जीवन की यात्रा की व्यापक रूपरेखा, आपके सामने आने वाली चुनौतियों और आपको सीखने वाले पाठों को रेखांकित करता है।' : "Calculated from your full date of birth, this is the most important number in your chart. It outlines the broad strokes of your life's journey, the challenges you will face, and the lessons you need to learn."}</li>
+      <li><strong>{lang === 'hi' ? 'भाग्य संख्या (अभिव्यक्ति):' : 'Destiny Number (Expression):'}</strong> {lang === 'hi' ? 'आपके पूरे जन्म नाम से प्राप्त, यह संख्या आपकी क्षमता, आपकी प्राकृतिक प्रतिभाओं और इस जीवनकाल में आप जो हासिल करने के लिए नियत हैं, उसे प्रकट करती है।' : 'Derived from your full birth name, this number reveals your potential, your natural talents, and what you are destined to accomplish in this lifetime.'}</li>
+      <li><strong>{lang === 'hi' ? 'आत्मा की इच्छा संख्या:' : 'Soul Urge Number:'}</strong> {lang === 'hi' ? 'केवल आपके नाम में स्वरों का उपयोग करके गणना की गई, यह संख्या आपकी सबसे गहरी इच्छाओं, गुप्त सपनों और सतह के नीचे आपको वास्तव में क्या प्रेरित करती है, उसे उजागर करती है।' : 'Calculated using only the vowels in your name, this number exposes your innermost desires, secret dreams, and what truly motivates you beneath the surface.'}</li>
+      <li><strong>{lang === 'hi' ? 'व्यक्तित्व संख्या:' : 'Personality Number:'}</strong> {lang === 'hi' ? 'आपके नाम के व्यंजनों को जोड़कर पाया गया, यह संख्या इंगित करती है कि दूसरे आपको कैसे देखते हैं और दुनिया पर आपका शुरुआती प्रभाव कैसा है।' : 'Found by adding the consonants of your name, this number indicates how others perceive you and the initial impression you make on the world.'}</li>
+    </ul>
+  </div>
+
+  <FaqJsonLd faqs={faqs} />
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mb-12">
+    <h2 class="text-2xl font-serif mb-6 text-theme-main">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      {faqs.map(faq => (
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">{faq.answer}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    import { calculateLifePath, calculateDestiny, calculateSoulUrge, calculatePersonality, getNumberMeaning, reduceNumber } from '../../lib/numerology';
+
+    const form = document.getElementById('numerology-form') as HTMLFormElement;
+    const resultsContainer = document.getElementById('results-container');
+    const initialState = document.getElementById('initial-state');
+
+    if (form && resultsContainer && initialState) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const nameInput = document.getElementById('fullName') as HTMLInputElement;
+        const dobInput = document.getElementById('dob') as HTMLInputElement;
+        
+        if (!nameInput.value || !dobInput.value) return;
+
+        const name = nameInput.value;
+        const dob = dobInput.value;
+
+        // Calculations
+        const lp = calculateLifePath(dob);
+        const destiny = calculateDestiny(name);
+        const soul = calculateSoulUrge(name);
+        const pers = calculatePersonality(name);
+        
+        // Birthday number (just the day reduced)
+        const dayPart = parseInt(dob.split('-')[2], 10);
+        const bday = reduceNumber(dayPart);
+
+        const appLang = document.getElementById('numerology-container')?.dataset.lang || 'en';
+
+        // Get meanings (pass lang)
+        const lpMeaning = getNumberMeaning(lp, appLang);
+        const destinyMeaning = getNumberMeaning(destiny, appLang);
+        const soulMeaning = getNumberMeaning(soul, appLang);
+        const persMeaning = getNumberMeaning(pers, appLang);
+
+        // Update DOM
+        document.getElementById('lp-num')!.textContent = lp.toString();
+        document.getElementById('lp-bg')!.textContent = lp.toString();
+        document.getElementById('lp-title')!.textContent = lpMeaning.title;
+        document.getElementById('lp-desc')!.textContent = lpMeaning.meaning;
+        document.getElementById('lp-strengths')!.textContent = lpMeaning.strengths;
+        document.getElementById('lp-challenges')!.textContent = lpMeaning.challenges;
+
+        document.getElementById('destiny-num')!.textContent = destiny.toString();
+        document.getElementById('destiny-desc')!.textContent = destinyMeaning.meaning;
+
+        document.getElementById('soul-num')!.textContent = soul.toString();
+        document.getElementById('soul-desc')!.textContent = soulMeaning.meaning;
+
+        document.getElementById('pers-num')!.textContent = pers.toString();
+        document.getElementById('pers-desc')!.textContent = persMeaning.meaning;
+
+        document.getElementById('bday-num')!.textContent = bday.toString();
+
+        // Toggle visibility
+        initialState.classList.add('hidden');
+        resultsContainer.classList.remove('hidden');
+        
+        // Scroll to results on mobile
+        if (window.innerWidth < 1024) {
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+  </script>
+</ToolLayout>

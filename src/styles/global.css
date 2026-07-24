@@ -1,0 +1,778 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Geist", sans-serif;
+  --font-serif: "Playfair Display", "DM Serif Display", serif;
+  
+  --color-primary: #4f46e5;
+  --color-secondary: #f59e0b;
+  --color-highlight: #a78bfa;
+
+  /* Theme variables bound to Tailwind classes */
+  --color-theme-bg: var(--theme-bg);
+  --color-theme-main: var(--theme-text-main);
+  --color-theme-muted: var(--theme-text-muted);
+}
+
+@layer base {
+  :root {
+    /* Dark Mode (Default) */
+    --theme-bg: #070510;
+    --theme-text-main: #ffffff;
+    --theme-text-muted: #d1d5db; /* gray-300 */
+    --theme-glass-bg: rgba(255, 255, 255, 0.03);
+    --theme-glass-border: rgba(255, 255, 255, 0.07);
+    --theme-glass-line: #8b5cf6;
+    --theme-btn-sec-bg: rgba(255, 255, 255, 0.04);
+    --theme-btn-sec-border: rgba(139, 92, 246, 0.25);
+    --theme-btn-sec-text: #c4b5fd;
+    --theme-nav-bg: rgba(7, 5, 16, 0.85);
+  }
+
+  :root[data-theme="light"] {
+    /* Light Mode (Celestial Dawn) */
+    --theme-bg: #faf8f5;
+    --theme-text-main: #1e1b4b;
+    --theme-text-muted: #4b5563; /* gray-600 */
+    --theme-glass-bg: rgba(255, 255, 255, 0.6);
+    --theme-glass-border: rgba(79, 70, 229, 0.2);
+    --theme-glass-line: #4f46e5;
+    --theme-btn-sec-bg: rgba(79, 70, 229, 0.05);
+    --theme-btn-sec-border: rgba(79, 70, 229, 0.3);
+    --theme-btn-sec-text: #4f46e5;
+    --theme-nav-bg: rgba(250, 248, 245, 0.85);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-theme-bg text-theme-main font-sans min-h-screen selection:bg-primary selection:text-white transition-colors duration-300;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-theme-main;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: var(--theme-glass-bg);
+    border: 1px solid var(--theme-glass-border);
+    @apply rounded-2xl backdrop-blur-md relative overflow-hidden transition-colors duration-300;
+  }
+
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--theme-glass-line), transparent);
+    z-index: 10;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, #6d28d9, #4f46e5);
+    @apply text-white px-5 py-2.5 rounded-lg hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 font-medium inline-flex items-center justify-center;
+  }
+  
+  .btn-secondary {
+    background: var(--theme-btn-sec-bg);
+    border: 1px solid var(--theme-btn-sec-border);
+    color: var(--theme-btn-sec-text);
+    @apply px-5 py-2.5 rounded-lg hover:-translate-y-0.5 hover:opacity-80 transition-all duration-300 font-medium inline-flex items-center justify-center;
+  }
+  
+  .heading-display {
+    @apply font-serif font-bold leading-tight;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-highlight to-secondary;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .animate-twinkle {
+    animation: twinkle ease-in-out infinite alternate;
+  }
+  .font-playfair {
+    font-family: "Playfair Display", "DM Serif Display", serif;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.2; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+[data-theme="light"] {
+  /* Page backgrounds */
+  --page-bg:        #f0ebe0;   /* slightly darker warm parchment */
+  --page-bg-warm:   #ebe3d1;   /* deeper warm, for hero/alternating sections */
+  --card-bg:        linear-gradient(145deg, #ffffff 0%, #f7f5fb 100%);   /* premium pearl to faint amethyst gradient */
+  --card-bg-tinted: #f3ece3;   /* warm-tinted card for subtle variation */
+
+  /* Primary brand */
+  --purple-pri:     #6d28d9;   /* cosmic violet — same hue as dark theme for continuity */
+  --purple-light:   #ede9fe;   /* violet tint for badges, hover states, icon backgrounds */
+  --purple-mid:     #a78bfa;   /* mid violet for dividers, decorative accents */
+  --purple-dark:    #4c1d95;   /* darker violet for hover states on buttons */
+
+  /* Gold accent — used sparingly */
+  --gold:           #b45309;   /* amber-gold text color (on light bg) */
+  --gold-light:     #fef3c7;   /* gold tint background for pills/badges */
+  --gold-mid:       #f59e0b;   /* gold for decorative dots, headline punctuation */
+
+  /* Text hierarchy */
+  --text-heading:   #1c0f3f;   /* deep indigo-black — NOT plain black */
+  --text-body:      #3d2e6b;   /* deep purple-tinted body text */
+  --text-muted:     #7c6f9a;   /* muted purple-gray for secondary text */
+  --text-soft:      #a89fc7;   /* soft for hints, dates, captions */
+
+  /* Override prose-invert for light mode so prose uses light theme text colors */
+  --tw-prose-body: var(--text-body);
+  --tw-prose-headings: var(--text-heading);
+  --tw-prose-lead: var(--text-muted);
+  --tw-prose-links: var(--purple-pri);
+  --tw-prose-bold: var(--text-heading);
+  --tw-prose-counters: var(--text-muted);
+  --tw-prose-bullets: var(--text-muted);
+  --tw-prose-hr: var(--border-light);
+  --tw-prose-quotes: var(--text-heading);
+  --tw-prose-quote-borders: var(--purple-mid);
+  --tw-prose-captions: var(--text-soft);
+  --tw-prose-code: var(--text-heading);
+  --tw-prose-pre-code: var(--text-soft);
+  --tw-prose-pre-bg: var(--card-bg-tinted);
+  --tw-prose-th-borders: var(--border-medium);
+  --tw-prose-td-borders: var(--border-light);
+
+  /* Borders */
+  --border-light:   rgba(120, 80, 200, 0.10);  /* barely-there border */
+  --border-medium:  rgba(120, 80, 200, 0.18);  /* hover/emphasis border */
+  --border-strong:  rgba(120, 80, 200, 0.30);  /* strong border for featured cards */
+
+  /* Tool card accent colors (top border lines) */
+  --tool-color-1:   linear-gradient(90deg, #7c3aed, #a78bfa);  /* horoscope — violet */
+  --tool-color-2:   linear-gradient(90deg, #b45309, #f59e0b);  /* numerology — gold */
+  --tool-color-3:   linear-gradient(90deg, #0e7490, #22d3ee);  /* moon — teal */
+  --tool-color-4:   linear-gradient(90deg, #be185d, #f472b6);  /* compatibility — pink */
+  --tool-color-5:   linear-gradient(90deg, #065f46, #34d399);  /* panchang — green */
+  --tool-color-6:   linear-gradient(90deg, #92400e, #fcd34d);  /* tarot — amber */
+
+  /* Zodiac element colors (used on sign cards on hover) */
+  --fire-tint:      #fff7ed;   /* Aries, Leo, Sagittarius */
+  --earth-tint:     #f0fdf4;   /* Taurus, Virgo, Capricorn */
+  --air-tint:       #eff6ff;   /* Gemini, Libra, Aquarius */
+  --water-tint:     #ede9fe;   /* Cancer, Scorpio, Pisces */
+}
+
+/* 1. Navigation bar */
+[data-theme="light"] .site-nav {
+  background: rgba(250, 248, 244, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-light);
+}
+
+[data-theme="light"] .nav-logo {
+  color: var(--text-heading);
+}
+
+[data-theme="light"] .nav-logo .logo-accent {
+  color: var(--purple-pri);
+}
+
+[data-theme="light"] .nav-link {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .nav-link:hover,
+[data-theme="light"] .nav-link.active {
+  color: var(--text-heading);
+}
+
+[data-theme="light"] .nav-pro-badge {
+  background: var(--gold-light);
+  color: var(--gold);
+  border: 1px solid rgba(180, 83, 9, 0.15);
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+  vertical-align: middle;
+  margin-left: 3px;
+}
+
+[data-theme="light"] .nav-cta-btn {
+  background: var(--purple-pri);
+  color: #ffffff;
+  border: none;
+}
+
+[data-theme="light"] .nav-cta-btn:hover {
+  background: var(--purple-dark);
+}
+
+[data-theme="light"] .nav-login-link {
+  color: var(--text-muted);
+}
+
+/* 2. Hero section */
+[data-theme="light"] .hero {
+  background: var(--page-bg-warm);
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* Soft violet radial glow behind hero — replaces dark star field */
+[data-theme="light"] .hero::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(109, 40, 217, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Moon phase pill */
+[data-theme="light"] .moon-phase-pill {
+  background: var(--gold-light);
+  border: 1px solid rgba(180, 83, 9, 0.18);
+  color: var(--gold);
+}
+
+/* Eyebrow text */
+[data-theme="light"] .hero-eyebrow {
+  color: var(--purple-pri);
+}
+
+/* Main headline */
+[data-theme="light"] .hero-headline {
+  color: var(--text-heading);
+  font-weight: 300;  /* keep it light for contrast with bold word */
+}
+
+[data-theme="light"] .hero-headline strong {
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+/* "decoded" — the italic accent word */
+[data-theme="light"] .hero-headline em {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--purple-pri);
+}
+
+/* Gold period at end of headline */
+[data-theme="light"] .hero-headline .headline-dot {
+  color: var(--gold-mid);
+  font-style: normal;
+  font-weight: 700;
+}
+
+[data-theme="light"] .hero-subtext {
+  color: var(--text-muted);
+}
+
+/* Primary button */
+[data-theme="light"] .btn-primary {
+  background: var(--purple-pri) !important;
+  color: #ffffff !important;
+  border: none;
+}
+
+[data-theme="light"] .btn-primary:hover {
+  background: var(--purple-dark) !important;
+}
+
+/* Secondary button */
+[data-theme="light"] .btn-secondary {
+  background: #ffffff !important;
+  color: var(--purple-pri) !important;
+  border: 1.5px solid rgba(109, 40, 217, 0.2) !important;
+}
+
+[data-theme="light"] .btn-secondary:hover {
+  background: var(--purple-light) !important;
+  border-color: rgba(109, 40, 217, 0.35) !important;
+}
+
+/* 4. Page background and body */
+[data-theme="light"] body {
+  background: var(--page-bg) !important;
+  color: var(--text-body) !important;
+}
+
+/* Alternating section backgrounds */
+[data-theme="light"] .section-alt {
+  background: var(--page-bg-warm);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* 5. Cards (all card types) */
+[data-theme="light"] .card, [data-theme="light"] .glass-card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+[data-theme="light"] .card:hover, [data-theme="light"] .glass-card:hover {
+  border-color: var(--border-medium) !important;
+}
+
+[data-theme="light"] .card-tinted {
+  background: var(--card-bg-tinted);
+  border: 1px solid var(--border-light);
+}
+
+/* 6. Tool cards (4 quick-access cards on homepage) */
+[data-theme="light"] .tool-card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px -2px rgba(109, 40, 217, 0.05), 0 2px 8px -2px rgba(109, 40, 217, 0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="light"] .tool-card:hover {
+  box-shadow: 0 12px 30px -4px rgba(109, 40, 217, 0.12), 0 4px 12px -2px rgba(109, 40, 217, 0.06);
+  border-color: var(--border-medium) !important;
+}
+
+[data-theme="light"] .tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  z-index: 10;
+}
+
+[data-theme="light"] .tool-card[data-tool="horoscope"]::before { background: var(--tool-color-1); }
+[data-theme="light"] .tool-card[data-tool="numerology"]::before { background: var(--tool-color-2); }
+[data-theme="light"] .tool-card[data-tool="moon"]::before { background: var(--tool-color-3); }
+[data-theme="light"] .tool-card[data-tool="compatibility"]::before { background: var(--tool-color-4); }
+[data-theme="light"] .tool-card[data-tool="panchang"]::before { background: var(--tool-color-5); }
+[data-theme="light"] .tool-card[data-tool="tarot"]::before { background: var(--tool-color-6); }
+
+[data-theme="light"] .tool-card-name {
+  color: var(--text-heading) !important;
+}
+
+[data-theme="light"] .tool-card-desc {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .tool-card-link {
+  color: var(--purple-pri) !important;
+}
+
+[data-theme="light"] .tool-icon-box {
+  background: var(--purple-light);
+  border: 1px solid rgba(109, 40, 217, 0.12);
+  border-radius: 8px;
+}
+
+/* 7. Zodiac sign cards */
+[data-theme="light"] .sign-card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px -2px rgba(109, 40, 217, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="light"] .sign-card:hover {
+  border-color: var(--border-medium) !important;
+  background: var(--purple-light) !important;
+  box-shadow: 0 10px 24px -4px rgba(109, 40, 217, 0.1);
+}
+
+/* Glyph color per element type */
+[data-theme="light"] .sign-card[data-element="fire"] .sign-glyph { color: #c2410c !important; }
+[data-theme="light"] .sign-card[data-element="earth"] .sign-glyph { color: #15803d !important; }
+[data-theme="light"] .sign-card[data-element="air"] .sign-glyph { color: #1d4ed8 !important; }
+[data-theme="light"] .sign-card[data-element="water"] .sign-glyph { color: var(--purple-pri) !important; }
+
+[data-theme="light"] .sign-card:hover[data-element="fire"] { background: var(--fire-tint) !important; }
+[data-theme="light"] .sign-card:hover[data-element="earth"] { background: var(--earth-tint) !important; }
+[data-theme="light"] .sign-card:hover[data-element="air"] { background: var(--air-tint) !important; }
+[data-theme="light"] .sign-card:hover[data-element="water"] { background: var(--water-tint) !important; }
+
+[data-theme="light"] .sign-name { color: var(--text-heading) !important; }
+[data-theme="light"] .sign-dates { color: var(--text-soft) !important; }
+
+/* 8. Horoscope reading card */
+[data-theme="light"] .horo-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+}
+
+[data-theme="light"] .horo-sign-icon-wrap {
+  background: var(--purple-light);
+  border: 1px solid rgba(109, 40, 217, 0.12);
+}
+
+[data-theme="light"] .horo-tag {
+  background: var(--purple-light);
+  color: var(--purple-pri);
+  border-radius: 3px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding: 2px 7px;
+}
+
+[data-theme="light"] .horo-title {
+  color: var(--text-heading);
+}
+
+[data-theme="light"] .horo-body {
+  color: var(--text-muted);
+}
+
+/* Score pills */
+[data-theme="light"] .pill-love     { background: #fce7f3; color: #9d174d; border: 1px solid rgba(157,23,77,.12); }
+[data-theme="light"] .pill-career   { background: #ede9fe; color: #5b21b6; border: 1px solid rgba(91,33,182,.12); }
+[data-theme="light"] .pill-health   { background: #ecfdf5; color: #065f46; border: 1px solid rgba(6,95,70,.12); }
+
+/* 9. Section headings and dividers */
+[data-theme="light"] .section-eyebrow {
+  font-size: 10px;
+  color: var(--purple-pri) !important;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  text-align: center;
+}
+
+[data-theme="light"] .section-title {
+  color: var(--text-heading) !important;
+}
+
+[data-theme="light"] .section-divider {
+  width: 32px;
+  height: 2px;
+  background: var(--purple-mid);
+  border-radius: 2px;
+  margin: 6px auto 16px;
+}
+
+/* 10. Pricing cards */
+[data-theme="light"] .plan-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+}
+
+[data-theme="light"] .plan-card.featured {
+  border: 1.5px solid var(--purple-pri);
+}
+
+[data-theme="light"] .plan-badge {
+  background: var(--purple-light);
+  color: var(--purple-pri);
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+[data-theme="light"] .plan-name {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+[data-theme="light"] .plan-price {
+  color: var(--text-heading);
+  font-weight: 300;
+}
+
+[data-theme="light"] .plan-price-period {
+  color: var(--text-soft);
+  font-weight: 400;
+}
+
+[data-theme="light"] .plan-feature-item::before {
+  content: '✓ ';
+  color: var(--purple-pri);
+  font-weight: 600;
+}
+
+[data-theme="light"] .plan-btn {
+  border: 1.5px solid var(--border-medium);
+  background: transparent;
+  color: var(--purple-pri);
+}
+
+[data-theme="light"] .plan-btn:hover {
+  background: var(--purple-light);
+}
+
+[data-theme="light"] .plan-card.featured .plan-btn {
+  background: var(--purple-pri);
+  color: #ffffff;
+  border-color: var(--purple-pri);
+}
+
+[data-theme="light"] .plan-card.featured .plan-btn:hover {
+  background: var(--purple-dark);
+}
+
+/* 11. Footer (stays dark in light mode) */
+.site-footer {
+  background: #1c0f3f !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+.footer-logo-accent { color: #a78bfa !important; }
+.footer-heading { color: rgba(255, 255, 255, 0.4) !important; font-size: 9px; letter-spacing: 0.1em; }
+.footer-link { color: rgba(255, 255, 255, 0.55) !important; }
+.footer-link:hover { color: rgba(255, 255, 255, 0.85) !important; }
+
+/* 12. FAQ and SEO content sections */
+[data-theme="light"] .faq-section {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 12px;
+}
+
+[data-theme="light"] .faq-question {
+  color: var(--text-heading) !important;
+  font-weight: 500;
+}
+
+[data-theme="light"] .faq-answer {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .faq-divider {
+  border-color: var(--border-light) !important;
+}
+
+[data-theme="light"] .seo-content {
+  color: var(--text-body) !important;
+  line-height: 1.75;
+}
+
+[data-theme="light"] .seo-content h2,
+[data-theme="light"] .seo-content h3 {
+  color: var(--text-heading) !important;
+}
+
+[data-theme="light"] .seo-content strong {
+  color: var(--text-heading) !important;
+}
+
+/* 13. AI Astrologer chat page */
+[data-theme="light"] .chat-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+}
+
+[data-theme="light"] .chat-message-user {
+  background: var(--purple-pri);
+  color: #ffffff;
+  border-radius: 12px 12px 4px 12px;
+}
+
+[data-theme="light"] .chat-message-ai {
+  background: var(--purple-light);
+  color: var(--text-body);
+  border-radius: 12px 12px 12px 4px;
+}
+
+[data-theme="light"] .chat-input {
+  background: var(--card-bg);
+  border: 1px solid var(--border-medium);
+  color: var(--text-heading);
+}
+
+[data-theme="light"] .chat-input:focus {
+  border-color: var(--purple-pri);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
+}
+
+[data-theme="light"] .chat-send-btn {
+  background: var(--purple-pri);
+  color: #ffffff;
+}
+
+/* 14. Premium gate overlay */
+[data-theme="light"] .premium-gate {
+  background: rgba(250, 248, 244, 0.95);
+  border: 1px solid var(--border-medium);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+}
+
+[data-theme="light"] .premium-gate-icon {
+  background: var(--gold-light);
+  color: var(--gold);
+}
+
+[data-theme="light"] .premium-gate-title {
+  color: var(--text-heading);
+}
+
+[data-theme="light"] .premium-gate-body {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .premium-gate-btn {
+  background: var(--purple-pri);
+  color: #ffffff;
+}
+
+/* Tarot page — light mode card */
+[data-theme="light"] .tarot-card-face-down {
+  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+  border: 2px solid rgba(109, 40, 217, 0.2);
+}
+
+[data-theme="light"] .tarot-card-revealed {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-medium);
+}
+
+[data-theme="light"] .tarot-card-title {
+  color: var(--text-heading);
+}
+
+[data-theme="light"] .tarot-reversed-badge {
+  background: var(--gold-light);
+  color: var(--gold);
+}
+
+/* Kundali chart — light mode SVG */
+[data-theme="light"] .kundali-svg-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+}
+
+[data-theme="light"] .kundali-svg-container rect,
+[data-theme="light"] .kundali-svg-container line {
+  stroke: rgba(109, 40, 217, 0.25);
+}
+
+[data-theme="light"] .kundali-svg-container text {
+  fill: var(--text-heading);
+}
+
+[data-theme="light"] .kundali-planet-label {
+  fill: var(--purple-pri);
+  font-weight: 500;
+}
+
+[data-theme="light"] .kundali-lagna-marker {
+  fill: var(--gold-mid);
+}
+
+/* Moon phase illustration — light mode */
+[data-theme="light"] .moon-illustration {
+  filter: drop-shadow(0 0 20px rgba(109, 40, 217, 0.15));
+}
+
+[data-theme="light"] .moon-full { fill: #fef3c7; stroke: #f59e0b; }
+[data-theme="light"] .moon-crescent { fill: #ede9fe; stroke: #a78bfa; }
+[data-theme="light"] .moon-new { fill: #f5f0e8; stroke: rgba(120,80,200,0.2); }
+
+/* 15. Flatpickr Custom Theme (Adapts to Light/Dark mode) */
+.flatpickr-calendar {
+  background: var(--theme-glass-bg) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--theme-glass-border) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+  color: var(--theme-text-main) !important;
+}
+.flatpickr-months .flatpickr-month,
+.flatpickr-months .flatpickr-prev-month, 
+.flatpickr-months .flatpickr-next-month {
+  color: var(--theme-text-main) !important;
+  fill: var(--theme-text-main) !important;
+}
+span.flatpickr-weekday {
+  color: var(--theme-text-muted) !important;
+}
+.flatpickr-day {
+  color: var(--theme-text-main) !important;
+}
+.flatpickr-day:hover, .flatpickr-day.prevMonthDay:hover, .flatpickr-day.nextMonthDay:hover, .flatpickr-day:focus, .flatpickr-day.prevMonthDay:focus, .flatpickr-day.nextMonthDay:focus {
+  background: rgba(109, 40, 217, 0.2) !important;
+  border-color: rgba(109, 40, 217, 0.2) !important;
+}
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #fff !important;
+}
+.flatpickr-day.today {
+  border-color: var(--color-secondary) !important;
+}
+.flatpickr-time input:hover, .flatpickr-time .flatpickr-am-pm:hover, .flatpickr-time input:focus, .flatpickr-time .flatpickr-am-pm:focus {
+  background: rgba(109, 40, 217, 0.1) !important;
+}
+.flatpickr-time input, .flatpickr-time .flatpickr-time-separator, .flatpickr-time .flatpickr-am-pm {
+  color: var(--theme-text-main) !important;
+}
+.flatpickr-calendar.arrowTop:before,
+.flatpickr-calendar.arrowBottom:before,
+.flatpickr-calendar.arrowTop:after,
+.flatpickr-calendar.arrowBottom:after {
+  display: none !important;
+}
+
+/* Fix month dropdown and year input colors */
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  background: transparent !important;
+  color: var(--theme-text-main) !important;
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+  background-color: var(--theme-bg) !important;
+  color: var(--theme-text-main) !important;
+}
+.flatpickr-current-month .numInputWrapper span.arrowUp:after {
+  border-bottom-color: var(--theme-text-main) !important;
+}
+.flatpickr-current-month .numInputWrapper span.arrowDown:after {
+  border-top-color: var(--theme-text-main) !important;
+}
+.flatpickr-current-month .numInputWrapper span:hover {
+  background: rgba(109, 40, 217, 0.2) !important;
+}
+.flatpickr-current-month input.cur-year {
+  background: transparent !important;
+  color: var(--theme-text-main) !important;
+}

@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "प्रमाणीकरण हो रहा है... | AI Astrology" : "Authenticating... | AI Astrology"} 
+  description={lang === 'hi' ? "आपको लॉग इन किया जा रहा है..." : "Logging you in..."}
+>
+  <div class="flex items-center justify-center min-h-[50vh]" id="callback-container" data-lang={lang}>
+    <div class="text-theme-main text-xl animate-pulse font-serif">{lang === 'hi' ? 'आपका ब्रह्मांडीय कनेक्शन स्थापित किया जा रहा है...' : 'Setting up your cosmic connection...'}</div>
+  </div>
+  
+  <script>
+    import { supabase } from '../../lib/supabase';
+    
+    const container = document.getElementById('callback-container');
+    const lang = container?.dataset.lang || 'en';
+
+    // Supabase JS client handles the hash automatically on redirect
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        document.cookie = `sb-access-token=${session.access_token}; path=/; max-age=${session.expires_in}; SameSite=Lax; secure`;
+        document.cookie = `sb-refresh-token=${session.refresh_token}; path=/; max-age=${session.expires_in}; SameSite=Lax; secure`;
+        
+        window.location.href = lang === 'hi' ? '/hi/dashboard' : '/dashboard';
+      }
+    });
+
+    // Fallback if no auth event
+    setTimeout(() => {
+        supabase.auth.getSession().then(({ data }) => {
+            if (data.session) {
+                document.cookie = `sb-access-token=${data.session.access_token}; path=/; max-age=${data.session.expires_in}; SameSite=Lax; secure`;
+                document.cookie = `sb-refresh-token=${data.session.refresh_token}; path=/; max-age=${data.session.expires_in}; SameSite=Lax; secure`;
+                
+                window.location.href = lang === 'hi' ? '/hi/dashboard' : '/dashboard';
+            } else {
+                window.location.href = lang === 'hi' ? '/hi/auth/login?error=auth_failed' : '/auth/login?error=auth_failed';
+            }
+        });
+    }, 1500);
+  </script>
+</BaseLayout>

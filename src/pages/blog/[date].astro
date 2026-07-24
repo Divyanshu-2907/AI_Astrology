@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl, getRelativeLocaleUrl } from '../../i18n/utils';
+
+const { date } = Astro.params;
+const lang = getLangFromUrl(Astro.url);
+
+const displayDate = new Date(date as string).toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-US', {
+  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+});
+
+const signs = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? `${displayDate} का दैनिक राशिफल | AI Astrology` : `Daily Horoscope for ${displayDate} | AI Astrology`}
+  description={lang === 'hi' ? `${displayDate} के लिए सभी राशियों का विस्तृत राशिफल पढ़ें।` : `Read detailed daily horoscopes for all zodiac signs for ${displayDate}.`}
+>
+  <main class="container mx-auto px-4 pt-32 pb-24">
+    <div class="max-w-4xl mx-auto">
+      
+      <a href={lang === 'hi' ? '/hi/blog' : '/blog'} class="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-8">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        {lang === 'hi' ? 'सभी पोस्ट पर वापस जाएँ' : 'Back to all dates'}
+      </a>
+
+      <header class="mb-10 border-b border-glass-border pb-8 text-center">
+        <h1 class="text-3xl md:text-5xl font-serif text-theme-main mb-4 leading-tight">
+          {lang === 'hi' ? `${displayDate} का राशिफल` : `Horoscopes for ${displayDate}`}
+        </h1>
+        <p class="text-theme-muted text-lg">
+          {lang === 'hi' ? 'अपनी राशि चुनें और आज का विस्तृत भाग्यफल जानें।' : 'Select your zodiac sign to read your detailed astrological forecast for today.'}
+        </p>
+      </header>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {signs.map(sign => (
+          <a href={lang === 'hi' ? `/hi/rashifal/${sign}/${date}` : `/horoscope/${sign}/${date}`} class="glass-card p-6 text-center hover:bg-glass-card-hover transition-colors rounded-xl border border-glass-border block">
+            <div class="text-4xl mb-3">
+              {sign === 'aries' ? '♈' : sign === 'taurus' ? '♉' : sign === 'gemini' ? '♊' : sign === 'cancer' ? '♋' : sign === 'leo' ? '♌' : sign === 'virgo' ? '♍' : sign === 'libra' ? '♎' : sign === 'scorpio' ? '♏' : sign === 'sagittarius' ? '♐' : sign === 'capricorn' ? '♑' : sign === 'aquarius' ? '♒' : '♓'}
+            </div>
+            <h3 class="text-xl font-serif text-theme-main capitalize">{sign}</h3>
+          </a>
+        ))}
+      </div>
+      
+    </div>
+  </main>
+</BaseLayout>

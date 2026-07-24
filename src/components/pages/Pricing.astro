@@ -1,0 +1,5 @@
+---
+import { getLangFromUrl, getRelativeLocaleUrl } from '../../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+return Astro.redirect(getRelativeLocaleUrl(lang, '/'));
+---

@@ -1,0 +1,46 @@
+---
+---
+<button
+  class="theme-toggle-btn"
+  aria-label="Toggle light and dark theme"
+  title="Toggle theme"
+  style="
+    background: none;
+    border: 1px solid rgba(120,80,200,0.2);
+    border-radius: 6px;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  "
+>
+  <span class="theme-toggle-icon">☀️</span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const saved = localStorage.getItem('ai-astrology-theme') || 'light';
+  root.setAttribute('data-theme', saved);
+
+  const updateIcons = (theme) => {
+    document.querySelectorAll('.theme-toggle-icon').forEach(icon => {
+      icon.textContent = theme === 'light' ? '🌙' : '☀️';
+    });
+  };
+
+  updateIcons(saved);
+
+  document.querySelectorAll('.theme-toggle-btn').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('ai-astrology-theme', next);
+      updateIcons(next);
+    });
+  });
+</script>

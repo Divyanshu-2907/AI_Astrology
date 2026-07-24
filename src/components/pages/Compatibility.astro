@@ -1,0 +1,271 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import { zodiacSigns } from '../../lib/compatibility';
+import FaqJsonLd from '../FaqJsonLd.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const faqs = [
+  { question: "Which zodiac signs are most compatible?", answer: "Signs of the same element tend to be most compatible: Fire signs (Aries, Leo, Sagittarius), Earth signs (Taurus, Virgo, Capricorn), Air signs (Gemini, Libra, Aquarius), and Water signs (Cancer, Scorpio, Pisces)." },
+  { question: "What makes two zodiac signs compatible?", answer: "Compatibility is determined by element harmony (fire+air, earth+water work well), modality balance (cardinal+mutable, fixed+cardinal), planetary rulers, and the angle between signs in the zodiac wheel." },
+  { question: "Can incompatible signs have a good relationship?", answer: "Yes. Sun sign compatibility is just one factor. Moon signs, rising signs, Venus, and Mars placements often matter more for relationship harmony. A full Kundali matching gives a complete picture." },
+  { question: "What is the difference between zodiac compatibility and Kundali matching?", answer: "Zodiac compatibility compares sun signs only. Kundali matching (Ashtakoot) compares full birth charts including moon signs, nakshatras, and 8 different compatibility factors for a comprehensive score out of 36." },
+  { question: "Which sign is Aries most compatible with?", answer: "Aries is most compatible with Leo and Sagittarius (fellow fire signs) and Gemini and Aquarius (air signs). These pairings share energy, enthusiasm, and intellectual spark." }
+];
+
+const lang = getLangFromUrl(Astro.url);
+const hiZodiacSigns: Record<string, string> = {
+  'Aries': 'मेष', 'Taurus': 'वृषभ', 'Gemini': 'मिथुन', 'Cancer': 'कर्क',
+  'Leo': 'सिंह', 'Virgo': 'कन्या', 'Libra': 'तुला', 'Scorpio': 'वृश्चिक',
+  'Sagittarius': 'धनु', 'Capricorn': 'मकर', 'Aquarius': 'कुंभ', 'Pisces': 'मीन'
+};
+---
+
+<ToolLayout 
+  title={lang === 'hi' ? "राशि अनुकूलता जांचें | प्रेम और विवाह अनुकूलता - AI ज्योतिष" : "Zodiac Compatibility Checker | AI Astrology"} 
+  description={lang === 'hi' ? "दो राशियों के बीच प्रेम, विवाह और मित्रता की अनुकूलता जानें। मुफ्त एआई अनुकूलता स्कोर और विस्तृत विश्लेषण पाएं।" : "Check love and friendship compatibility between any two zodiac signs instantly."}
+>
+  
+  <div class="text-center mb-12">
+    <div class="inline-block bg-rose-400/20 text-rose-400 px-4 py-1 rounded-full text-sm font-medium mb-4">
+      {lang === 'hi' ? '💞 रिश्ते की अंतर्दृष्टि' : '💞 Relationship Insights'}
+    </div>
+    <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-4">{lang === 'hi' ? 'राशि अनुकूलता' : 'Zodiac Compatibility'}</h1>
+    <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+      {lang === 'hi' ? 'खोजें कि आपके और आपके साथी, दोस्त या क्रश के लिए सितारे कैसे संरेखित होते हैं।' : 'Discover how the stars align for you and your partner, friend, or crush.'}
+    </p>
+  </div>
+
+  <div class="glass-card p-6 md:p-10 mb-16 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-400/5 via-background to-background z-0 pointer-events-none"></div>
+    
+    <div class="relative z-10 max-w-3xl mx-auto">
+      <form id="compat-form" data-lang={lang} class="flex flex-col md:flex-row items-end gap-6">
+        <div class="flex-1 w-full">
+          <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'आपकी राशि' : 'Your Sign'}</label>
+          <select id="sign1" required class="w-full bg-background/50 border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 appearance-none">
+            <option value="" disabled selected>{lang === 'hi' ? 'राशि चुनें...' : 'Select a sign...'}</option>
+            {zodiacSigns.map(s => <option value={s}>{lang === 'hi' ? hiZodiacSigns[s] : s}</option>)}
+          </select>
+        </div>
+        
+        <div class="hidden md:flex pb-2 text-rose-400">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+        </div>
+        
+        <div class="flex-1 w-full">
+          <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'उनकी राशि' : 'Their Sign'}</label>
+          <select id="sign2" required class="w-full bg-background/50 border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 appearance-none">
+            <option value="" disabled selected>{lang === 'hi' ? 'राशि चुनें...' : 'Select a sign...'}</option>
+            {zodiacSigns.map(s => <option value={s}>{lang === 'hi' ? hiZodiacSigns[s] : s}</option>)}
+          </select>
+        </div>
+        
+        <button type="submit" class="w-full md:w-auto bg-rose-500 hover:bg-rose-600 text-theme-main px-8 py-3 rounded-lg hover:-translate-y-0.5 transition-all duration-300 font-medium whitespace-nowrap">
+          {lang === 'hi' ? 'मेल जांचें' : 'Check Match'}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="results-container" class="hidden mb-16">
+    <div class="text-center mb-10 relative">
+      <h2 class="text-3xl font-serif text-theme-main mb-2"><span id="res-sign1"></span> & <span id="res-sign2"></span></h2>
+      <p class="text-theme-muted">{lang === 'hi' ? 'अनुकूलता विश्लेषण' : 'Compatibility Analysis'}</p>
+      
+      <!-- Share Button -->
+      <button id="share-btn" class="mt-4 inline-flex items-center justify-center gap-2 px-4 py-2 bg-background/50 border border-glass-border hover:border-primary/50 rounded-full text-sm font-medium text-theme-main transition-colors shadow-sm">
+        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+        {lang === 'hi' ? 'परिणाम साझा करें' : 'Share Result'}
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Overall Score -->
+      <div class="lg:col-span-1 glass-card p-8 flex flex-col items-center justify-center text-center">
+        <div class="relative w-48 h-48 mb-6">
+          <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+            <circle class="text-glass-border stroke-current" stroke-width="8" cx="50" cy="50" r="40" fill="transparent"></circle>
+            <circle id="score-ring" class="text-rose-500 stroke-current transition-all duration-1000 ease-out" stroke-width="8" stroke-linecap="round" cx="50" cy="50" r="40" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span id="score-text" class="text-4xl font-serif font-bold text-theme-main">0%</span>
+            <span class="text-xs text-theme-muted uppercase tracking-widest mt-1">{lang === 'hi' ? 'मेल' : 'Match'}</span>
+          </div>
+        </div>
+        <p id="overall-text" class="text-theme-muted text-sm leading-relaxed"></p>
+      </div>
+
+      <!-- Detailed Breakdown -->
+      <div class="lg:col-span-2 space-y-6">
+        <div class="glass-card p-6 border-l-4 border-l-rose-500">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-serif text-theme-main flex items-center"><span class="mr-2">❤️</span> {lang === 'hi' ? 'प्यार और रोमांस' : 'Love & Romance'}</h3>
+            <span id="love-score" class="text-rose-400 font-bold"></span>
+          </div>
+          <p id="love-text" class="text-theme-muted text-sm leading-relaxed"></p>
+        </div>
+        
+        <div class="glass-card p-6 border-l-4 border-l-primary">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-serif text-theme-main flex items-center"><span class="mr-2">🤝</span> {lang === 'hi' ? 'दोस्ती' : 'Friendship'}</h3>
+            <span id="friend-score" class="text-primary font-bold"></span>
+          </div>
+          <p id="friend-text" class="text-theme-muted text-sm leading-relaxed"></p>
+        </div>
+        
+        <div class="glass-card p-6 border-l-4 border-l-secondary">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-serif text-theme-main flex items-center"><span class="mr-2">🗣️</span> {lang === 'hi' ? 'संचार' : 'Communication'}</h3>
+            <span id="comm-score" class="text-secondary font-bold"></span>
+          </div>
+          <p id="comm-text" class="text-theme-muted text-sm leading-relaxed"></p>
+        </div>
+        
+        <div class="glass-card p-6 bg-rose-500/5">
+          <h3 class="text-lg font-serif text-theme-main mb-3">{lang === 'hi' ? 'ध्यान रखने योग्य चुनौतियाँ' : 'Challenges to Watch For'}</h3>
+          <ul id="challenges-list" class="list-disc list-inside text-theme-muted text-sm space-y-2"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mb-12">
+    <h2 class="text-3xl font-serif mb-6 text-theme-main">{lang === 'hi' ? 'राशि अनुकूलता को समझना' : 'Understanding Zodiac Compatibility'}</h2>
+    <p class="text-theme-muted text-sm leading-relaxed mb-4">
+      {lang === 'hi' ? 'राशि अनुकूलता केवल इस बारे में नहीं है कि क्या दो राशियाँ प्यार में पड़ेंगी; यह इस बात का गहरा गोता है कि दो अलग-अलग ब्रह्मांडीय ऊर्जाएँ कैसे परस्पर क्रिया करती हैं। ज्योतिषीय अनुकूलता मुख्य रूप से तत्वों (अग्नि, पृथ्वी, वायु, जल) और तौर-तरीकों (कार्डिनल, फिक्स्ड, म्यूटेबल) द्वारा निर्धारित की जाती है।' : "Zodiac compatibility isn't just about whether two signs will fall in love; it's a deep dive into how two distinct cosmic energies interact. Astrological compatibility is primarily determined by elements (Fire, Earth, Air, Water) and modalities (Cardinal, Fixed, Mutable)."} 
+    </p>
+    <p class="text-theme-muted text-sm leading-relaxed mb-4">
+      {lang === 'hi' ? 'उदाहरण के लिए, अग्नि राशियाँ (मेष, सिंह, धनु) स्वाभाविक रूप से वायु राशियों (मिथुन, तुला, कुंभ) के साथ सामंजस्य स्थापित करती हैं क्योंकि हवा आग को ईंधन देती है। पृथ्वी राशियाँ (वृषभ, कन्या, मकर) जल राशियों (कर्क, वृश्चिक, मीन) के साथ गहरा आराम और ग्राउंडिंग पाती हैं क्योंकि जल पृथ्वी को पोषण देता है।' : 'For example, Fire signs (Aries, Leo, Sagittarius) naturally harmonize with Air signs (Gemini, Libra, Aquarius) because air fuels fire. Earth signs (Taurus, Virgo, Capricorn) find deep comfort and grounding with Water signs (Cancer, Scorpio, Pisces) because water nourishes the earth.'}
+    </p>
+    <p class="text-theme-muted text-sm leading-relaxed">
+      {lang === 'hi' ? 'हालाँकि, यह याद रखना महत्वपूर्ण है कि कोई भी दो सूर्य राशियाँ पूरी तरह से असंगत नहीं हैं। चुनौतीपूर्ण ज्योतिषीय पहलू अक्सर गहन व्यक्तिगत विकास और स्थायी भक्ति के लिए आवश्यक घर्षण प्रदान करते हैं। रिश्ते की वास्तव में सटीक तस्वीर के लिए, दोनों व्यक्तियों के सटीक जन्म समय, तिथि और स्थान का उपयोग करके पूर्ण कुंडली मिलान या सिनेस्ट्री रीडिंग की अत्यधिक अनुशंसा की जाती है।' : "However, it's important to remember that no two sun signs are entirely incompatible. Challenging astrological aspects often provide the friction necessary for profound personal growth and lasting devotion. For a truly accurate picture of a relationship, a full Kundali Matching or synastry reading using the exact birth time, date, and place of both individuals is highly recommended."}
+    </p>
+  </div>
+
+  <FaqJsonLd faqs={faqs} />
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mb-12">
+    <h2 class="text-2xl font-serif mb-6 text-theme-main">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      {faqs.map(faq => (
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">{faq.answer}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    import { getCompatibility } from '../../lib/compatibility';
+
+    const form = document.getElementById('compat-form') as HTMLFormElement;
+    const container = document.getElementById('results-container');
+
+    if (form && container) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const sign1 = (document.getElementById('sign1') as HTMLSelectElement).value;
+        const sign2 = (document.getElementById('sign2') as HTMLSelectElement).value;
+        
+        if (!sign1 || !sign2) return;
+        
+        const lang = form.dataset.lang || 'en';
+        const result = getCompatibility(sign1, sign2, lang);
+
+        // Hi zodiac signs for display
+        const hiZodiacSigns: Record<string, string> = {
+          'Aries': 'मेष', 'Taurus': 'वृषभ', 'Gemini': 'मिथुन', 'Cancer': 'कर्क',
+          'Leo': 'सिंह', 'Virgo': 'कन्या', 'Libra': 'तुला', 'Scorpio': 'वृश्चिक',
+          'Sagittarius': 'धनु', 'Capricorn': 'मकर', 'Aquarius': 'कुंभ', 'Pisces': 'मीन'
+        };
+
+        document.getElementById('res-sign1')!.textContent = lang === 'hi' ? hiZodiacSigns[sign1] : sign1;
+        document.getElementById('res-sign2')!.textContent = lang === 'hi' ? hiZodiacSigns[sign2] : sign2;
+        
+        // Animate circular progress
+        const circle = document.getElementById('score-ring');
+        const text = document.getElementById('score-text');
+        
+        if (circle && text) {
+            const radius = circle.getAttribute('r');
+            const circumference = 2 * Math.PI * parseFloat(radius!);
+            const offset = circumference - (result.score / 100) * circumference;
+            
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            
+            // Trigger animation
+            setTimeout(() => {
+                circle.style.strokeDashoffset = offset.toString();
+                
+                // Animate numbers
+                let current = 0;
+                const target = result.score;
+                const interval = setInterval(() => {
+                    current += 1;
+                    text.textContent = `${current}%`;
+                    if (current >= target) {
+                        clearInterval(interval);
+                        text.textContent = `${target}%`;
+                    }
+                }, 10);
+            }, 100);
+        }
+
+        document.getElementById('overall-text')!.textContent = result.overall;
+        
+        document.getElementById('love-score')!.textContent = `${Math.round(result.love.score)}/100`;
+        document.getElementById('love-text')!.textContent = result.love.analysis;
+        
+        document.getElementById('friend-score')!.textContent = `${Math.round(result.friendship.score)}/100`;
+        document.getElementById('friend-text')!.textContent = result.friendship.analysis;
+        
+        document.getElementById('comm-score')!.textContent = `${Math.round(result.communication.score)}/100`;
+        document.getElementById('comm-text')!.textContent = result.communication.analysis;
+        
+        const ul = document.getElementById('challenges-list')!;
+        ul.innerHTML = '';
+        result.challenges.forEach(c => {
+            const li = document.createElement('li');
+            li.textContent = c;
+            ul.appendChild(li);
+        });
+
+        container.classList.remove('hidden');
+        
+        // Update URL for sharing
+        const shareUrl = `${window.location.origin}${lang === 'hi' ? '/hi' : ''}/compatibility/${sign1.toLowerCase()}-${sign2.toLowerCase()}`;
+        window.history.replaceState({}, '', shareUrl);
+        
+        // Setup Share Button
+        const shareBtn = document.getElementById('share-btn');
+        if (shareBtn) {
+            shareBtn.onclick = async () => {
+                const shareData = {
+                    title: `${hiZodiacSigns[sign1] || sign1} & ${hiZodiacSigns[sign2] || sign2} Compatibility | AI Astrology`,
+                    text: `Check out the cosmic compatibility between ${sign1} and ${sign2}!`,
+                    url: shareUrl
+                };
+                
+                try {
+                    if (navigator.share) {
+                        await navigator.share(shareData);
+                    } else {
+                        await navigator.clipboard.writeText(shareUrl);
+                        const originalText = shareBtn.innerHTML;
+                        shareBtn.innerHTML = lang === 'hi' ? 'कॉपी किया गया!' : 'Copied!';
+                        setTimeout(() => shareBtn.innerHTML = originalText, 2000);
+                    }
+                } catch (err) {
+                    console.error('Error sharing:', err);
+                }
+            };
+        }
+        
+        if (window.innerWidth < 1024) {
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+  </script>
+</ToolLayout>

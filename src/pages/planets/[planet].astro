@@ -1,0 +1,104 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import { planets } from '../../data/planets';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return planets.map(p => ({
+    params: { planet: p.id },
+    props: { planet: p },
+  }));
+}
+
+const { planet } = Astro.props;
+---
+
+<ToolLayout 
+  title={planet.title} 
+  description={planet.description}
+>
+  <div class="mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center space-x-6">
+      <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary/20 to-highlight/20 border border-primary/30 flex items-center justify-center text-5xl text-theme-main shadow-[0_0_30px_rgba(79,70,229,0.2)]">
+        🪐
+      </div>
+      <div>
+        <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-2">{planet.name} ({planet.sanskritName})</h1>
+        <div class="flex items-center space-x-4 text-sm text-theme-muted">
+          <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-primary mr-2"></span> {planet.type}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <div class="md:col-span-2 space-y-8">
+      
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">Introduction</h2>
+        <p class="text-theme-muted leading-relaxed">{planet.content.introduction}</p>
+      </div>
+
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">What {planet.name} Represents</h2>
+        <p class="text-theme-muted leading-relaxed">{planet.content.whatItRepresents}</p>
+      </div>
+
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">Personality & Influence</h2>
+        <p class="text-theme-muted leading-relaxed">{planet.content.personalityInfluence}</p>
+      </div>
+
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">Vedic vs. Western Astrology</h2>
+        <p class="text-theme-muted leading-relaxed">{planet.content.vedicVsWestern}</p>
+      </div>
+
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          {planet.content.faqs.map(faq => (
+            <div>
+              <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+              <p class="text-theme-muted">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="space-y-6">
+      <div class="glass-card p-6 border-t-4 border-t-secondary">
+        <h3 class="text-lg font-serif text-theme-main mb-4">Astrological Details</h3>
+        <ul class="space-y-4">
+          <li class="flex justify-between items-center border-b border-glass-border pb-2">
+            <span class="text-theme-muted text-sm">Ruling Zodiacs</span>
+            <span class="text-theme-main font-medium">{planet.rulingZodiacs.join(', ')}</span>
+          </li>
+          <li class="flex justify-between items-center border-b border-glass-border pb-2">
+            <span class="text-theme-muted text-sm">Exaltation Sign</span>
+            <span class="text-theme-main font-medium">{planet.exaltation}</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="text-theme-muted text-sm">Debilitation Sign</span>
+            <span class="text-theme-main font-medium">{planet.debilitation}</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="glass-card p-6">
+        <h3 class="text-lg font-serif text-theme-main mb-4">Explore More</h3>
+        <div class="space-y-3">
+          {planets.filter(p => p.id !== planet.id).slice(0, 4).map(p => (
+            <a href={`/planets/${p.id}`} class="block p-3 rounded-lg bg-glass-border/50 hover:bg-glass-border transition-colors">
+              <div class="font-medium text-theme-main">{p.name} ({p.sanskritName})</div>
+              <div class="text-xs text-theme-muted mt-1">Read guide →</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</ToolLayout>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+export const prerender = true;
+
+const lang = getLangFromUrl(Astro.url);
+const title = lang === 'hi' ? "उदित राशि (लग्न) कैलकुलेटर | AI Astrology" : "Rising Sign (Ascendant) Calculator | AI Astrology";
+const description = lang === 'hi' ? "अपनी उदित राशि (लग्न) खोजें और जानें कि आप दुनिया के सामने कैसे आते हैं।" : "Discover your Rising Sign (Ascendant) and learn how you present yourself to the world.";
+---
+
+<BaseLayout title={title} description={description} canonicalUrl="https://freeastrologyai.com/rising-sign">
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-6">{lang === 'hi' ? 'उदित राशि कैलकुलेटर' : 'Rising Sign Calculator'}</h1>
+            <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+                {lang === 'hi' ? 'आपकी उदित राशि (लग्न) वह राशि है जो आपके जन्म के समय पूर्वी क्षितिज पर उदित हो रही थी।' : 'Your Rising sign (Ascendant) is the zodiac sign that was rising on the eastern horizon at the exact time of your birth.'}
+            </p>
+        </div>
+
+        <div class="glass-card p-8 md:p-12 mb-12">
+            <form id="rising-form" class="space-y-6 max-w-2xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म तिथि' : 'Date of Birth'}</label>
+                        <input type="date" required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म समय' : 'Time of Birth'}</label>
+                        <input type="time" required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म स्थान' : 'Place of Birth'}</label>
+                    <input type="text" placeholder={lang === 'hi' ? 'उदा. नई दिल्ली, भारत' : 'e.g., New York, NY'} required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                </div>
+                <button type="submit" class="btn-primary w-full py-4 text-lg mt-4">{lang === 'hi' ? 'मेरी उदित राशि खोजें' : 'Find My Rising Sign'}</button>
+            </form>
+            
+            <div id="rising-result" class="hidden mt-10 text-center animate-fade-in border-t border-glass-border pt-10">
+                <div class="text-sm text-theme-muted uppercase tracking-widest mb-2">{lang === 'hi' ? 'आपकी उदित राशि है' : 'Your Rising Sign is'}</div>
+                <div class="text-5xl md:text-6xl font-serif text-primary mb-6" id="rising-sign-name">Scorpio</div>
+                <p class="text-lg text-theme-main max-w-xl mx-auto leading-relaxed" id="rising-sign-desc">
+                    Intense, magnetic, and perceptive. You present yourself with an aura of mystery and have a powerful presence that commands attention without saying a word.
+                </p>
+                <div class="mt-8">
+                    <a href={lang === 'hi' ? '/hi/kundali' : '/kundali'} class="btn-secondary">{lang === 'hi' ? 'विस्तृत जन्म कुंडली देखें' : 'View Full Birth Chart'}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('rising-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Mock calculation
+            const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+            const randomSign = signs[Math.floor(Math.random() * signs.length)];
+            
+            const elName = document.getElementById('rising-sign-name');
+            const elResult = document.getElementById('rising-result');
+            
+            if (elName && elResult) {
+                elName.textContent = randomSign;
+                elResult.classList.remove('hidden');
+                elResult.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</BaseLayout>

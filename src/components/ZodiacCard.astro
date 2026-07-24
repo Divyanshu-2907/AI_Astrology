@@ -1,0 +1,26 @@
+---
+interface Props {
+  sign: string;
+  name: string;
+  dates: string;
+  glyph: string;
+}
+
+const elementMap: Record<string, string> = {
+  Aries: 'fire', Leo: 'fire', Sagittarius: 'fire',
+  Taurus: 'earth', Virgo: 'earth', Capricorn: 'earth',
+  Gemini: 'air', Libra: 'air', Aquarius: 'air',
+  Cancer: 'water', Scorpio: 'water', Pisces: 'water'
+};
+
+
+const { sign, name, dates, glyph } = Astro.props;
+const element = elementMap[sign] || 'water';
+---
+
+<a href={`/horoscope/${sign.toLowerCase()}`} class="sign-card relative overflow-hidden p-6 flex flex-col items-center justify-center text-center transition-all duration-300 group" data-element={element}>
+  <div class="sign-glyph text-[28px] mb-3 group-hover:scale-110 transition-transform duration-300 leading-none">{glyph}</div>
+  <h3 class="sign-name font-serif text-xl mb-1">{name}</h3>
+  <p class="sign-dates text-xs tracking-wider">{dates}</p>
+</a>
+

@@ -1,0 +1,208 @@
+---
+import PremiumLayout from '../../layouts/PremiumLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<PremiumLayout 
+  title={lang === 'hi' ? "एआई ज्योतिषी से मुफ्त चैट करें | 24x7 उपलब्ध - AI ज्योतिष" : "AI Astrologer | AI Astrology"} 
+  description={lang === 'hi' ? "हमारे एआई ज्योतिषी से अपने जीवन, प्यार और करियर से जुड़े सवाल पूछें। कभी भी, कहीं भी - बिल्कुल मुफ्त और तुरंत जवाब पाएं।" : "Chat with our expert AI astrologer for personalized guidance."}
+>
+  
+  <div id="chat-container" data-lang={lang} class="h-[80vh] flex flex-col glass-card overflow-hidden">
+    <!-- Header -->
+    <div class="p-6 border-b border-glass-border bg-background/50 flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="w-10 h-10 rounded-full bg-highlight flex items-center justify-center text-xl mr-4">🔮</div>
+        <div>
+          <h1 class="text-xl font-serif text-theme-main">{lang === 'hi' ? 'वेदा, एआई ज्योतिषी' : 'Veda, The AI Astrologer'}</h1>
+          <p class="text-xs text-emerald-400 flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-400 mr-1 animate-pulse"></span> {lang === 'hi' ? 'ऑनलाइन' : 'Online'}</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Chat History -->
+    <div id="chat-history" class="flex-1 overflow-y-auto p-6 space-y-6">
+      
+      <!-- Greeting -->
+      <div class="flex items-start max-w-[85%]">
+        <div class="w-8 h-8 rounded-full bg-highlight flex-shrink-0 flex items-center justify-center text-sm mr-3 mt-1">🔮</div>
+        <div class="bg-theme-main/5 border border-glass-border rounded-2xl rounded-tl-none p-4 text-theme-main text-sm leading-relaxed">
+          <p>{lang === 'hi' ? "नमस्ते! मैं वेदा हूँ, आपका ब्रह्मांडीय मार्गदर्शक। मेरे पास आपकी जन्म कुंडली (यदि आपने एक उत्पन्न की है) तक पहुंच है और वैदिक ज्योतिष का गहरा ज्ञान है।" : "Namaste! I am Veda, your cosmic guide. I have access to your birth chart (if you've generated one) and deep knowledge of Vedic astrology."}</p>
+          <p class="mt-2">{lang === 'hi' ? "आज आपके ब्रह्मांड में क्या स्पष्टता चाहता है?" : "What seeks clarity in your universe today?"}</p>
+        </div>
+      </div>
+      
+      <!-- Suggested Prompts -->
+      <div class="flex flex-wrap gap-2 ml-11" id="suggestions">
+        <button class="bg-primary/20 text-primary border border-primary/30 rounded-full px-3 py-1.5 text-xs hover:bg-primary/30 transition-colors">{lang === 'hi' ? 'मेरी वर्तमान महादशा का क्या अर्थ है?' : 'What does my current Dasha mean?'}</button>
+        <button class="bg-primary/20 text-primary border border-primary/30 rounded-full px-3 py-1.5 text-xs hover:bg-primary/30 transition-colors">{lang === 'hi' ? 'मेरे करियर में कब सुधार होगा?' : 'When will my career improve?'}</button>
+        <button class="bg-primary/20 text-primary border border-primary/30 rounded-full px-3 py-1.5 text-xs hover:bg-primary/30 transition-colors">{lang === 'hi' ? 'मेरे प्रेम जीवन का विश्लेषण करें।' : 'Analyze my love life.'}</button>
+      </div>
+
+    </div>
+    
+    <!-- Input Area -->
+    <div class="p-4 border-t border-glass-border bg-background/50">
+      <form id="chat-form" class="relative">
+        <input 
+          type="text" 
+          id="chat-input"
+          placeholder={lang === 'hi' ? 'सितारों से एक प्रश्न पूछें...' : 'Ask the stars a question...'} 
+          class="w-full bg-background border border-glass-border rounded-full pl-6 pr-14 py-4 text-theme-main focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-colors"
+          required
+        >
+        <button type="submit" class="absolute right-2 top-2 bottom-2 w-10 bg-highlight hover:bg-highlight/80 text-theme-main rounded-full flex items-center justify-center transition-colors">
+          <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    import { supabase } from '../../lib/supabase';
+
+    const container = document.getElementById('chat-container');
+    const lang = container?.dataset.lang || 'en';
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-input') as HTMLInputElement;
+    const history = document.getElementById('chat-history');
+    const suggestions = document.getElementById('suggestions');
+    const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+    // Chat history for API
+    let messages: {role: string, content: string}[] = [];
+
+    // Handle suggestion clicks
+    document.querySelectorAll('#suggestions button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            input.value = (e.target as HTMLButtonElement).textContent || '';
+            form?.dispatchEvent(new Event('submit'));
+            suggestions?.classList.add('hidden');
+        });
+    });
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      suggestions?.classList.add('hidden');
+
+      // Add user message to UI
+      const userDiv = document.createElement('div');
+      userDiv.className = 'flex items-start justify-end w-full';
+      userDiv.innerHTML = `
+        <div class="bg-primary text-theme-main rounded-2xl rounded-tr-none p-4 text-sm leading-relaxed max-w-[85%] shadow-lg">
+          ${msg}
+        </div>
+      `;
+      history?.appendChild(userDiv);
+      input.value = '';
+      input.disabled = true;
+      submitBtn.disabled = true;
+      history?.scrollTo(0, history.scrollHeight);
+
+      messages.push({ role: 'user', content: msg });
+
+      // Add typing indicator
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'flex items-start max-w-[85%] mb-4';
+      typingDiv.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-highlight flex-shrink-0 flex items-center justify-center text-sm mr-3 mt-1">🔮</div>
+        <div class="bg-theme-main/5 border border-glass-border rounded-2xl rounded-tl-none p-4 flex space-x-2">
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+        </div>
+      `;
+      history?.appendChild(typingDiv);
+      history?.scrollTo(0, history.scrollHeight);
+
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        const userId = session?.user?.id;
+
+        const response = await fetch('/api/ai-chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            messages,
+            userId
+          })
+        });
+
+        history?.removeChild(typingDiv);
+
+        if (!response.ok) {
+            throw new Error('API Error');
+        }
+
+        const aiDiv = document.createElement('div');
+        aiDiv.className = 'flex items-start max-w-[85%]';
+        aiDiv.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-highlight flex-shrink-0 flex items-center justify-center text-sm mr-3 mt-1">🔮</div>
+          <div class="bg-theme-main/5 border border-glass-border rounded-2xl rounded-tl-none p-4 text-theme-main text-sm leading-relaxed prose prose-invert markdown-content"></div>
+        `;
+        history?.appendChild(aiDiv);
+        const contentDiv = aiDiv.querySelector('.markdown-content');
+        
+        let fullResponse = "";
+        
+        const reader = response.body?.getReader();
+        const decoder = new TextDecoder();
+        
+        if (reader) {
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value, { stream: true });
+                
+                // Gemini API returns SSE data
+                const lines = chunk.split('\\n');
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const dataStr = line.replace('data: ', '').trim();
+                        if (dataStr) {
+                            try {
+                                const data = JSON.parse(dataStr);
+                                if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                                    const text = data.candidates[0].content.parts[0].text;
+                                    fullResponse += text;
+                                    if (contentDiv) {
+                                        // Simple markdown rendering (can be replaced with marked)
+                                        contentDiv.innerHTML = fullResponse.replace(/\\n/g, '<br/>').replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>');
+                                    }
+                                    history?.scrollTo(0, history.scrollHeight);
+                                }
+                            } catch (e) {
+                                // Ignore parse errors for incomplete chunks
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        messages.push({ role: 'assistant', content: fullResponse });
+
+      } catch (error) {
+        history?.removeChild(typingDiv);
+        console.error(error);
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'text-rose-400 text-sm p-4';
+        errorDiv.textContent = lang === 'hi' ? 'क्षमा करें, मुझे जुड़ने में समस्या आ रही है। कृपया पुनः प्रयास करें।' : 'Sorry, I am having trouble connecting. Please try again.';
+        history?.appendChild(errorDiv);
+      } finally {
+        input.disabled = false;
+        submitBtn.disabled = false;
+        input.focus();
+        history?.scrollTo(0, history.scrollHeight);
+      }
+    });
+  </script>
+</PremiumLayout>

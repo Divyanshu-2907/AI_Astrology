@@ -1,0 +1,70 @@
+---
+// StarField.astro
+---
+<div class="star-field fixed inset-0 pointer-events-none z-0" id="starField" aria-hidden="true"></div>
+
+<script is:inline>
+  function renderStars() {
+    const el = document.getElementById('starField');
+    if (!el) return;
+    el.innerHTML = '';
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+    if (isLight) {
+      // Light mode: soft constellation dots
+      const positions = [
+        [10,20],[18,60],[30,35],[45,70],[60,25],
+        [75,55],[85,30],[92,65],[15,80],[40,90],
+        [70,75],[55,40],[25,50],[80,85],[50,15]
+      ];
+      positions.forEach(([left, top]) => {
+        const dot = document.createElement('div');
+        dot.style.cssText = `
+          position: absolute;
+          left: ${left}%;
+          top: ${top}%;
+          width: 2px;
+          height: 2px;
+          border-radius: 50%;
+          background: #a78bfa;
+          opacity: 0.25;
+        `;
+        el.appendChild(dot);
+      });
+    } else {
+      // Dark mode: twinkling stars (existing code)
+      for (let i = 0; i < 40; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.cssText = `
+          position: absolute;
+          left: ${Math.random() * 100}%;
+          top: ${Math.random() * 100}%;
+          width: 1.5px;
+          height: 1.5px;
+          border-radius: 50%;
+          background: #fff;
+          opacity: ${0.2 + Math.random() * 0.5};
+          animation: twinkle ${2 + Math.random() * 4}s ease-in-out infinite alternate;
+          animation-delay: ${Math.random() * 3}s;
+        `;
+        el.appendChild(star);
+      }
+    }
+  }
+
+  // Render on load
+  document.addEventListener('DOMContentLoaded', renderStars);
+  // Also run immediately just in case
+  renderStars();
+
+  // Watch for theme changes to re-render
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'data-theme') {
+        renderStars();
+      }
+    });
+  });
+  observer.observe(document.documentElement, { attributes: true });
+</script>

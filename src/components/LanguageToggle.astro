@@ -1,0 +1,29 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+
+const pathname = Astro.url.pathname;
+
+// Determine paths for both buttons
+// If we are currently in Hindi, englishPath removes /hi. If English, englishPath is just pathname.
+const englishPath = lang === 'hi' ? pathname.replace(/^\/hi/, '') || '/' : pathname;
+// If we are currently in English, hindiPath adds /hi. If Hindi, hindiPath is just pathname.
+const hindiPath = lang === 'en' ? `/hi${pathname === '/' ? '' : pathname}` : pathname;
+---
+
+<div class="flex items-center space-x-1 border border-glass-border rounded-lg p-0.5" style="background: var(--theme-glass-bg);">
+  <a 
+    href={englishPath} 
+    class={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${lang === 'en' ? 'bg-theme-main/10 text-theme-main' : 'text-theme-muted hover:text-theme-main'}`}
+    aria-label="Switch to English"
+  >
+    EN
+  </a>
+  <a 
+    href={hindiPath} 
+    class={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${lang === 'hi' ? 'bg-theme-main/10 text-theme-main' : 'text-theme-muted hover:text-theme-main'}`}
+    aria-label="Switch to Hindi"
+  >
+    हिन्दी
+  </a>
+</div>

@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "आंतरिक सर्वर त्रुटि | AI Astrology" : "Internal Server Error | AI Astrology"} 
+  description="500 Internal Server Error"
+>
+  <div class="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center">
+    <div class="text-9xl mb-6">☄️</div>
+    <h1 class="text-5xl font-serif text-theme-main mb-4">500</h1>
+    <h2 class="text-2xl text-rose-400 mb-6">{lang === 'hi' ? 'एक ब्रह्मांडीय गड़बड़ी' : 'A Cosmic Disturbance'}</h2>
+    <p class="text-theme-muted max-w-md mx-auto mb-8">
+      {lang === 'hi' 
+        ? 'हमारे सर्वर ने एक अस्थायी खगोलीय विसंगति का अनुभव किया। हम ग्रहों को फिर से संरेखित करने पर काम कर रहे हैं।' 
+        : 'Our servers experienced a temporary celestial anomaly. We\'re working on realigning the planets.'}
+    </p>
+    <button onclick="window.location.reload()" class="btn-primary">{lang === 'hi' ? 'पुनः प्रयास करें' : 'Try Again'}</button>
+  </div>
+</BaseLayout>
+

@@ -1,0 +1,124 @@
+---
+import ToolLayout from '../layouts/ToolLayout.astro';
+import { zodiacs } from '../data/zodiacs';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return zodiacs.map(z => ({
+    params: { sign: z.id },
+    props: { zodiac: z },
+  }));
+}
+
+const { zodiac } = Astro.props;
+---
+
+<ToolLayout 
+  title={`${zodiac.name} Zodiac Sign: Meaning, Traits, Love & Career`} 
+  description={`Discover the ${zodiac.name} zodiac sign. Learn about its personality traits, love compatibility, career path, and meaning in astrology.`}
+>
+  <div class="mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center space-x-6">
+      <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary/20 to-highlight/20 border border-primary/30 flex items-center justify-center text-5xl text-theme-main shadow-[0_0_30px_rgba(79,70,229,0.2)]">
+        ♈
+      </div>
+      <div>
+        <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-2">{zodiac.name} ({zodiac.sanskritName})</h1>
+        <div class="flex items-center space-x-4 text-sm text-theme-muted">
+          <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-primary mr-2"></span> Astrological Zodiac Sign</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <div class="md:col-span-2 space-y-8">
+      
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">Introduction</h2>
+        <p class="text-theme-muted leading-relaxed">{zodiac.content.introduction}</p>
+      </div>
+
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">Personality Traits</h2>
+        <p class="text-theme-muted leading-relaxed">{zodiac.content.personalityTraits}</p>
+      </div>
+
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">Love and Relationships</h2>
+        <p class="text-theme-muted leading-relaxed">{zodiac.content.loveAndRelationships}</p>
+      </div>
+
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">Career and Money</h2>
+        <p class="text-theme-muted leading-relaxed">{zodiac.content.careerAndMoney}</p>
+      </div>
+
+      <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          {zodiac.content.faqs.map(faq => (
+            <div>
+              <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+              <p class="text-theme-muted">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="space-y-6">
+      <div class="glass-card p-6 border-t-4 border-t-secondary">
+        <h3 class="text-lg font-serif text-theme-main mb-4">Sign Details</h3>
+        <ul class="space-y-4">
+          <li class="flex justify-between items-center border-b border-glass-border pb-2">
+            <span class="text-theme-muted text-sm">Ruling Planet</span>
+            <span class="text-theme-main font-medium text-right">{zodiac.rulingPlanet}</span>
+          </li>
+          <li class="flex justify-between items-center border-b border-glass-border pb-2">
+            <span class="text-theme-muted text-sm">Element</span>
+            <span class="text-theme-main font-medium text-right">{zodiac.element}</span>
+          </li>
+          <li class="flex justify-between items-center border-b border-glass-border pb-2">
+            <span class="text-theme-muted text-sm">Quality</span>
+            <span class="text-theme-main font-medium text-right">{zodiac.quality}</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="text-theme-muted text-sm">Symbol</span>
+            <span class="text-theme-main font-medium text-right">{zodiac.symbol}</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="glass-card p-6">
+        <h3 class="text-lg font-serif text-theme-main mb-4">Explore Other Signs</h3>
+        <div class="space-y-3 h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+          {zodiacs.filter(z => z.id !== zodiac.id).map(z => (
+            <a href={`/${z.id}`} class="block p-3 rounded-lg bg-glass-border/50 hover:bg-glass-border transition-colors">
+              <div class="font-medium text-theme-main">{z.name}</div>
+              <div class="text-xs text-theme-muted mt-1">{z.symbol}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</ToolLayout>
+<style>
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+</style>

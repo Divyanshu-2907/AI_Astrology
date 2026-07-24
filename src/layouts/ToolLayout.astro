@@ -1,0 +1,40 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import AdSlot from '../components/AdSlot.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	canonicalUrl?: string;
+}
+
+const { title, description, canonicalUrl } = Astro.props;
+
+import { getLangFromUrl, getRelativeLocaleUrl } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout title={title} description={description} canonicalUrl={canonicalUrl} ogType="article">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Back to Home -->
+        <div class="mb-2">
+            <a href={getRelativeLocaleUrl(lang, '/')} class="inline-flex items-center text-sm font-medium text-theme-muted hover:text-theme-main transition-colors">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                {lang === 'hi' ? 'होम पर वापस जाएं' : 'Back to Home'}
+            </a>
+        </div>
+
+        <!-- Top Ad Slot -->
+        <div class="my-6">
+            <AdSlot slot="XXXXXXXXXX" format="auto" />
+        </div>
+        
+        <slot />
+
+        <!-- Bottom Ad Slot -->
+        <div class="my-8">
+            <AdSlot slot="XXXXXXXXXX" format="auto" />
+        </div>
+    </div>
+</BaseLayout>
+

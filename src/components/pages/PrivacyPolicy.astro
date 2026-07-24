@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "गोपनीयता नीति | AI Astrology" : "Privacy Policy | AI Astrology"} 
+  description={lang === 'hi' ? "एआई एस्ट्रोलॉजी के लिए गोपनीयता नीति।" : "Privacy policy for AI Astrology."}
+>
+  <div class="max-w-3xl mx-auto px-4 py-16">
+    <div class="glass-card p-8 md:p-12 prose prose-invert max-w-none">
+      <h1 class="text-4xl font-serif text-theme-main mb-8">{lang === 'hi' ? 'गोपनीयता नीति' : 'Privacy Policy'}</h1>
+      <p>{lang === 'hi' ? 'अंतिम अपडेट: जून 2026' : 'Last updated: June 2026'}</p>
+      
+      <h2>{lang === 'hi' ? '1. हम कौन सी जानकारी एकत्र करते हैं' : '1. Information We Collect'}</h2>
+      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी में, हम वह व्यक्तिगत जानकारी एकत्र करते हैं जो आप हमें प्रदान करते हैं, जैसे कि आपका नाम, ईमेल पता, जन्म तिथि, जन्म समय और जन्म स्थान जब आप किसी खाते के लिए पंजीकरण करते हैं या हमारी प्रीमियम ज्योतिषीय सेवाओं का उपयोग करते हैं।' : 'At AI Astrology, we collect personal information you provide to us, such as your name, email address, birth date, birth time, and birth location when you register for an account or use our premium astrological services.'}</p>
+      
+      <h2>{lang === 'hi' ? '2. हम आपकी जानकारी का उपयोग कैसे करते हैं' : '2. How We Use Your Information'}</h2>
+      <p>{lang === 'hi' ? 'हम एकत्रित की गई जानकारी का उपयोग व्यक्तिगत ज्योतिषीय पठन, राशिफल और कुंडली चार्ट उत्पन्न करने के लिए करते हैं। आपके जन्म डेटा का उपयोग केवल ज्योतिषीय गणना और एआई संदर्भ निर्माण के लिए किया जाता है ताकि आपको सबसे सटीक पठन प्रदान किया जा सके।' : 'We use the information we collect to generate personalized astrological readings, horoscopes, and kundali charts. Your birth data is strictly used for astrological calculations and AI context generation to provide you with the most accurate readings possible.'}</p>
+      
+      <h2>{lang === 'hi' ? '3. डेटा साझा करना' : '3. Data Sharing'}</h2>
+      <p>{lang === 'hi' ? 'हम आपका व्यक्तिगत डेटा तीसरे पक्ष को नहीं बेचते हैं। हम सेवा संचालित करने के उद्देश्य से विश्वसनीय तृतीय-पक्ष सेवा प्रदाताओं (जैसे डेटाबेस होस्टिंग के लिए Supabase, भुगतान के लिए Razorpay और AI निर्माण के लिए Google Gemini) के साथ डेटा साझा कर सकते हैं।' : 'We do not sell your personal data to third parties. We may share data with trusted third-party service providers (like Supabase for database hosting, Razorpay for payments, and Google Gemini for AI generation) strictly for the purpose of operating our service.'}</p>
+      
+      <h2>{lang === 'hi' ? '4. कुकीज़ और विज्ञापन' : '4. Cookies and Advertising'}</h2>
+      <p>{lang === 'hi' ? 'हम आपके सत्र को बनाए रखने के लिए कुकीज़ का उपयोग करते हैं। हमारे मुफ़्त पृष्ठों में Google AdSense शामिल है, जो इस और अन्य वेबसाइटों की आपकी यात्रा के आधार पर व्यक्तिगत विज्ञापन देने के लिए कुकीज़ का उपयोग कर सकता है।' : 'We use cookies to maintain your session. Our free pages include Google AdSense, which may use cookies to serve personalized ads based on your visit to this and other websites.'}</p>
+      
+      <h2>{lang === 'hi' ? '5. हमसे संपर्क करें' : '5. Contact Us'}</h2>
+      <p>{lang === 'hi' ? 'यदि इस गोपनीयता नीति के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे support@freeastrologyai.com पर संपर्क करें।' : 'If you have any questions about this Privacy Policy, please contact us at support@freeastrologyai.com.'}</p>
+    </div>
+  </div>
+</BaseLayout>
+

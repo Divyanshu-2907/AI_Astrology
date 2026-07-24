@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FaqJsonLd from '../FaqJsonLd.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const faqs = [
+  { question: "What is Tarot reading?", answer: "Tarot reading is a practice of using a deck of 78 cards to gain insights into the past, present, or future by formulating a question, then drawing and interpreting cards." },
+  { question: "How accurate are online Tarot readings?", answer: "Online Tarot readings use algorithms to shuffle and draw cards based on your energy and intention at the moment of selection, providing meaningful guidance similar to a physical reading." },
+  { question: "What is the difference between Major and Minor Arcana?", answer: "The Major Arcana (22 cards) represent significant life events and spiritual lessons. The Minor Arcana (56 cards) focus on day-to-day matters, emotions, and practical situations." },
+  { question: "Can Tarot predict the future?", answer: "Tarot does not predict a fixed future. Instead, it reveals current energies and potential outcomes based on your present path, empowering you to make informed decisions." },
+  { question: "Do I need to ask a specific question?", answer: "While you can do an open reading for general guidance, having a specific, open-ended question often yields clearer and more actionable insights from the cards." }
+];
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "मुफ्त टैरो कार्ड रीडिंग | AI टैरो - AI ज्योतिष" : "Tarot Card Reading | AI Astrology"} 
+  description={lang === 'hi' ? "अपने भविष्य के बारे में जानने के लिए मुफ्त एआई टैरो कार्ड रीडिंग करें। प्यार, करियर और जीवन पर स्पष्ट मार्गदर्शन पाएं।" : "Tarot Card reading is coming soon."}
+>
+  <div class="max-w-4xl mx-auto px-4 py-16 text-center">
+    <div class="glass-card p-12">
+      <h1 class="text-4xl font-serif text-theme-main mb-6">{lang === 'hi' ? 'टैरो कार्ड रीडिंग' : 'Tarot Card Reading'}</h1>
+      <div class="text-8xl mb-6">🔮</div>
+      <p class="text-xl text-theme-muted mb-8">
+        {lang === 'hi' ? 'हम जल्द ही एआई-पावर्ड टैरो कार्ड रीडिंग ला रहे हैं। बने रहें!' : 'We are bringing AI-powered Tarot Card readings soon. Stay tuned!'}
+      </p>
+      <a href={lang === 'hi' ? '/hi' : '/'} class="btn-primary">{lang === 'hi' ? 'होम पर लौटें' : 'Return Home'}</a>
+    </div>
+
+    <FaqJsonLd faqs={faqs} />
+    <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mt-12 text-left">
+      <h2 class="text-2xl font-serif mb-6 text-theme-main">Frequently Asked Questions</h2>
+      <div class="space-y-6">
+        {faqs.map(faq => (
+          <div>
+            <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+            <p class="text-theme-muted text-sm leading-relaxed">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+export interface Props {
+  title: string;
+  datePublished: string;
+  bodyText: string;
+}
+
+const { title, datePublished, bodyText } = Astro.props;
+const siteUrl = Astro.site || 'https://freeastrologyai.com';
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "datePublished": datePublished,
+  "dateModified": datePublished,
+  "author": {
+    "@type": "Organization",
+    "name": "AI Astrology",
+    "url": siteUrl
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AI Astrology",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/logo.png`
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": currentUrl
+  },
+  "articleBody": bodyText
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

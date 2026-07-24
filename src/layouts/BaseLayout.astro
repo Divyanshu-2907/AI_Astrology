@@ -1,0 +1,154 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import StarField from '../components/StarField.astro';
+import NotificationPrompt from '../components/NotificationPrompt.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	canonicalUrl?: string;
+	ogImage?: string;
+	ogType?: string;
+	lang?: string;
+}
+
+const { 
+	title, 
+	description, 
+	canonicalUrl = Astro.url.href.endsWith('/') && Astro.url.pathname !== '/' ? Astro.url.href.slice(0, -1) : Astro.url.href, 
+	ogImage = new URL('/og-image.png', Astro.url.href).href,
+	ogType = 'website',
+	lang = 'en'
+} = Astro.props;
+
+import { getLangFromUrl } from '../i18n/utils';
+const currentLang = getLangFromUrl(Astro.url) || lang;
+
+// Build the alternate URL
+const currentPathRaw = Astro.url.pathname;
+const currentPath = currentPathRaw.endsWith('/') && currentPathRaw !== '/' ? currentPathRaw.slice(0, -1) : currentPathRaw;
+const isHindi = currentPath.startsWith('/hi');
+const enUrl = isHindi ? `https://freeastrologyai.com${currentPath.replace('/hi', '')}` : `https://freeastrologyai.com${currentPath}`;
+const hiUrl = isHindi ? `https://freeastrologyai.com${currentPath}` : `https://freeastrologyai.com/hi${currentPath}`;
+---
+
+<!doctype html>
+<html lang={currentLang}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1751519261644903" crossorigin="anonymous"></script>
+		
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalUrl} />
+		<link rel="alternate" hreflang="en" href={enUrl} />
+		<link rel="alternate" hreflang="hi" href={hiUrl} />
+		<link rel="alternate" hreflang="x-default" href={enUrl} />
+
+		<!-- PWA Details -->
+		<link rel="manifest" href="/manifest.json" />
+		<meta name="theme-color" content="#0f172a" />
+		<link rel="apple-touch-icon" href="/favicon.svg" />
+
+		<!-- Open Graph -->
+		<meta property="og:site_name" content="AI Astrology" />
+		<meta property="og:locale" content={isHindi ? "hi_IN" : "en_US"} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:type" content={ogType} />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:domain" content="freeastrologyai.com" />
+		<meta name="twitter:url" content={canonicalUrl} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+		<!-- Flatpickr for Date/Time inputs -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+		<script is:inline src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		<script is:inline src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/hi.js"></script>
+
+		<!-- Google Analytics -->
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-R0HR4ZXVS9"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-R0HR4ZXVS9');
+		</script>
+
+		<!-- Google AdSense -->
+		<script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX"
+     crossorigin="anonymous"></script>
+
+		<script is:inline>
+			// Runs before page renders — prevents theme flash
+			const t = localStorage.getItem('ai-astrology-theme') || 'light';
+			document.documentElement.setAttribute('data-theme', t);
+		</script>
+	</head>
+	<body class="relative min-h-screen flex flex-col bg-background text-theme-main">
+		<StarField />
+		<Nav />
+		<main class="flex-grow z-10 relative">
+			<slot />
+		</main>
+		<Footer />
+		<NotificationPrompt />
+
+		<script is:inline>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', () => {
+					navigator.serviceWorker.register('/sw.js').catch((error) => {
+						console.error('ServiceWorker registration failed: ', error);
+					});
+				});
+			}
+
+			const initPickers = () => {
+				if (typeof window.flatpickr !== 'undefined') {
+					const isHindi = document.documentElement.lang === 'hi';
+					
+					window.flatpickr(".flatpickr-date", {
+						altInput: true,
+						altFormat: "F j, Y",
+						dateFormat: "Y-m-d",
+						maxDate: "today",
+						locale: isHindi ? "hi" : "default"
+					});
+					
+					window.flatpickr(".flatpickr-time", {
+						enableTime: true,
+						noCalendar: true,
+						altInput: true,
+						altFormat: "h:i K",
+						dateFormat: "H:i",
+						locale: isHindi ? "hi" : "default"
+					});
+				}
+			};
+
+			document.addEventListener('astro:page-load', initPickers);
+			if (document.readyState === 'complete' || document.readyState === 'interactive') {
+				setTimeout(initPickers, 100);
+			} else {
+				document.addEventListener('DOMContentLoaded', initPickers);
+			}
+		</script>
+	</body>
+</html>
+

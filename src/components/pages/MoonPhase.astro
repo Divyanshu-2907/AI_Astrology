@@ -1,0 +1,136 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import { getMoonPhase } from '../../lib/moon-phase';
+import FaqJsonLd from '../FaqJsonLd.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const faqs = [
+  { question: "What are the 8 moon phases?", answer: "The 8 moon phases are: New Moon, Waxing Crescent, First Quarter, Waxing Gibbous, Full Moon, Waning Gibbous, Last Quarter, and Waning Crescent. Each phase lasts approximately 3.5 days." },
+  { question: "What should you do on a full moon?", answer: "The full moon is a time of culmination, release, and heightened emotion. It is ideal for completing projects, releasing what no longer serves you, charging crystals, and setting intentions for letting go." },
+  { question: "What should you do on a new moon?", answer: "The new moon is a time for new beginnings, setting intentions, and planting seeds for what you wish to manifest. It is the best time to start new projects, habits, or relationships." },
+  { question: "How does the moon affect emotions?", answer: "The moon's gravitational pull affects Earth's water, and since the human body is 60% water, many people experience heightened emotions, vivid dreams, and increased intuition during full moons." },
+  { question: "What is a lunar cycle?", answer: "A lunar cycle, also called a synodic month, is the 29.5-day period from one new moon to the next. During this time, the moon passes through all 8 phases as it orbits Earth." }
+];
+
+const lang = getLangFromUrl(Astro.url);
+const moon = getMoonPhase();
+
+// Hindi translations for moon phases
+const hiNames: Record<string, string> = {
+  'New Moon': 'अमावस्या',
+  'Waxing Crescent': 'शुक्ल प्रतिपदा',
+  'First Quarter': 'शुक्ल अष्टमी',
+  'Waxing Gibbous': 'शुक्ल एकादशी',
+  'Full Moon': 'पूर्णिमा',
+  'Waning Gibbous': 'कृष्ण प्रतिपदा',
+  'Last Quarter': 'कृष्ण अष्टमी',
+  'Waning Crescent': 'कृष्ण एकादशी'
+};
+
+const phaseName = lang === 'hi' ? (hiNames[moon.name] || moon.name) : moon.name;
+const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<ToolLayout 
+  title={lang === 'hi' ? "आज का चंद्र चरण | चंद्रमा की कला जानें - AI ज्योतिष" : "Today's Moon Phase | AI Astrology"} 
+  description={lang === 'hi' ? "आज के चंद्र चक्र की जानकारी पाएं और जानें कि इसका आपके जीवन पर क्या प्रभाव पड़ता है। मुफ्त और तुरंत।" : "Explore the current moon phase and learn how the lunar cycle affects your energy and emotions today."}
+>
+  
+  <div class="text-center mb-12">
+    <div class="inline-block bg-theme-main/10 text-theme-main px-4 py-1 rounded-full text-sm font-medium mb-4">
+      {lang === 'hi' ? '🌙 चंद्र कैलेंडर' : '🌙 Lunar Calendar'}
+    </div>
+    <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-4">{lang === 'hi' ? 'आज की चंद्र कला' : "Today's Moon Phase"}</h1>
+    <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+      {lang === 'hi' ? 'रात के आकाश और उसके ब्रह्मांडीय प्रभावों से जुड़ें।' : 'Connect with the rhythm of the night sky and its cosmic influences.'}
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
+    <!-- Current Phase Card -->
+    <div class="glass-card p-10 flex flex-col items-center justify-center text-center relative overflow-hidden">
+        <div class="flex flex-col items-center justify-center p-8">
+          <div class="text-9xl mb-8 filter drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] animate-pulse-slow">
+            {moon.icon}
+          </div>
+          <h2 class="text-3xl font-serif text-theme-main mb-2">{phaseName}</h2>
+          <p class="text-theme-muted text-lg mb-6">{lang === 'hi' ? `रोशनी: ${moon.illumination}%` : `Illumination: ${moon.illumination}%`}</p>
+          
+          <div class="w-full max-w-xs bg-background/50 rounded-full h-2.5 mb-6 overflow-hidden">
+            <div class="bg-gradient-to-r from-gray-500 to-gray-200 h-2.5 rounded-full" style={`width: ${moon.illumination}%`}></div>
+          </div>
+        </div>
+    </div>
+    
+    <div class="lg:col-span-2">
+      <div class="glass-card p-8 h-full">
+        <h3 class="text-2xl font-serif text-theme-main mb-4">{lang === 'hi' ? 'इसका क्या मतलब है' : 'What This Means'}</h3>
+        <p class="text-theme-muted leading-relaxed mb-6">
+          {lang === 'hi' ? 'चंद्रमा हमारे महासागरों के ज्वार को नियंत्रित करता है, और क्योंकि मनुष्य काफी हद तक पानी से बने हैं, यह हमारी भावनाओं और ऊर्जा स्तरों को भी प्रभावित करता है। वर्तमान चरण के आधार पर, यह आराम करने, इरादे निर्धारित करने, या कार्रवाई करने का समय हो सकता है।' : 'The moon governs the tides of our oceans, and because humans are largely made of water, it deeply influences our emotions and energy levels. Depending on the current phase, it might be a time for resting, setting intentions, or taking action.'}
+        </p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-background/30 border border-glass-border">
+            <h4 class="font-medium text-theme-main mb-2">{lang === 'hi' ? 'करने के लिए सबसे अच्छा:' : 'Best For:'}</h4>
+            <ul class="text-sm text-theme-muted space-y-2">
+              <li class="flex items-start">
+                <span class="mr-2 text-emerald-400">✓</span> 
+                {lang === 'hi' ? 'आत्म-चिंतन और जर्नलिंग' : 'Self-reflection and journaling'}
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 text-emerald-400">✓</span> 
+                {lang === 'hi' ? 'ध्यान और ग्राउंडिंग अभ्यास' : 'Meditation and grounding practices'}
+              </li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-xl bg-background/30 border border-glass-border">
+            <h4 class="font-medium text-theme-main mb-2">{lang === 'hi' ? 'बचने के लिए:' : 'Avoid:'}</h4>
+            <ul class="text-sm text-theme-muted space-y-2">
+              <li class="flex items-start">
+                <span class="mr-2 text-rose-400">✗</span> 
+                {lang === 'hi' ? 'आवेगी निर्णय लेना' : 'Making impulsive decisions'}
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 text-rose-400">✗</span> 
+                {lang === 'hi' ? 'अत्यधिक शारीरिक परिश्रम' : 'Overexertion physically'}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mb-12">
+    <h2 class="text-3xl font-serif mb-6 text-theme-main">{lang === 'hi' ? 'चंद्रमा आपको कैसे प्रभावित करता है' : 'How the Moon Affects You'}</h2>
+    <p class="text-theme-muted text-sm leading-relaxed mb-4">
+      {lang === 'hi' ? 'जिस तरह चंद्रमा का गुरुत्वाकर्षण खिंचाव समुद्र के ज्वार को नियंत्रित करता है, ज्योतिषी मानते हैं कि यह हमारी भावनाओं, अंतर्ज्ञान और शारीरिक लय को दृढ़ता से प्रभावित करता है। चूँकि मानव शरीर मुख्य रूप से पानी से बना है, यह स्वाभाविक रूप से चंद्रमा के बदलते चरणों के अनुकूल है। <strong>आज की चंद्र कला</strong> पर नज़र रखने से आपको अपने मूड और ऊर्जा स्तरों में सूक्ष्म बदलावों को समझने में मदद मिल सकती है।' : "Just as the moon's gravitational pull controls the ocean tides, astrologers believe it strongly influences our emotions, intuition, and bodily rhythms. Because the human body is primarily composed of water, it is naturally attuned to the shifting phases of the moon. Tracking the <strong>moon phase today</strong> can help you understand subtle shifts in your mood and energy levels."}
+    </p>
+    
+    <h3 class="text-xl font-serif mt-8 mb-4 text-theme-main">{lang === 'hi' ? 'चंद्र चक्र (29.5 दिन)' : 'The Lunar Cycle (29.5 Days)'}</h3>
+    <ul class="space-y-4 text-theme-muted text-sm">
+      <li><strong>{lang === 'hi' ? 'अमावस्या (New Moon):' : 'New Moon:'}</strong> {lang === 'hi' ? 'चंद्रमा पृथ्वी और सूर्य के बीच होता है, अदृश्य दिखाई देता है। नए सिरे से शुरुआत करने, इरादे निर्धारित करने और शांत चिंतन का समय।' : 'The moon is between the Earth and Sun, appearing invisible. A time for fresh starts, setting intentions, and quiet reflection.'}</li>
+      <li><strong>{lang === 'hi' ? 'शुक्ल पक्ष (Waxing Phases):' : 'Waxing Phases (Crescent, First Quarter, Gibbous):'}</strong> {lang === 'hi' ? 'चंद्रमा की रोशनी बढ़ती है। यह कार्रवाई करने, बाधाओं को दूर करने और गति बनाने का समय है।' : "The moon's illumination grows. This is a time for taking action, overcoming obstacles, and building momentum."}</li>
+      <li><strong>{lang === 'hi' ? 'पूर्णिमा (Full Moon):' : 'Full Moon:'}</strong> {lang === 'hi' ? 'पृथ्वी सूर्य और चंद्रमा के बीच है। भावनाएं उच्च होती हैं, अंतर्ज्ञान चरम पर होता है, और यह अभिव्यक्ति और विमोचन के लिए एक शक्तिशाली समय है।' : "The Earth is between the Sun and Moon. Emotions run high, intuition peaks, and it's a powerful time for manifestation and release."}</li>
+      <li><strong>{lang === 'hi' ? 'कृष्ण पक्ष (Waning Phases):' : 'Waning Phases (Gibbous, Last Quarter, Crescent):'}</strong> {lang === 'hi' ? 'रोशनी कम हो जाती है। परियोजनाओं को समेटने, कृतज्ञता व्यक्त करने, बुरी आदतों को छोड़ने और आराम करने की अवधि।' : 'The illumination decreases. A period for wrapping up projects, expressing gratitude, releasing bad habits, and resting.'}</li>
+    </ul>
+    
+    <p class="text-theme-muted text-sm leading-relaxed mt-6">
+      {lang === 'hi' ? 'नियमित रूप से हमारे चंद्र चरण कैलेंडर की जांच करके, आप सफलता और भावनात्मक संतुलन के लिए अपनी क्षमता को अधिकतम करते हुए, प्राकृतिक ब्रह्मांडीय प्रवाह के साथ अपने व्यक्तिगत और व्यावसायिक प्रयासों को संरेखित कर सकते हैं।' : 'By checking our moon phase calendar regularly, you can align your personal and professional endeavors with the natural cosmic flow, maximizing your potential for success and emotional balance.'}
+    </p>
+  </div>
+
+  <FaqJsonLd faqs={faqs} />
+  <div class="prose prose-invert max-w-none glass-card p-8 md:p-12 mb-12">
+    <h2 class="text-2xl font-serif mb-6 text-theme-main">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      {faqs.map(faq => (
+        <div>
+          <h3 class="text-lg font-medium text-theme-main mb-2">{faq.question}</h3>
+          <p class="text-theme-muted text-sm leading-relaxed">{faq.answer}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+</ToolLayout>

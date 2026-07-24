@@ -1,0 +1,83 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+---
+
+<div id="notification-prompt" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:bottom-4 md:w-96 glass-card p-6 border-l-4 border-l-primary z-50 shadow-2xl animate-fade-in">
+    <div class="flex justify-between items-start mb-3">
+        <h3 class="text-lg font-serif text-theme-main flex items-center">
+            <span class="mr-2">🔔</span> 
+            {lang === 'hi' ? 'दैनिक राशिफल सूचनाएं' : 'Daily Horoscope Alerts'}
+        </h3>
+        <button id="close-notification" class="text-theme-muted hover:text-theme-main">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+    <p class="text-theme-muted text-sm leading-relaxed mb-4">
+        {lang === 'hi' ? 'अपने दैनिक राशिफल और महत्वपूर्ण खगोलीय घटनाओं को कभी न चूकें।' : 'Never miss your daily horoscope and important celestial events.'}
+    </p>
+    <div class="flex gap-3">
+        <button id="enable-notifications" class="btn-primary flex-1 py-2 text-sm">
+            {lang === 'hi' ? 'सक्षम करें' : 'Enable'}
+        </button>
+        <button id="maybe-later" class="px-4 py-2 text-sm text-theme-muted hover:text-theme-main transition-colors">
+            {lang === 'hi' ? 'शायद बाद में' : 'Maybe Later'}
+        </button>
+    </div>
+</div>
+
+<script>
+    const prompt = document.getElementById('notification-prompt');
+    const enableBtn = document.getElementById('enable-notifications');
+    const closeBtn = document.getElementById('close-notification');
+    const laterBtn = document.getElementById('maybe-later');
+
+    if (prompt && 'serviceWorker' in navigator && 'PushManager' in window) {
+        // Check if we should show the prompt
+        const notificationStatus = localStorage.getItem('AI Astrology_notifications');
+        const lastPromptTime = localStorage.getItem('AI Astrology_notification_prompt_time');
+        
+        const shouldShow = !notificationStatus && (!lastPromptTime || (Date.now() - parseInt(lastPromptTime) > 7 * 24 * 60 * 60 * 1000));
+        
+        if (shouldShow && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+            // Show after a delay
+            setTimeout(() => {
+                prompt.classList.remove('hidden');
+            }, 5000);
+        }
+
+        const hidePrompt = () => {
+            prompt.classList.add('hidden');
+            localStorage.setItem('AI Astrology_notification_prompt_time', Date.now().toString());
+        };
+
+        closeBtn?.addEventListener('click', hidePrompt);
+        laterBtn?.addEventListener('click', hidePrompt);
+
+        enableBtn?.addEventListener('click', async () => {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    const registration = await navigator.serviceWorker.ready;
+                    // In a real app, you would get the VAPID key and subscribe
+                    // const subscription = await registration.pushManager.subscribe({
+                    //     userVisibleOnly: true,
+                    //     applicationServerKey: 'YOUR_PUBLIC_VAPID_KEY'
+                    // });
+                    
+                    // Mock success for UI demonstration
+                    localStorage.setItem('AI Astrology_notifications', 'granted');
+                    enableBtn.textContent = document.documentElement.lang === 'hi' ? 'सक्षम हो गया!' : 'Enabled!';
+                    enableBtn.classList.replace('btn-primary', 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30');
+                    
+                    setTimeout(hidePrompt, 1500);
+                } else {
+                    localStorage.setItem('AI Astrology_notifications', 'denied');
+                    hidePrompt();
+                }
+            } catch (error) {
+                console.error('Error requesting notification permission:', error);
+            }
+        });
+    }
+</script>

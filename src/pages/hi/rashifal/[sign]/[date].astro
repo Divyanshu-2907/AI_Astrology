@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../../../i18n/utils';
+import HoroscopeInternalLinks from '../../../../components/HoroscopeInternalLinks.astro';
+import JsonLdArticle from '../../../../components/JsonLdArticle.astro';
+import JsonLdFAQ from '../../../../components/JsonLdFAQ.astro';
+
+export function getStaticPaths() {
+}
+
+const { sign, date } = Astro.params;
+const lang = getLangFromUrl(Astro.url);
+
+const displayDate = new Date(date as string).toLocaleDateString('hi-IN', {
+  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+});
+
+import { env } from 'cloudflare:workers';
+
+let contentData: any = null;
+let errorMsg = "";
+
+const hindiSignNames: Record<string, string> = {
+  'aries': 'मेष',
+  'taurus': 'वृषभ',
+  'gemini': 'मिथुन',
+  'cancer': 'कर्क',
+  'leo': 'सिंह',
+  'virgo': 'कन्या',
+  'libra': 'तुला',
+  'scorpio': 'वृश्चिक',
+  'sagittarius': 'धनु',
+  'capricorn': 'मकर',
+  'aquarius': 'कुंभ',
+  'pisces': 'मीन'
+};
+const signHi = sign ? hindiSignNames[sign] : sign;
+
+try {
+  const cache = env.ASTRO_BLOG_CACHE;
+  const ai = env.AI;
+  const cacheKey = `blog:hi:${sign}:${date}`;
+  
+  if (cache) {
+    let cachedContent = await cache.get(cacheKey);
+    
+    if (cachedContent) {
+      contentData = JSON.parse(cachedContent);
+    } else if (ai) {
+      const prompt = `Write a daily astrology horoscope for the zodiac sign ${sign} (${signHi}) for today (${displayDate}) in Hindi.
+      Translate naturally as a native Hindi astrology writer would (using words like राशिफल, ग्रह, भाग्यशाली), not literal word-for-word translation.
+      
+      You must output ONLY valid JSON matching this exact structure:
+      {
+        "seo_title": "Under 60 chars in Hindi, include ${signHi} and 'आज का राशिफल'",
+        "meta_description": "150-160 chars summary for search engines in Hindi",
+        "overview": "2-3 sentences specific to ${signHi}'s personality traits in Hindi. Do NOT use generic filler.",
+        "love": "80-100 words about love in Hindi, specific to ${signHi} and this date.",
+        "career": "80-100 words about career in Hindi, specific to ${signHi} and this date.",
+        "health": "80-100 words about health in Hindi, specific to ${signHi} and this date.",
+        "lucky_number": "A number",
+        "lucky_color": "A color in Hindi",
+        "lucky_time": "A specific time like 2:00 PM",
+        "faqs": [
+          { "question": "... (in Hindi)", "answer": "40-60 words answer in Hindi" },
+          { "question": "... (in Hindi)", "answer": "40-60 words answer in Hindi" }
+        ]
+      }`;
+
+      const response = await ai.run('@cf/meta/llama-3.1-8b-instruct-fp8', {
+        max_tokens: 2048,
+        messages: [
+          { role: 'system', content: 'You are an expert Hindi astrologer. You only respond in pure JSON format without markdown blocks.' },
+          { role: 'user', content: prompt }
+        ]
+      });
+      
+      let responseText = response.response;
+      
+      // Clean up markdown code blocks if the AI accidentally adds them
+      responseText = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+      
+      contentData = JSON.parse(responseText);
+      
+      // Save to cache permanently
+      await cache.put(cacheKey, JSON.stringify(contentData));
+    }
+  } else {
+    // Development fallback
+    contentData = {
+      seo_title: `${signHi} आज का राशिफल: Development Mode`,
+      meta_description: "Cloudflare Workers AI and KV are not available in standard local dev mode.",
+      overview: "Deploy to Cloudflare to see the magic!",
+      love: "Dev mode love forecast in Hindi.",
+      career: "Dev mode career forecast in Hindi.",
+      health: "Dev mode health forecast in Hindi.",
+      lucky_number: "7",
+      lucky_color: "नीला",
+      lucky_time: "12:00 PM",
+      faqs: []
+    };
+  }
+} catch (e) {
+  console.error("Error with AI/KV:", e);
+  errorMsg = e instanceof Error ? e.message : String(e);
+}
+---
+
+<BaseLayout 
+  title={contentData ? contentData.seo_title : `${signHi} राशिफल ${displayDate} | AI Astrology`}
+  description={contentData ? contentData.meta_description : `${signHi} के लिए दैनिक ज्योतिषीय अंतर्दृष्टि पढ़ें।`}
+>
+  {contentData && (
+    <>
+      <JsonLdArticle 
+        title={contentData.seo_title}
+        datePublished={new Date(date as string).toISOString()}
+        bodyText={`${contentData.overview} ${contentData.love} ${contentData.career} ${contentData.health}`}
+      />
+      {contentData.faqs && contentData.faqs.length > 0 && (
+        <JsonLdFAQ faqs={contentData.faqs} />
+      )}
+    </>
+  )}
+
+  <main class="container mx-auto px-4 pt-32 pb-24">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-8">
+      
+      <div class="md:w-2/3">
+        <a href='/hi/blog' class="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-8">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          सभी राशियों पर वापस जाएं
+        </a>
+
+        {errorMsg ? (
+          <div class="glass-card p-8 md:p-12 text-red-400">
+            <h2>Error loading horoscope</h2>
+            <p>{errorMsg}</p>
+          </div>
+        ) : contentData ? (
+          <article class="glass-card p-8 md:p-12 mb-8">
+            <header class="mb-10 border-b border-glass-border pb-8">
+              <div class="inline-block bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-medium mb-4 capitalize">
+                {signHi} दैनिक राशिफल
+              </div>
+              <h1 class="text-3xl md:text-5xl font-serif text-theme-main mb-4 leading-tight capitalize">
+                {signHi} राशिफल - {displayDate}
+              </h1>
+              <div class="flex flex-wrap gap-4 text-sm mt-6">
+                <div class="bg-glass-bg border border-glass-border rounded-lg px-4 py-2 text-center">
+                  <span class="block text-xs text-theme-muted uppercase tracking-wider mb-1">शुभ अंक</span>
+                  <strong class="text-lg text-theme-main">{contentData.lucky_number}</strong>
+                </div>
+                <div class="bg-glass-bg border border-glass-border rounded-lg px-4 py-2 text-center">
+                  <span class="block text-xs text-theme-muted uppercase tracking-wider mb-1">शुभ रंग</span>
+                  <strong class="text-lg text-theme-main">{contentData.lucky_color}</strong>
+                </div>
+                <div class="bg-glass-bg border border-glass-border rounded-lg px-4 py-2 text-center">
+                  <span class="block text-xs text-theme-muted uppercase tracking-wider mb-1">शुभ समय</span>
+                  <strong class="text-lg text-theme-main">{contentData.lucky_time}</strong>
+                </div>
+              </div>
+            </header>
+
+            <div class="prose prose-invert prose-lg max-w-none prose-headings:text-theme-main prose-headings:font-serif prose-p:text-theme-muted prose-li:text-theme-muted prose-a:text-primary hover:prose-a:text-primary/80">
+              <h2 class="text-2xl font-serif text-theme-main mb-4">अवलोकन</h2>
+              <p class="mb-8">{contentData.overview}</p>
+
+              <h2 class="text-2xl font-serif text-theme-main mb-4">प्रेम व संबंध</h2>
+              <p class="mb-8">{contentData.love}</p>
+
+              <h2 class="text-2xl font-serif text-theme-main mb-4">करियर व धन</h2>
+              <p class="mb-8">{contentData.career}</p>
+
+              <h2 class="text-2xl font-serif text-theme-main mb-4">स्वास्थ्य</h2>
+              <p class="mb-8">{contentData.health}</p>
+            </div>
+            
+            {contentData.faqs && contentData.faqs.length > 0 && (
+              <div class="mt-12 pt-8 border-t border-glass-border">
+                <h3 class="text-xl font-serif text-theme-main mb-6">अक्सर पूछे जाने वाले प्रश्न</h3>
+                <div class="space-y-6">
+                  {contentData.faqs.map((faq: any) => (
+                    <div>
+                      <h4 class="font-medium text-theme-main mb-2">{faq.question}</h4>
+                      <p class="text-theme-muted text-sm">{faq.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </article>
+        ) : (
+          <div class="glass-card p-8 md:p-12 text-theme-muted">
+            <p>आपका राशिफल लोड हो रहा है...</p>
+          </div>
+        )}
+      </div>
+
+      <div class="md:w-1/3">
+        <HoroscopeInternalLinks sign={sign} date={date} lang="hi" signHi={signHi} />
+      </div>
+      
+    </div>
+  </main>
+</BaseLayout>

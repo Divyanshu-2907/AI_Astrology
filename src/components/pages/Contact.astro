@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "संपर्क करें | AI Astrology" : "Contact Us | AI Astrology"} 
+  description={lang === 'hi' ? "किसी भी प्रश्न या सहायता के लिए हमसे संपर्क करें।" : "Get in touch with us for any questions or support."}
+>
+  <div class="max-w-4xl mx-auto px-4 py-16">
+    <div class="glass-card p-8 md:p-12 text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-6">{lang === 'hi' ? 'संपर्क करें' : 'Contact Us'}</h1>
+      <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light leading-relaxed">
+        {lang === 'hi' ? 'हम आपकी मदद के लिए यहां हैं। कृपया बेझिझक हमसे संपर्क करें।' : 'We are here to help. Please feel free to reach out to us.'}
+      </p>
+    </div>
+    
+    <div class="glass-card p-8">
+      <form class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'नाम' : 'Name'}</label>
+          <input type="text" class="w-full bg-background border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'ईमेल' : 'Email'}</label>
+          <input type="email" class="w-full bg-background border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'संदेश' : 'Message'}</label>
+          <textarea rows="5" class="w-full bg-background border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full py-3">{lang === 'hi' ? 'संदेश भेजें' : 'Send Message'}</button>
+      </form>
+    </div>
+  </div>
+</BaseLayout>

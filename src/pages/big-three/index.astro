@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+export const prerender = true;
+
+const lang = getLangFromUrl(Astro.url);
+const title = lang === 'hi' ? "बिग थ्री कैलकुलेटर | AI Astrology" : "Big Three Calculator | AI Astrology";
+const description = lang === 'hi' ? "अपने सूर्य, चंद्र और उदित राशि (बिग थ्री) के रहस्य को उजागर करें।" : "Uncover the mystery of your Sun, Moon, and Rising sign (The Big Three).";
+---
+
+<BaseLayout title={title} description={description} canonicalUrl="https://freeastrologyai.com/big-three">
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-6">{lang === 'hi' ? 'द बिग थ्री कैलकुलेटर' : 'The Big Three Calculator'}</h1>
+            <p class="text-xl text-theme-muted max-w-2xl mx-auto font-light">
+                {lang === 'hi' ? 'आपका सूर्य (आप कौन हैं), चंद्रमा (आप कैसा महसूस करते हैं), और लग्न (आप कैसे दिखाई देते हैं) आपके व्यक्तित्व का मूल बनाते हैं।' : 'Your Sun (who you are), Moon (how you feel), and Rising (how you appear) form the core of your personality.'}
+            </p>
+        </div>
+
+        <div class="glass-card p-8 md:p-12 mb-12">
+            <form id="big-three-form" class="space-y-6 max-w-2xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म तिथि' : 'Date of Birth'}</label>
+                        <input type="date" required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म समय' : 'Time of Birth'}</label>
+                        <input type="time" required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म स्थान' : 'Place of Birth'}</label>
+                    <input type="text" placeholder={lang === 'hi' ? 'उदा. नई दिल्ली, भारत' : 'e.g., New York, NY'} required class="w-full bg-background/50 border border-glass-border rounded-xl px-4 py-3 text-theme-main focus:outline-none focus:border-primary transition-colors" />
+                </div>
+                <button type="submit" class="btn-primary w-full py-4 text-lg mt-4">{lang === 'hi' ? 'मेरे बिग थ्री खोजें' : 'Calculate My Big Three'}</button>
+            </form>
+            
+            <div id="big-three-result" class="hidden mt-10 border-t border-glass-border pt-10">
+                <h3 class="text-3xl font-serif text-theme-main text-center mb-8">{lang === 'hi' ? 'आपके ब्रह्मांडीय बिग थ्री' : 'Your Cosmic Big Three'}</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-background/40 p-6 rounded-2xl border border-highlight/30 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-highlight/5 z-0"></div>
+                        <div class="relative z-10">
+                            <div class="text-4xl mb-4">☀️</div>
+                            <h4 class="text-sm font-bold tracking-widest text-theme-muted uppercase mb-1">{lang === 'hi' ? 'सूर्य (मूल)' : 'Sun (Core)'}</h4>
+                            <div class="text-2xl font-serif text-theme-main mb-3" id="sun-sign">Leo</div>
+                            <p class="text-sm text-theme-muted leading-relaxed">Your identity, ego, and life purpose. How you express your core self.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-background/40 p-6 rounded-2xl border border-primary/30 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-primary/5 z-0"></div>
+                        <div class="relative z-10">
+                            <div class="text-4xl mb-4">🌙</div>
+                            <h4 class="text-sm font-bold tracking-widest text-theme-muted uppercase mb-1">{lang === 'hi' ? 'चंद्रमा (भावनाएं)' : 'Moon (Emotions)'}</h4>
+                            <div class="text-2xl font-serif text-theme-main mb-3" id="moon-sign">Cancer</div>
+                            <p class="text-sm text-theme-muted leading-relaxed">Your emotional inner world, instincts, and what makes you feel secure.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-background/40 p-6 rounded-2xl border border-emerald-500/30 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-emerald-500/5 z-0"></div>
+                        <div class="relative z-10">
+                            <div class="text-4xl mb-4">⬆️</div>
+                            <h4 class="text-sm font-bold tracking-widest text-theme-muted uppercase mb-1">{lang === 'hi' ? 'लग्न (मुखौटा)' : 'Rising (Mask)'}</h4>
+                            <div class="text-2xl font-serif text-theme-main mb-3" id="rising-sign">Scorpio</div>
+                            <p class="text-sm text-theme-muted leading-relaxed">Your first impression, appearance, and how others perceive you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('big-three-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+            
+            const sun = signs[Math.floor(Math.random() * signs.length)];
+            const moon = signs[Math.floor(Math.random() * signs.length)];
+            const rising = signs[Math.floor(Math.random() * signs.length)];
+            
+            const elSun = document.getElementById('sun-sign');
+            const elMoon = document.getElementById('moon-sign');
+            const elRising = document.getElementById('rising-sign');
+            const elResult = document.getElementById('big-three-result');
+            
+            if (elSun && elMoon && elRising && elResult) {
+                elSun.textContent = sun;
+                elMoon.textContent = moon;
+                elRising.textContent = rising;
+                elResult.classList.remove('hidden');
+                elResult.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</BaseLayout>

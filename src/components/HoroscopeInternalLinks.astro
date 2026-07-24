@@ -1,0 +1,59 @@
+---
+const { sign, date, lang = 'en', signHi } = Astro.props;
+import { getRelativeLocaleUrl } from '../i18n/utils';
+
+// Calculate tomorrow's date
+const currentDate = new Date(date);
+currentDate.setDate(currentDate.getDate() + 1);
+const tomorrowStr = currentDate.toISOString().split('T')[0];
+
+const tomorrowLink = lang === 'hi' ? `/hi/rashifal/${sign}/${tomorrowStr}` : `/horoscope/${sign}/${tomorrowStr}`;
+---
+
+<div class="glass-card p-6 border border-glass-border">
+  <h3 class="text-xl font-serif text-theme-main mb-6">
+    {lang === 'hi' ? 'अधिक अन्वेषण करें' : 'Explore More'}
+  </h3>
+  
+  <ul class="space-y-4">
+    <li>
+      <a href={tomorrowLink} class="group flex items-center justify-between p-3 rounded-lg bg-theme-main/5 hover:bg-theme-main/10 transition-colors border border-transparent hover:border-glass-border text-theme-muted hover:text-theme-main">
+        <span class="flex items-center">
+          <span class="text-xl mr-3">📅</span>
+          <span>{lang === 'hi' ? 'कल का राशिफल' : "Tomorrow's Horoscope"}</span>
+        </span>
+        <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </a>
+    </li>
+
+    <li>
+      <a href={getRelativeLocaleUrl(lang, '/kundali')} class="group flex items-center justify-between p-3 rounded-lg bg-theme-main/5 hover:bg-theme-main/10 transition-colors border border-transparent hover:border-glass-border text-theme-muted hover:text-theme-main">
+        <span class="flex items-center">
+          <span class="text-xl mr-3">📜</span>
+          <span>{lang === 'hi' ? 'अपनी फ्री जन्म कुंडली बनाएं' : 'Generate Free Kundali'}</span>
+        </span>
+        <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </a>
+    </li>
+
+    <li>
+      <a href={getRelativeLocaleUrl(lang, '/ai-astrologer')} class="group flex items-center justify-between p-3 rounded-lg bg-theme-main/5 hover:bg-theme-main/10 transition-colors border border-transparent hover:border-glass-border text-theme-muted hover:text-theme-main">
+        <span class="flex items-center">
+          <span class="text-xl mr-3">✨</span>
+          <span>{lang === 'hi' ? 'एआई ज्योतिषी से बात करें' : 'Chat with AI Astrologer'}</span>
+        </span>
+        <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </a>
+    </li>
+
+    <li>
+      <a href={getRelativeLocaleUrl(lang, '/compatibility')} class="group flex items-center justify-between p-3 rounded-lg bg-theme-main/5 hover:bg-theme-main/10 transition-colors border border-transparent hover:border-glass-border text-theme-muted hover:text-theme-main">
+        <span class="flex items-center">
+          <span class="text-xl mr-3">❤️</span>
+          <span class="capitalize">{lang === 'hi' ? `${signHi} अनुकूलता जाँचें` : `${sign} Compatibility`}</span>
+        </span>
+        <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </a>
+    </li>
+  </ul>
+</div>
