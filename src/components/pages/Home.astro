@@ -125,6 +125,44 @@ const faqs = [
     </div>
   </section>
 
+  <!-- Astrology Guides -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-serif text-theme-main mb-3">{lang === 'hi' ? 'ज्योतिष सीखें' : 'Explore Astrology'}</h2>
+      <p class="text-theme-muted">{lang === 'hi' ? 'ब्रह्मांड के रहस्यों को गहराई से जानें' : 'Dive deep into the mysteries of the cosmos with our comprehensive guides'}</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a href={getRelativeLocaleUrl(lang, '/planets/sun')} class="glass-card p-6 flex items-center hover:-translate-y-1 hover:bg-theme-main/5 transition-all duration-300 rounded-2xl group border border-glass-border shadow-sm">
+        <div class="text-5xl mr-6 group-hover:scale-110 transition-transform origin-center">🪐</div>
+        <div>
+          <h3 class="text-xl font-serif text-theme-main mb-1 group-hover:text-primary transition-colors">{lang === 'hi' ? 'ग्रहों का प्रभाव' : 'Planetary Influences'}</h3>
+          <p class="text-sm text-theme-muted">{lang === 'hi' ? 'जानें कि 9 ग्रह आपके व्यक्तित्व को कैसे आकार देते हैं।' : 'Learn how the 9 planets shape your personality.'}</p>
+        </div>
+      </a>
+      <a href={getRelativeLocaleUrl(lang, '/houses/1st-house')} class="glass-card p-6 flex items-center hover:-translate-y-1 hover:bg-theme-main/5 transition-all duration-300 rounded-2xl group border border-glass-border shadow-sm">
+        <div class="text-5xl mr-6 group-hover:scale-110 transition-transform origin-center">🏛️</div>
+        <div>
+          <h3 class="text-xl font-serif text-theme-main mb-1 group-hover:text-primary transition-colors">{lang === 'hi' ? 'ज्योतिषीय भाव' : 'Astrological Houses'}</h3>
+          <p class="text-sm text-theme-muted">{lang === 'hi' ? '12 भावों और जीवन के क्षेत्रों पर उनके प्रभाव का अन्वेषण करें।' : 'Explore the 12 houses and their impact on life areas.'}</p>
+        </div>
+      </a>
+      <a href={getRelativeLocaleUrl(lang, '/nakshatras/ashwini')} class="glass-card p-6 flex items-center hover:-translate-y-1 hover:bg-theme-main/5 transition-all duration-300 rounded-2xl group border border-glass-border shadow-sm">
+        <div class="text-5xl mr-6 group-hover:scale-110 transition-transform origin-center">🌟</div>
+        <div>
+          <h3 class="text-xl font-serif text-theme-main mb-1 group-hover:text-primary transition-colors">{lang === 'hi' ? 'नक्षत्र' : '27 Nakshatras'}</h3>
+          <p class="text-sm text-theme-muted">{lang === 'hi' ? '27 चंद्र नक्षत्रों और उनके गहरे अर्थों की खोज करें।' : 'Discover the ancient lunar mansions and their deep meanings.'}</p>
+        </div>
+      </a>
+      <a href={getRelativeLocaleUrl(lang, '/aries')} class="glass-card p-6 flex items-center hover:-translate-y-1 hover:bg-theme-main/5 transition-all duration-300 rounded-2xl group border border-glass-border shadow-sm">
+        <div class="text-5xl mr-6 group-hover:scale-110 transition-transform origin-center text-primary">♈</div>
+        <div>
+          <h3 class="text-xl font-serif text-theme-main mb-1 group-hover:text-primary transition-colors">{lang === 'hi' ? 'राशियाँ' : 'Zodiac Signs'}</h3>
+          <p class="text-sm text-theme-muted">{lang === 'hi' ? 'विस्तृत मार्गदर्शिकाओं के साथ अपनी राशि के रहस्यों को खोलें।' : 'Unlock the secrets of your sign with detailed guides.'}</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
   <!-- Zodiac Picker -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
     <div class="text-center mb-12">
