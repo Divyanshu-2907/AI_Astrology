@@ -6,7 +6,7 @@ const currentYear = new Date().getFullYear();
 
 <footer class="site-footer border-t border-glass-border mt-20 pt-12 pb-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
       <!-- Brand -->
       <div class="col-span-1 md:col-span-1">
         <a href={getRelativeLocaleUrl(lang, '/')} class="heading-display text-2xl block mb-4" style="color: white;">AI <span class="footer-logo-accent">Astrology</span></a>
@@ -46,6 +46,17 @@ const currentYear = new Date().getFullYear();
           <li><a href={getRelativeLocaleUrl(lang, '/numerology')} class="footer-link text-sm transition-colors">{lang === 'hi' ? 'अंक ज्योतिष' : 'Numerology'}</a></li>
           <li><a href={getRelativeLocaleUrl(lang, '/panchang')} class="footer-link text-sm transition-colors">{lang === 'hi' ? 'पंचांग' : 'Panchang'}</a></li>
           <li><a href={getRelativeLocaleUrl(lang, '/tarot')} class="footer-link text-sm transition-colors">{lang === 'hi' ? 'टैरो' : 'Tarot'}</a></li>
+        </ul>
+      </div>
+
+      <!-- Guides -->
+      <div class="col-span-1">
+        <h3 class="footer-heading uppercase mb-4">{lang === 'hi' ? 'मार्गदर्शिकाएँ' : 'Guides'}</h3>
+        <ul class="space-y-3">
+          <li><a href={getRelativeLocaleUrl(lang, '/aries')} class="footer-link text-sm transition-colors">{lang === 'hi' ? 'राशियाँ' : 'Zodiac Signs'}</a></li>
+          <li><a href={getRelativeLocaleUrl(lang, '/planets/sun')} class="footer-link text-sm transition-colors">{lang === 'hi' ? 'ग्रह' : 'Planets'}</a></li>
+          <li><a href={getRelativeLocaleUrl(lang, '/houses/1st-house')} class="footer-link text-sm transition-colors">{lang === 'hi' ? 'भाव' : 'Astrological Houses'}</a></li>
+          <li><a href={getRelativeLocaleUrl(lang, '/nakshatras/ashwini')} class="footer-link text-sm transition-colors">{lang === 'hi' ? 'नक्षत्र' : 'Nakshatras'}</a></li>
         </ul>
       </div>
 

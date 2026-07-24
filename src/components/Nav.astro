@@ -33,6 +33,19 @@ const homePath = getRelativeLocaleUrl(lang, '/');
           </div>
         </div>
         
+        <div class="relative group">
+          <button class="nav-link text-theme-muted hover:text-theme-main transition-colors flex items-center">
+            {lang === 'hi' ? 'मार्गदर्शिकाएँ' : 'Guides'}
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="absolute left-0 mt-2 w-48 rounded-xl shadow-lg glass-card py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <a href={getRelativeLocaleUrl(lang, '/aries')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'राशियाँ' : 'Zodiac Signs'}</a>
+            <a href={getRelativeLocaleUrl(lang, '/planets/sun')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'ग्रह' : 'Planets'}</a>
+            <a href={getRelativeLocaleUrl(lang, '/houses/1st-house')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'भाव' : 'Astrological Houses'}</a>
+            <a href={getRelativeLocaleUrl(lang, '/nakshatras/ashwini')} class="block px-4 py-2 text-sm text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'नक्षत्र' : 'Nakshatras'}</a>
+          </div>
+        </div>
+        
         <a href={getRelativeLocaleUrl(lang, '/kundali')} class="nav-link text-theme-muted hover:text-highlight transition-colors flex items-center">
           {t('nav.kundali')}
         </a>
@@ -84,6 +97,10 @@ const homePath = getRelativeLocaleUrl(lang, '/');
     <a href={getRelativeLocaleUrl(lang, '/moon-phase')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.moon_phase')}</a>
     <a href={getRelativeLocaleUrl(lang, '/panchang')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.panchang')}</a>
     <a href={getRelativeLocaleUrl(lang, '/tarot')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{t('nav.tarot')}</a>
+    <a href={getRelativeLocaleUrl(lang, '/aries')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'राशियाँ' : 'Zodiac Signs'}</a>
+    <a href={getRelativeLocaleUrl(lang, '/planets/sun')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'ग्रह' : 'Planets'}</a>
+    <a href={getRelativeLocaleUrl(lang, '/houses/1st-house')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'भाव' : 'Astrological Houses'}</a>
+    <a href={getRelativeLocaleUrl(lang, '/nakshatras/ashwini')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'नक्षत्र' : 'Nakshatras'}</a>
     <a href={getRelativeLocaleUrl(lang, '/kundali')} class="block px-4 py-2 text-base font-medium text-highlight hover:text-theme-main hover:bg-theme-main/5 flex items-center">{t('nav.kundali')}</a>
     <a href={getRelativeLocaleUrl(lang, '/ai-astrologer')} class="block px-4 py-2 text-base font-medium text-highlight hover:text-theme-main hover:bg-theme-main/5 flex items-center">{t('nav.ai_astrologer')}</a>
     <a href={getRelativeLocaleUrl(lang, '/blog')} class="block px-4 py-2 text-base font-medium text-theme-muted hover:text-theme-main hover:bg-theme-main/5">{lang === 'hi' ? 'ब्लॉग' : 'Blog'}</a>
