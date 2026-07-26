@@ -1,0 +1,71 @@
+<USER_REQUEST>
+I'm expanding my AstroJS + Cloudflare Workers astrology site (FreeAstrologyAI.com). We recently 
+fixed a trailing-slash duplicate URL bug that was hurting indexing (Google had 239 pages stuck as 
+"discovered but not indexed" out of 1,081 sitemap entries). Before adding more pages, please follow 
+these ground rules on every new route we build:
+
+GROUND RULES (apply to everything below):
+- Use trailingSlash: 'never' consistently — verify astro.config.mjs enforces this, no exceptions
+- Every new page needs a unique <title>, meta description, and canonical tag — never inherit a 
+  parent page's title
+- Every new page needs internal links to/from relevant existing pages (don't create orphan pages 
+  Google can't discover through crawling, not just the sitemap)
+- Add new routes to the sitemap generator incrementally — don't dump thousands of new URLs at once; 
+  we'll roll out in the phases below so Google's crawl budget isn't overwhelmed
+- Any page generated via Llama 3.1 (like our existing horoscope pages) should follow the same 
+  lazy-generate + permanent KV cache pattern already used for horoscopes — check the existing 
+  implementation and reuse the pattern, don't rebuild it differently
+- Hindi versions follow the same separately-indexed-URL pattern (/hi/...) as existing pages, not a 
+  client-side toggle
+- No user accounts, login, or authentication anywhere on the site. Any "saved" or "history" features 
+  should use browser localStorage/IndexedDB only (client-side, per-device), never a server-side user 
+  database. Skip anything that would require login entirely rather than building a lightweight 
+  version.
+
+Please implement in this order, confirming each phase with me before moving to the next:
+
+## PHASE 1: Priority 1 — Highest SEO impact, static/evergreen content
+
+1. Planet Guides — static pages at /planets/{planet} for: sun, moon, mars, mercury, venus, jupiter, 
+   saturn, rahu, ketu. Each page: what the planet represents in astrology, its influence on 
+   personality/life areas, i
+<truncated 4805 bytes>
+ntent as well.
+
+## PHASE 4: Nice to have — lowest priority, build only after Phases 1-3 are live and indexed
+
+1. Festival Calendar — static page listing major Hindu/Vedic astrological festivals and dates for 
+   the current year, with brief significance notes.
+
+2. Astrology Calendar — combined view of moon phases, planetary transits, and festivals for the 
+   current month, auto-updating.
+
+3. Planet Transit Tracker — dynamic feature showing current planetary positions/transits, updating 
+   periodically (not per-request — cache appropriately, e.g., daily).
+
+4. Premium Reports and Subscription Plans — hold off entirely; these need a payment integration 
+   decision (Stripe, Razorpay, etc.) and are lowest priority. Don't build until explicitly requested 
+   in a future conversation.
+
+## IMPORTANT SEQUENCING NOTE
+
+Do NOT start Phase 2 or Phase 3/4 content until Phase 1 is fully deployed AND I've confirmed in 
+Search Console that the new pages are being crawled without indexing problems (give it at least 1-2 
+weeks after Phase 1 ships before starting Phase 2, so we don't repeat the crawl-budget overload issue 
+from before). Remind me of this checkpoint when Phase 1 is done.
+
+Start with Phase 1, and show me the URL/routing plan first before generating any content.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-07-24T12:03:49+05:30.
+
+The user's current state is as follows:
+Active Document: c:\Users\dk290\OneDrive\Desktop\AstroVeda\public\ads.txt (LANGUAGE_PLAINTEXT)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\dk290\OneDrive\Desktop\AstroVeda\src\pages\horoscope\[sign].astro (LANGUAGE_ASTRO)
+- c:\Users\dk290\OneDrive\Desktop\AstroVeda\src\lib\panchang.ts (LANGUAGE_TYPESCRIPT)
+- c:\Users\dk290\OneDrive\Desktop\AstroVeda\src\lib\moon-phase.ts (LANGUAGE_TYPESCRIPT)
+- c:\Users\dk290\OneDrive\Desktop\AstroVeda\src\pages\compatibility\index.astro (LANGUAGE_ASTRO)
+- c:\Users\dk290\OneDrive\Desktop\AstroVeda\src\components\pages\MoonPhase.astro (LANGUAGE_ASTRO)
+</ADDITIONAL_METADATA>

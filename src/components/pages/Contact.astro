@@ -16,8 +16,26 @@ const lang = getLangFromUrl(Astro.url);
         {lang === 'hi' ? 'हम आपकी मदद के लिए यहां हैं। कृपया बेझिझक हमसे संपर्क करें।' : 'We are here to help. Please feel free to reach out to us.'}
       </p>
     </div>
-    
-    <div class="glass-card p-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div class="md:col-span-1 space-y-6">
+        <div class="glass-card p-6 text-center">
+          <div class="text-3xl mb-3 text-primary">📧</div>
+          <h3 class="font-serif text-theme-main mb-2">{lang === 'hi' ? 'ईमेल' : 'Email Us'}</h3>
+          <p class="text-theme-muted text-sm break-all">support@freeastrologyai.com</p>
+        </div>
+        <div class="glass-card p-6 text-center">
+          <div class="text-3xl mb-3 text-secondary">🏢</div>
+          <h3 class="font-serif text-theme-main mb-2">{lang === 'hi' ? 'कार्यालय' : 'Office'}</h3>
+          <p class="text-theme-muted text-sm">{lang === 'hi' ? 'नई दिल्ली, भारत' : 'New Delhi, India'}</p>
+        </div>
+        <div class="glass-card p-6 text-center">
+          <div class="text-3xl mb-3 text-highlight">⏰</div>
+          <h3 class="font-serif text-theme-main mb-2">{lang === 'hi' ? 'समय' : 'Hours'}</h3>
+          <p class="text-theme-muted text-sm">{lang === 'hi' ? 'सोम-शुक्र, 9AM-5PM (IST)' : 'Mon-Fri, 9AM-5PM (IST)'}</p>
+        </div>
+      </div>
+      
+      <div class="md:col-span-2 glass-card p-8">
       <form class="space-y-6">
         <div>
           <label class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'नाम' : 'Name'}</label>
@@ -33,6 +51,7 @@ const lang = getLangFromUrl(Astro.url);
         </div>
         <button type="submit" class="btn-primary w-full py-3">{lang === 'hi' ? 'संदेश भेजें' : 'Send Message'}</button>
       </form>
+      </div>
     </div>
   </div>
 </BaseLayout>

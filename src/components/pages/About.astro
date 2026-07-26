@@ -19,20 +19,51 @@ const lang = getLangFromUrl(Astro.url);
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
       <div class="glass-card p-8">
-        <h2 class="text-2xl font-serif text-theme-main mb-4 text-primary">{lang === 'hi' ? 'हमारा मिशन' : 'Our Mission'}</h2>
-        <p class="text-theme-muted leading-relaxed">
+        <h2 class="text-2xl font-serif text-theme-main mb-4 text-primary">{lang === 'hi' ? 'हमारी कहानी' : 'Our Story'}</h2>
+        <p class="text-theme-muted leading-relaxed mb-4">
           {lang === 'hi' 
-            ? 'हम मानते हैं कि ब्रह्मांड में गहन ज्ञान है जो हमें अधिक पूर्ण जीवन की ओर मार्गदर्शन कर सकता है। हमारा मिशन उन्नत तकनीक की शक्ति का उपयोग करके प्रामाणिक ज्योतिषीय, अंक ज्योतिष और आध्यात्मिक अंतर्दृष्टि को हर किसी के लिए सुलभ बनाना है।'
-            : 'We believe that the cosmos holds profound wisdom that can guide us towards a more fulfilled life. Our mission is to make authentic astrological, numerological, and spiritual insights accessible to everyone, everywhere, using the power of advanced technology.'}
+            ? 'एआई एस्ट्रोलॉजी की स्थापना इस विश्वास के साथ की गई थी कि ब्रह्मांड में गहन ज्ञान है जो हमें अधिक पूर्ण जीवन की ओर मार्गदर्शन कर सकता है। हमारी टीम में अनुभवी वैदिक ज्योतिषी, खगोलशास्त्री और कृत्रिम बुद्धिमत्ता विशेषज्ञ शामिल हैं जो नई दिल्ली, भारत से काम करते हैं।'
+            : 'AI Astrology was founded on the belief that the cosmos holds profound wisdom that can guide us towards a more fulfilled life. Our team consists of experienced Vedic astrologers, astronomers, and artificial intelligence experts operating out of New Delhi, India.'}
+        </p>
+        <p class="text-theme-muted leading-relaxed">
+          {lang === 'hi'
+            ? 'हमने देखा कि पारंपरिक ज्योतिषीय रीडिंग अक्सर महंगी या दुर्गम होती थीं, जबकि ऑनलाइन भविष्यवाणियां अस्पष्ट और सामान्य होती थीं। हमने इस अंतर को पाटने के लिए एआई एस्ट्रोलॉजी का निर्माण किया, जो सभी के लिए प्रामाणिक, उच्च-सटीकता वाली ज्योतिषीय, अंक ज्योतिष और आध्यात्मिक अंतर्दृष्टि सुलभ बनाता है।'
+            : 'We noticed that traditional astrological readings were often expensive or inaccessible, while online predictions were vague and generic. We built AI Astrology to bridge this gap, making authentic, high-accuracy astrological, numerological, and spiritual insights accessible to everyone.'}
         </p>
       </div>
       <div class="glass-card p-8">
-        <h2 class="text-2xl font-serif text-theme-main mb-4 text-highlight">{lang === 'hi' ? 'तकनीकी' : 'The Technology'}</h2>
+        <h2 class="text-2xl font-serif text-theme-main mb-4 text-highlight">{lang === 'hi' ? 'हमारी कार्यप्रणाली' : 'Our Methodology & Technology'}</h2>
+        <p class="text-theme-muted leading-relaxed mb-4">
+          {lang === 'hi'
+            ? 'एआई एस्ट्रोलॉजी आपके जन्म के समय की सटीक ग्रहीय स्थिति की गणना करने के लिए स्विस एफेमेरिस (Swiss Ephemeris) जैसे सटीक खगोलीय एल्गोरिदम का उपयोग करता है। हम पारंपरिक लाहिरी अयनांश (Lahiri Ayanamsa) का उपयोग करके वैदिक (सिडरल) चार्ट बनाते हैं।'
+            : 'AI Astrology uses precise astronomical algorithms, similar to the Swiss Ephemeris, to calculate planetary positions exactly as they were at your time of birth. We cast Vedic (Sidereal) charts using the traditional Lahiri Ayanamsa for maximum accuracy.'}
+        </p>
         <p class="text-theme-muted leading-relaxed">
           {lang === 'hi'
-            ? 'एआई एस्ट्रोलॉजी आपके जन्म के समय की सटीक ग्रहीय स्थिति की गणना करने के लिए सटीक खगोलीय एफेमेरिस एल्गोरिदम का उपयोग करता है। फिर हम इस डेटा को गहरे व्यक्तिगत पठन को संश्लेषित करने के लिए वैदिक और पश्चिमी ज्योतिषीय ग्रंथों के विशाल पुस्तकालयों पर प्रशिक्षित उन्नत एआई मॉडल में डालते हैं।'
-            : 'AI Astrology uses precise astronomical ephemeris algorithms to calculate planetary positions exactly as they were at your time of birth. We then feed this data into advanced AI models trained on vast libraries of Vedic and Western astrological texts to synthesize deeply personalized readings.'}
+            ? 'फिर हम इस डेटा को बृहत् पाराशर होरा शास्त्र (BPHS) जैसे वैदिक और पश्चिमी ज्योतिषीय ग्रंथों के विशाल पुस्तकालयों पर प्रशिक्षित उन्नत जनरेटिव एआई (Generative AI) मॉडल में डालते हैं। यह एआई को एक मानव ज्योतिषी की तरह ग्रहों की युति, दृष्टि और भावों के प्लेसमेंट का संश्लेषण करने की अनुमति देता है।'
+            : 'We then feed this data into advanced Generative AI models trained on vast libraries of Vedic and Western astrological texts, including classics like the BPHS. This allows the AI to synthesize planetary conjunctions, aspects, and house placements just like a human master astrologer.'}
         </p>
+      </div>
+    </div>
+    
+    <div class="glass-card p-8 md:p-12 mb-12">
+      <h2 class="text-3xl font-serif text-theme-main mb-6 text-center">{lang === 'hi' ? 'हम पर भरोसा क्यों करें?' : 'Why Trust Us?'}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div>
+          <div class="text-4xl mb-4 text-primary">🎯</div>
+          <h3 class="text-xl font-serif text-theme-main mb-2">{lang === 'hi' ? 'सटीक गणना' : 'Pinpoint Accuracy'}</h3>
+          <p class="text-theme-muted text-sm">{lang === 'hi' ? 'हमारी खगोलीय गणना नासा-ग्रेड (NASA-grade) डेटाबेस पर आधारित है ताकि यह सुनिश्चित हो सके कि आपका चार्ट 100% सटीक है।' : 'Our astronomical calculations rely on NASA-grade tracking to ensure your birth chart is 100% accurate down to the minute.'}</p>
+        </div>
+        <div>
+          <div class="text-4xl mb-4 text-secondary">🧠</div>
+          <h3 class="text-xl font-serif text-theme-main mb-2">{lang === 'hi' ? 'उन्नत एआई' : 'Advanced AI'}</h3>
+          <p class="text-theme-muted text-sm">{lang === 'hi' ? 'हमारा कस्टम-प्रशिक्षित एआई लाखों डेटा बिंदुओं को संसाधित कर सकता है, जिसे एक मानव को पढ़ने में वर्षों लग जाएंगे।' : 'Our custom-trained AI can process millions of data points and astrological rules that would take a human years to cross-reference.'}</p>
+        </div>
+        <div>
+          <div class="text-4xl mb-4 text-highlight">🔒</div>
+          <h3 class="text-xl font-serif text-theme-main mb-2">{lang === 'hi' ? 'पूर्ण गोपनीयता' : 'Total Privacy'}</h3>
+          <p class="text-theme-muted text-sm">{lang === 'hi' ? 'आपका जन्म डेटा सुरक्षित रूप से एन्क्रिप्ट किया गया है और कभी भी किसी तीसरे पक्ष को बेचा नहीं जाता है।' : 'Your birth data is securely encrypted and never sold to third parties. Your spiritual journey is safe with us.'}</p>
+        </div>
       </div>
     </div>
   </div>

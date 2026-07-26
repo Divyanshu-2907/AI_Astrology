@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout 
+  title={lang === 'hi' ? "अस्वीकरण | AI Astrology" : "Disclaimer | AI Astrology"} 
+  description={lang === 'hi' ? "एआई एस्ट्रोलॉजी सेवाओं के लिए कानूनी और चिकित्सा अस्वीकरण।" : "Legal and medical disclaimer for AI Astrology services."}
+>
+  <div class="max-w-3xl mx-auto px-4 py-16">
+    <div class="glass-card p-8 md:p-12 prose prose-invert max-w-none">
+      <h1 class="text-4xl font-serif text-theme-main mb-8">{lang === 'hi' ? 'अस्वीकरण' : 'Disclaimer'}</h1>
+      <p>{lang === 'hi' ? 'अंतिम अपडेट: 26 जुलाई, 2026' : 'Last updated: July 26, 2026'}</p>
+      
+      <h2>{lang === 'hi' ? 'केवल मनोरंजन के उद्देश्य से' : 'For Entertainment Purposes Only'}</h2>
+      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी (freeastrologyai.com) पर प्रदान की गई जानकारी और ज्योतिषीय पठन केवल मनोरंजन, शैक्षिक और आत्म-चिंतन के उद्देश्यों के लिए हैं। ज्योतिष एक सटीक विज्ञान नहीं है, और हमारी वेबसाइट पर भविष्यवाणियां, राशिफल या पठन को पूर्ण सत्य के रूप में नहीं लिया जाना चाहिए।' : 'The information and astrological readings provided on AI Astrology (freeastrologyai.com) are strictly for entertainment, educational, and self-reflection purposes only. Astrology is not an exact science, and the predictions, horoscopes, or readings on our website should not be taken as absolute truth.'}</p>
+      
+      <h2>{lang === 'hi' ? 'कोई चिकित्सा या कानूनी सलाह नहीं' : 'No Medical or Legal Advice'}</h2>
+      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी द्वारा प्रदान की गई कोई भी सामग्री पेशेवर चिकित्सा, कानूनी, वित्तीय, मनोवैज्ञानिक या व्यावसायिक सलाह का विकल्प नहीं है। स्वास्थ्य संबंधी समस्याओं के लिए हमेशा किसी योग्य स्वास्थ्य सेवा प्रदाता से सलाह लें, और वित्तीय या कानूनी मामलों के लिए किसी प्रमाणित पेशेवर से परामर्श लें।' : 'None of the content provided by AI Astrology is a substitute for professional medical, legal, financial, psychological, or business advice. Always seek the advice of a qualified healthcare provider for medical issues, and consult a certified professional for financial or legal matters.'}</p>
+      
+      <h2>{lang === 'hi' ? 'कोई गारंटी नहीं' : 'No Guarantees'}</h2>
+      <p>{lang === 'hi' ? 'हम अपनी वेबसाइट पर दी गई किसी भी जानकारी या पठन की सटीकता, पूर्णता या उपयोगिता की कोई गारंटी नहीं देते हैं। ज्योतिषीय प्रणालियों की व्याख्या अत्यधिक व्यक्तिपरक है। हमारी सेवाओं या जानकारी के आधार पर आपके द्वारा किए गए किसी भी निर्णय या कार्य की जिम्मेदारी पूरी तरह से आपकी है।' : 'We make no guarantees regarding the accuracy, completeness, or usefulness of any information or reading provided on our website. Interpretation of astrological systems is highly subjective. Any decisions or actions you take based on our services or information are entirely your own responsibility.'}</p>
+      
+      <h2>{lang === 'hi' ? 'उपयोग की शर्तें' : 'Terms of Use'}</h2>
+      <p>{lang === 'hi' ? 'हमारी साइट का उपयोग करके, आप इस अस्वीकरण को स्वीकार करते हैं और सहमत होते हैं कि एआई एस्ट्रोलॉजी हमारे प्लेटफ़ॉर्म के आपके उपयोग से होने वाले किसी भी प्रत्यक्ष या अप्रत्यक्ष नुकसान या क्षति के लिए उत्तरदायी नहीं होगा।' : 'By using our site, you accept this disclaimer and agree that AI Astrology shall not be held liable for any direct or indirect loss or damages resulting from your use of our platform.'}</p>
+    </div>
+  </div>
+</BaseLayout>

@@ -12,19 +12,28 @@ const lang = getLangFromUrl(Astro.url);
   <div class="max-w-3xl mx-auto px-4 py-16">
     <div class="glass-card p-8 md:p-12 prose prose-invert max-w-none">
       <h1 class="text-4xl font-serif text-theme-main mb-8">{lang === 'hi' ? 'सेवा की शर्तें' : 'Terms of Service'}</h1>
-      <p>{lang === 'hi' ? 'अंतिम अपडेट: जून 2026' : 'Last updated: June 2026'}</p>
+      <p>{lang === 'hi' ? 'अंतिम अपडेट: 26 जुलाई, 2026' : 'Last updated: July 26, 2026'}</p>
       
       <h2>{lang === 'hi' ? '1. शर्तों की स्वीकृति' : '1. Acceptance of Terms'}</h2>
-      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी को एक्सेस और उपयोग करके, आप इस समझौते की शर्तों और प्रावधानों से बंधे होने के लिए सहमत और स्वीकार करते हैं।' : 'By accessing and using AI Astrology, you accept and agree to be bound by the terms and provision of this agreement.'}</p>
+      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी (freeastrologyai.com) को एक्सेस और उपयोग करके, आप इस समझौते की शर्तों और प्रावधानों से बंधे होने के लिए सहमत और स्वीकार करते हैं। यदि आप इन सभी शर्तों से सहमत नहीं हैं, तो आपको वेबसाइट का उपयोग नहीं करना चाहिए।' : 'By accessing and using AI Astrology (freeastrologyai.com), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to all of these terms, you should not use the website.'}</p>
       
       <h2>{lang === 'hi' ? '2. केवल मनोरंजन के उद्देश्य से' : '2. Entertainment Purposes Only'}</h2>
-      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी द्वारा प्रदान किए गए सभी ज्योतिषीय पठन, राशिफल, टैरो कार्ड और अंक ज्योतिष गणना केवल मनोरंजन और आत्म-चिंतन के उद्देश्यों के लिए हैं। वे पेशेवर चिकित्सा, कानूनी, वित्तीय या मनोवैज्ञानिक सलाह का गठन नहीं करते हैं।' : 'All astrological readings, horoscopes, tarot draws, and numerology calculations provided by AI Astrology are for entertainment and self-reflection purposes only. They do not constitute professional medical, legal, financial, or psychological advice.'}</p>
+      <p>{lang === 'hi' ? 'एआई एस्ट्रोलॉजी द्वारा प्रदान किए गए सभी ज्योतिषीय पठन, राशिफल, टैरो कार्ड और अंक ज्योतिष गणना केवल मनोरंजन, शैक्षिक और आत्म-चिंतन के उद्देश्यों के लिए हैं। वे पेशेवर चिकित्सा, कानूनी, वित्तीय या मनोवैज्ञानिक सलाह का गठन नहीं करते हैं। हमारी वेबसाइट पर दी गई जानकारी के आधार पर किए गए किसी भी निर्णय के लिए हम जिम्मेदार नहीं हैं।' : 'All astrological readings, horoscopes, tarot draws, and numerology calculations provided by AI Astrology are for entertainment, educational, and self-reflection purposes only. They do not constitute professional medical, legal, financial, or psychological advice. We are not responsible for any decisions made based on the information provided on our website.'}</p>
       
-      <h2>{lang === 'hi' ? '3. प्रीमियम सदस्यता' : '3. Premium Subscriptions'}</h2>
-      <p>{lang === 'hi' ? 'प्रीमियम सुविधाओं का बिल आवर्ती मासिक या वार्षिक आधार पर लिया जाता है। आप किसी भी समय अपनी सदस्यता रद्द कर सकते हैं। आंशिक महीनों के लिए रिफंड प्रदान नहीं किए जाते हैं।' : 'Premium features are billed on a recurring monthly or annual basis. You may cancel your subscription at any time. Refunds are not provided for partial months.'}</p>
+      <h2>{lang === 'hi' ? '3. बौद्धिक संपदा अधिकार' : '3. Intellectual Property Rights'}</h2>
+      <p>{lang === 'hi' ? 'जब तक अन्यथा न कहा गया हो, एआई एस्ट्रोलॉजी और/या इसके लाइसेंसकर्ता वेबसाइट पर सभी सामग्री के लिए बौद्धिक संपदा अधिकारों के मालिक हैं। सभी बौद्धिक संपदा अधिकार सुरक्षित हैं। आप इन नियमों और शर्तों में निर्धारित प्रतिबंधों के अधीन अपने स्वयं के व्यक्तिगत उपयोग के लिए इसे एक्सेस कर सकते हैं।' : 'Unless otherwise stated, AI Astrology and/or its licensors own the intellectual property rights for all material on the website. All intellectual property rights are reserved. You may access this from AI Astrology for your own personal use subjected to restrictions set in these terms and conditions.'}</p>
       
       <h2>{lang === 'hi' ? '4. उपयोगकर्ता आचरण' : '4. User Conduct'}</h2>
-      <p>{lang === 'hi' ? 'आप किसी भी गैरकानूनी उद्देश्य के लिए सेवा का उपयोग नहीं करने या किसी भी ऐसी गतिविधि का संचालन नहीं करने के लिए सहमत हैं जो नागरिक या आपराधिक अपराध का गठन करेगी या किसी कानून का उल्लंघन करेगी।' : 'You agree not to use the service for any unlawful purpose or to conduct any activity that would constitute a civil or criminal offense or violate any law.'}</p>
+      <p>{lang === 'hi' ? 'आप किसी भी गैरकानूनी उद्देश्य के लिए सेवा का उपयोग नहीं करने या किसी भी ऐसी गतिविधि का संचालन नहीं करने के लिए सहमत हैं जो नागरिक या आपराधिक अपराध का गठन करेगी या किसी कानून का उल्लंघन करेगी। आप वेबसाइट के बुनियादी ढांचे पर अनुचित भार डालने वाले किसी भी उपकरण या सॉफ़्टवेयर का उपयोग नहीं करने के लिए सहमत हैं।' : 'You agree not to use the service for any unlawful purpose or to conduct any activity that would constitute a civil or criminal offense or violate any law. You agree not to use any device or software that imposes an unreasonable burden on the website\'s infrastructure.'}</p>
+
+      <h2>{lang === 'hi' ? '5. तृतीय-पक्ष लिंक और विज्ञापन' : '5. Third-Party Links and Advertising'}</h2>
+      <p>{lang === 'hi' ? 'हमारी साइट में तृतीय-पक्ष वेबसाइटों या सेवाओं के लिंक हो सकते हैं जो हमारे स्वामित्व या नियंत्रण में नहीं हैं। हम Google AdSense के माध्यम से विज्ञापन प्रदर्शित कर सकते हैं। हमारा सामग्री, गोपनीयता नीतियों, या किसी तृतीय-पक्ष वेबसाइटों की प्रथाओं पर कोई नियंत्रण नहीं है, और न ही हम कोई जिम्मेदारी लेते हैं।' : 'Our site may contain links to third-party web sites or services that are not owned or controlled by us. We may display advertisements through Google AdSense. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third party web sites.'}</p>
+
+      <h2>{lang === 'hi' ? '6. प्रीमियम सदस्यता' : '6. Premium Subscriptions'}</h2>
+      <p>{lang === 'hi' ? 'प्रीमियम सुविधाओं का बिल आवर्ती मासिक या वार्षिक आधार पर लिया जाता है। आप किसी भी समय अपनी सदस्यता रद्द कर सकते हैं। आंशिक महीनों के लिए रिफंड प्रदान नहीं किए जाते हैं।' : 'Premium features are billed on a recurring monthly or annual basis. You may cancel your subscription at any time. Refunds are not provided for partial months.'}</p>
+      
+      <h2>{lang === 'hi' ? '7. दायित्व की सीमा' : '7. Limitation of Liability'}</h2>
+      <p>{lang === 'hi' ? 'किसी भी स्थिति में एआई एस्ट्रोलॉजी, न ही इसके कोई अधिकारी, निदेशक और कर्मचारी, इस वेबसाइट के आपके उपयोग से उत्पन्न होने वाले या किसी भी तरह से जुड़े किसी भी चीज़ के लिए उत्तरदायी नहीं होंगे।' : 'In no event shall AI Astrology, nor any of its officers, directors and employees, shall be held liable for anything arising out of or in any way connected with your use of this Website whether such liability is under contract. AI Astrology, including its officers, directors and employees shall not be held liable for any indirect, consequential or special liability arising out of or in any way related to your use of this Website.'}</p>
     </div>
   </div>
 </BaseLayout>

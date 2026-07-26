@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === 'hi';
+});
+
+// Sort by date descending
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout 
+  title="ज्योतिष लेख | AI Astrology" 
+  description="वैदिक ज्योतिष, अंक ज्योतिष, और राशिफल के बारे में गहन अंतर्दृष्टि।"
+>
+  <div class="max-w-4xl mx-auto px-4 py-16">
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-serif text-theme-main mb-6">ज्योतिष लेख</h1>
+      <p class="text-xl text-theme-muted font-light">वैदिक ज्योतिष, ग्रहों के गोचर, और आध्यात्मिक विकास में गहन अंतर्दृष्टि का अन्वेषण करें।</p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8">
+      {posts.map(post => (
+        <a href={`/hi/articles/${post.slug.replace('hi/', '')}`} class="glass-card p-6 md:p-8 block hover:-translate-y-1 transition-transform duration-300">
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex-1">
+              <div class="flex items-center gap-4 mb-4">
+                <span class="text-sm text-primary uppercase tracking-wider font-semibold">लेख</span>
+                <span class="text-sm text-theme-muted">{post.data.pubDate.toLocaleDateString('hi-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              </div>
+              <h2 class="text-2xl font-serif text-theme-main mb-3 group-hover:text-primary transition-colors">{post.data.title}</h2>
+              <p class="text-theme-muted mb-4 line-clamp-3">{post.data.description}</p>
+              <div class="text-sm text-theme-muted flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-glass-border flex items-center justify-center text-xs">✍️</span>
+                {post.data.author}
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+      {posts.length === 0 && (
+        <p class="text-center text-theme-muted">जल्द ही और लेख आ रहे हैं!</p>
+      )}
+    </div>
+  </div>
+</BaseLayout>
