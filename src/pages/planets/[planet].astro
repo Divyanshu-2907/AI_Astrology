@@ -55,6 +55,20 @@ const { planet } = Astro.props;
         <p class="text-theme-muted leading-relaxed">{planet.content.vedicVsWestern}</p>
       </div>
 
+      {planet.content.houseInfluences && planet.content.houseInfluences.length > 0 && (
+        <div class="glass-card p-8">
+          <h2 class="text-2xl font-serif text-theme-main mb-6">Influence in the 12 Houses</h2>
+          <div class="space-y-6">
+            {planet.content.houseInfluences.map((hi: any) => (
+              <div class="border-b border-glass-border pb-4 last:border-0 last:pb-0">
+                <h3 class="text-lg font-medium text-theme-main mb-2">House {hi.house}</h3>
+                <p class="text-theme-muted">{hi.influence}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div class="glass-card p-8">
         <h2 class="text-2xl font-serif text-theme-main mb-6">Frequently Asked Questions</h2>
         <div class="space-y-6">

@@ -1,218 +1,415 @@
-import type { NakshatraData } from './nakshatras1';
+export interface NakshatraData {
+  id: string;
+  name: string;
+  meaning: string;
+  deity: string;
+  rulingPlanet: string;
+  zodiacSign: string;
+  symbol: string;
+  content: {
+    introduction: string;
+    personalityTraits: string;
+    careerInterests: string;
+    shadowSide: string;
+    fourPadas: { pada: number; description: string }[];
+    compatibility: string;
+    faqs: { question: string; answer: string }[];
+  };
+}
 
 export const nakshatras10To18: NakshatraData[] = [
   {
-    id: 'magha',
-    name: 'Magha',
-    meaning: 'The Mighty / The Great',
-    deity: 'Pitris (The Ancestors)',
-    rulingPlanet: 'Ketu',
-    zodiacSign: 'Leo (0°00′ – 13°20′)',
-    symbol: 'Royal Throne / Palanquin',
-    content: {
-      introduction: 'Magha is the tenth Nakshatra and the first within the royal sign of Leo. Symbolized by a royal throne, it represents power, authority, and ancestral pride. Ruled by the Pitris (the ancestors), Magha is deeply connected to lineage, tradition, and passing down heritage. It is the star of kings and leaders who are aware of their roots.',
-      personalityTraits: 'Magha natives have a regal and commanding presence. They are highly ambitious, proud, and expect respect from others. They hold deep respect for traditions, elders, and their family lineage. They are generous, protective leaders but can sometimes come across as arrogant or overly demanding. They possess a strong desire to leave a lasting legacy.',
-      careerInterests: 'They naturally gravitate towards leadership and positions of authority. Excellent careers include politics, government administration, law, history, genealogy, acting, and corporate management.',
-      faqs: [
+    "id": "magha",
+    "name": "Magha",
+    "meaning": "The Magnificent / The Great One",
+    "deity": "Pitris (The Ancestors)",
+    "rulingPlanet": "Ketu",
+    "zodiacSign": "Leo (0°00′ – 13°20′)",
+    "symbol": "Royal Throne / Palanquin",
+    "content": {
+      "introduction": "Magha marks the beginning of the second cycle of Nakshatras, dropping directly into the royal sign of Leo. Symbolized by a royal throne or palanquin, Magha represents power, authority, lineage, and inherited wealth. Ruled by the Pitris (the divine ancestors), this Nakshatra is deeply connected to tradition, ancestral pride, and the preservation of heritage. It is the star of kings, leaders, and those who demand respect.",
+      "personalityTraits": "Individuals born under Magha possess a naturally regal, dignified, and authoritative aura. They have a strong sense of self-worth and expect to be treated with respect. They are deeply loyal to their family lineage and cultural traditions. They are generous, ambitious, and highly protective of those under their care. However, they can sometimes be perceived as arrogant or overly demanding of attention.",
+      "careerInterests": "Magha natives thrive in positions of power and authority. They make excellent politicians, CEOs, judges, historians, archaeologists, and leaders in any field. They also excel in professions dealing with inheritance, genetics, and managing ancestral wealth.",
+      "shadowSide": "The shadow side of Magha is a crippling fear of losing status or disrespect. Their immense pride can morph into arrogance, elitism, and a sense of entitlement. If they fail to live up to their ancestral expectations, they can suffer from deep-seated feelings of inadequacy and fall into depression.",
+      "fourPadas": [
         {
-          question: 'What is the significance of the Pitris (Ancestors) in Magha?',
-          answer: 'The Pitris grant Magha natives a strong connection to the past. They often inherit wealth, traits, or responsibilities from their ancestors and feel a duty to uphold their family name.'
+          "pada": 1,
+          "description": "Aries Navamsha (0°00' - 3°20' Leo): Driven by Mars. Highly courageous, pioneering, and aggressive in asserting their authority. Natural leaders who lead from the front."
         },
         {
-          question: 'What is the power of Magha?',
-          answer: 'Its power is "Tyage Kshepani Shakti," the power to leave the body (tyaga) or the power of spiritual liberation and connection to the divine realm.'
+          "pada": 2,
+          "description": "Taurus Navamsha (3°20' - 6°40' Leo): Driven by Venus. Focuses on the material wealth, luxury, and comforts associated with royalty and inheritance."
+        },
+        {
+          "pada": 3,
+          "description": "Gemini Navamsha (6°40' - 10°00' Leo): Driven by Mercury. The intellectual side of leadership. Excels in speech, diplomacy, and managing the affairs of the kingdom."
+        },
+        {
+          "pada": 4,
+          "description": "Cancer Navamsha (10°00' - 13°20' Leo): Driven by Moon. Deeply emotional and attached to family lineage, ancestors, and providing emotional security to their 'subjects'."
+        }
+      ],
+      "compatibility": "Magha is highly compatible with Purva Phalguni, Ashwini, and Mula. They often struggle with Revati and Shatabhisha.",
+      "faqs": [
+        {
+          "question": "Why does Ketu rule a royal Nakshatra?",
+          "answer": "Ketu represents the past. In Magha, Ketu connects the individual directly to their past lives and ancestors (Pitris). The royalty and power they experience are often karmic rewards carried over from previous lifetimes."
+        },
+        {
+          "question": "What is the power of Magha?",
+          "answer": "Its power is \"Tyage Kshepani Shakti,\" the power to leave the physical body and establish a spiritual connection with the ancestors."
         }
       ]
     }
   },
   {
-    id: 'purva-phalguni',
-    name: 'Purva Phalguni',
-    meaning: 'The Former Reddish One',
-    deity: 'Bhaga (God of Marital Bliss and Wealth)',
-    rulingPlanet: 'Venus',
-    zodiacSign: 'Leo (13°20′ – 26°40′)',
-    symbol: 'Front Legs of a Bed / Hammock',
-    content: {
-      introduction: 'Purva Phalguni is the Nakshatra of rest, relaxation, and sensual pleasure. Symbolized by the front legs of a bed or a hammock, it follows the hard work and royal duties of Magha. Ruled by Bhaga, the god of wealth and marital bliss, it represents the enjoyment of life\'s fruits, romance, and creative expression. It is an incredibly fortunate and artistic star.',
-      personalityTraits: 'Natives of Purva Phalguni are carefree, charming, and highly social. They love luxury, parties, and the arts. They have a natural magnetism that attracts wealth and romantic partners. They are generous and warm-hearted but can be prone to laziness, overindulgence, or relying too much on their charm rather than hard work.',
-      careerInterests: 'They excel in fields related to entertainment, beauty, and relaxation. Good careers include the hospitality industry, event planning, acting, music, fashion, cosmetics, and relationship counseling.',
-      faqs: [
+    "id": "purva-phalguni",
+    "name": "Purva Phalguni",
+    "meaning": "The Former Red One",
+    "deity": "Bhaga (God of Delight and Wealth)",
+    "rulingPlanet": "Venus",
+    "zodiacSign": "Leo (13°20′ – 26°40′)",
+    "symbol": "Front Legs of a Bed / Hammock",
+    "content": {
+      "introduction": "Purva Phalguni, residing in Leo, is the star of absolute relaxation, joy, and creation. Symbolized by the front legs of a resting bed or a hammock, it represents the reward of rest after the hard work of building a kingdom (Magha). Ruled by Bhaga, the Vedic god of delight, wealth, and marital bliss, it is an incredibly sensual, artistic, and romantic Nakshatra. It governs the joyous, playful, and creative aspects of life.",
+      "personalityTraits": "Purva Phalguni natives are incredibly charming, social, and fun-loving. They seek pleasure, romance, and aesthetic beauty in all things. They are naturally artistic, musical, and have an excellent sense of style. They possess a relaxed, easygoing demeanor and attract others effortlessly. However, they can sometimes be quite lazy, preferring comfort over hard work, and can become overly indulgent in sensory pleasures.",
+      "careerInterests": "They excel in fields related to entertainment, beauty, and relaxation. Good careers include acting, music, event planning, the wedding industry, fashion, luxury hospitality, and any profession that brings joy and comfort to others.",
+      "shadowSide": "The primary shadow side of Purva Phalguni is extreme laziness and procrastination. They can become so addicted to comfort and pleasure that they neglect their responsibilities. Their intense desire for romance and validation can lead to superficiality or vanity.",
+      "fourPadas": [
         {
-          question: 'Why is it associated with a bed?',
-          answer: 'The bed symbolizes rest, rejuvenation, and sexual pleasure. It signifies the period of enjoying the rewards after achieving the royal status of Magha.'
+          "pada": 1,
+          "description": "Leo Navamsha (13°20' - 16°40' Leo): Driven by Sun. Highly dramatic, confident, and seeks to be the center of attention in social settings. Extremely creative."
         },
         {
-          question: 'What is the power of Purva Phalguni?',
-          answer: 'Its power is "Prajanana Shakti," the power of procreation, creation, and bringing new life or art into the world.'
+          "pada": 2,
+          "description": "Virgo Navamsha (16°40' - 20°00' Leo): Driven by Mercury. The most hardworking pada of this Nakshatra. Applies analytical skills to artistic and creative pursuits."
+        },
+        {
+          "pada": 3,
+          "description": "Libra Navamsha (20°00' - 23°20' Leo): Driven by Venus. The absolute peak of Venusian energy. Highly romantic, diplomatic, and obsessed with aesthetics and harmony."
+        },
+        {
+          "pada": 4,
+          "description": "Scorpio Navamsha (23°20' - 26°40' Leo): Driven by Mars. The most intense and passionate pada. Seeks deep, transformative experiences through romance and art."
+        }
+      ],
+      "compatibility": "Purva Phalguni is highly compatible with Magha, Uttara Phalguni, and Bharani. They often clash with Uttara Bhadrapada and Chitra.",
+      "faqs": [
+        {
+          "question": "Is Purva Phalguni good for marriage?",
+          "answer": "Yes, it is one of the most auspicious Nakshatras for romance, dating, and marriage, as it is ruled by Bhaga (the god of marital bliss) and Venus."
+        },
+        {
+          "question": "What is the power of Purva Phalguni?",
+          "answer": "Its power is \"Prajanana Shakti,\" the power of procreation, creation, and bringing new life or artistic visions into the world."
         }
       ]
     }
   },
   {
-    id: 'uttara-phalguni',
-    name: 'Uttara Phalguni',
-    meaning: 'The Latter Reddish One',
-    deity: 'Aryaman (God of Patronage and Favors)',
-    rulingPlanet: 'Sun',
-    zodiacSign: 'Leo (26°40′) to Virgo (10°00′)',
-    symbol: 'Back Legs of a Bed',
-    content: {
-      introduction: 'Uttara Phalguni bridges the signs of Leo and Virgo. Symbolized by the back legs of a bed, it represents the continuation of the relaxation found in Purva Phalguni, but with a shift towards duty and partnership. Ruled by Aryaman, the god of contracts and alliances, it is the star of marriage, friendship, and fulfilling social obligations.',
-      personalityTraits: 'Uttara Phalguni natives are reliable, noble, and deeply committed to their relationships. They value friendships and partnerships above all else. They transition from the fiery independence of Leo into the practical service of Virgo, making them excellent, hardworking partners. They are generous patrons but expect loyalty in return.',
-      careerInterests: 'They excel in professions requiring reliability and public service. This includes social work, human resources, counseling, teaching, philanthropy, and public relations.',
-      faqs: [
+    "id": "uttara-phalguni",
+    "name": "Uttara Phalguni",
+    "meaning": "The Latter Red One",
+    "deity": "Aryaman (God of Patronage and Contracts)",
+    "rulingPlanet": "Sun",
+    "zodiacSign": "Leo (26°40′) to Virgo (10°00′)",
+    "symbol": "Back Legs of a Bed",
+    "content": {
+      "introduction": "Uttara Phalguni bridges the signs of Leo and Virgo. Symbolized by the back legs of a bed, it represents the continuation and solid foundation of the relaxation that began in Purva Phalguni. However, ruled by Aryaman, the god of patronage, friendship, and contracts, Uttara Phalguni brings a much higher level of responsibility. It is the star of duty, alliances, and supporting others. It marks the transition from seeking personal joy to offering service to society.",
+      "personalityTraits": "Individuals born under Uttara Phalguni are warm, generous, and highly dependable. They are the friends you can always count on. They possess strong leadership qualities (from the Sun) combined with a deep desire to be of service (Virgo). They are highly principled, honor their commitments, and are excellent at forming strategic alliances. They are less focused on pure pleasure than Purva Phalguni and more focused on building lasting, supportive structures.",
+      "careerInterests": "They excel in roles requiring reliability, management, and service. Excellent fields include social work, human resources, counseling, politics, healing professions, administrative roles, and any career involving contracts and negotiations.",
+      "shadowSide": "The shadow side of Uttara Phalguni is a tendency to become overly rigid, critical, and burdened by their responsibilities. Their desire to support everyone can lead to severe burnout. Furthermore, if they feel their loyalty is betrayed, they can become extremely cold and unforgiving.",
+      "fourPadas": [
         {
-          question: 'How does it differ from Purva Phalguni?',
-          answer: 'Purva Phalguni is about the *enjoyment* and passion of romance, while Uttara Phalguni is about the *commitment*, legality, and social duty of marriage and partnership.'
+          "pada": 1,
+          "description": "Sagittarius Navamsha (26°40' Leo - 0°00' Virgo): Driven by Jupiter. Highly moral, philosophical, and optimistic. Focuses on leading and guiding others through wisdom."
         },
         {
-          question: 'What is the power of Uttara Phalguni?',
-          answer: 'Its power is "Chayani Shakti," the power of accumulation and prosperity through partnerships and alliances.'
+          "pada": 2,
+          "description": "Capricorn Navamsha (0°00' - 3°20' Virgo): Driven by Saturn. Extremely organized, disciplined, and hardworking. Focuses on building massive, practical structures of support."
+        },
+        {
+          "pada": 3,
+          "description": "Aquarius Navamsha (3°20' - 6°40' Virgo): Driven by Saturn. Highly altruistic and humanitarian. Uses their organizational skills for the betterment of large groups and society."
+        },
+        {
+          "pada": 4,
+          "description": "Pisces Navamsha (6°40' - 10°00' Virgo): Driven by Jupiter. The most compassionate and empathetic pada. Focuses heavily on spiritual service and healing others."
+        }
+      ],
+      "compatibility": "Uttara Phalguni is highly compatible with Purva Phalguni, Anuradha, and Jyeshtha. It often faces friction with Vishakha and Ashwini.",
+      "faqs": [
+        {
+          "question": "Why is Aryaman the deity of this Nakshatra?",
+          "answer": "Aryaman represents nobility, chivalry, and the sanctity of oaths. Uttara Phalguni is the Nakshatra of keeping promises, supporting friends, and establishing legal and social contracts, especially marriage."
+        },
+        {
+          "question": "What is the power of Uttara Phalguni?",
+          "answer": "Its power is \"Chayani Shakti,\" the power of accumulation and prosperity through strategic alliances and fulfilling one's duties."
         }
       ]
     }
   },
   {
-    id: 'hasta',
-    name: 'Hasta',
-    meaning: 'The Hand',
-    deity: 'Savitar (The Sun God of Morning/Inspiration)',
-    rulingPlanet: 'Moon',
-    zodiacSign: 'Virgo (10°00′ – 23°20′)',
-    symbol: 'Hand or Fist',
-    content: {
-      introduction: 'Hasta resides entirely in Virgo and is symbolized by a hand or a closed fist. It represents skill, craftsmanship, and the ability to grasp or manifest things into reality. Ruled by Savitar, the inspiring morning sun, Hasta brings awakening, cleverness, and the dexterity to heal or create. It is a highly practical and productive Nakshatra.',
-      personalityTraits: 'Hasta natives are incredibly skilled with their hands, whether in writing, healing, art, or mechanics. They are sharp, analytical, and possess a great sense of humor. They are hard workers who pay attention to the smallest details. However, they can sometimes be overly critical, anxious, or use their cleverness for trickery and manipulation.',
-      careerInterests: 'They excel in fields requiring manual dexterity or detail-oriented intellect. Good careers include healing (massage, surgery, reiki), accounting, writing, astrology, magic, craftsmanship, and palmistry.',
-      faqs: [
+    "id": "hasta",
+    "name": "Hasta",
+    "meaning": "The Hand",
+    "deity": "Savitar (The Sun God of Inspiration)",
+    "rulingPlanet": "Moon",
+    "zodiacSign": "Virgo (10°00′ – 23°20′)",
+    "symbol": "A Hand / Fist",
+    "content": {
+      "introduction": "Hasta resides entirely within the analytical sign of Virgo and is universally recognized as the star of skill, dexterity, and craftsmanship. Symbolized by a human hand, it represents the ability to grasp, hold, and manipulate the physical world. Ruled by Savitar, the creative and inspiring form of the Sun God, and governed by the Moon, Hasta possesses incredible mental agility and the power to manifest thoughts into physical reality through manual skill.",
+      "personalityTraits": "Hasta natives are incredibly skilled, detail-oriented, and hardworking. They are 'jacks of all trades' who can quickly learn how to do almost anything with their hands. They are highly intelligent, analytical, and possess a strong business sense. They are punctual, organized, and have a great sense of humor. However, their active minds can make them prone to anxiety, overthinking, and a constant need to control their environment.",
+      "careerInterests": "They excel in any profession requiring manual dexterity, precision, or healing hands. This includes surgery, dentistry, massage therapy, acupuncture, mechanics, craftsmanship, astrology, palmistry, accounting, and writing.",
+      "shadowSide": "The shadow side of Hasta is an extreme need for control (grasping too tightly) and a tendency towards trickery. Their cleverness can sometimes manifest as manipulation, cunning, or even theft if afflicted. They can also suffer from severe nervous tension and anxiety due to their hyper-analytical Virgo nature.",
+      "fourPadas": [
         {
-          question: 'Why is it symbolized by a hand?',
-          answer: 'The hand represents grasping, creating, and holding on to things. Hasta natives have the literal or metaphorical power to take fate into their own hands.'
+          "pada": 1,
+          "description": "Aries Navamsha (10°00' - 13°20' Virgo): Driven by Mars. The most active and aggressive pada. Excellent for mechanics, surgery, and rapid, precise physical action."
         },
         {
-          question: 'What is the power of Hasta?',
-          answer: 'Its power is "Hasta Sthapaniya Agama Shakti," the power to manifest what one seeks and place it directly into one\'s hands.'
+          "pada": 2,
+          "description": "Taurus Navamsha (13°20' - 16°40' Virgo): Driven by Venus. Highly artistic and grounded. Uses manual dexterity to create beauty, such as sculpting, painting, or jewelry making."
+        },
+        {
+          "pada": 3,
+          "description": "Gemini Navamsha (16°40' - 20°00' Virgo): Driven by Mercury. The pinnacle of intellectual and communicative skill. Excellent for writers, speakers, accountants, and traders."
+        },
+        {
+          "pada": 4,
+          "description": "Cancer Navamsha (20°00' - 23°20' Virgo): Driven by Moon. Highly empathetic and nurturing. Uses the hands for healing, such as massage therapy, Reiki, or cooking."
+        }
+      ],
+      "compatibility": "Hasta is highly compatible with Mrigashira, Chitra, and Revati. It often struggles with Shatabhisha and Ashwini.",
+      "faqs": [
+        {
+          "question": "What does the Hand symbol represent?",
+          "answer": "It represents grasping, holding, and releasing. It signifies skill, craftsmanship, healing, but also the potential for greed or holding onto things (and people) too tightly."
+        },
+        {
+          "question": "What is the power of Hasta?",
+          "answer": "Its power is \"Hasta Sthapaniya Agama Shakti,\" the power to place one's objective in one's own hands, literally meaning the power to manifest desires into physical reality."
         }
       ]
     }
   },
   {
-    id: 'chitra',
-    name: 'Chitra',
-    meaning: 'The Bright / The Beautiful',
-    deity: 'Tvastar (The Celestial Architect)',
-    rulingPlanet: 'Mars',
-    zodiacSign: 'Virgo (23°20′) to Libra (6°40′)',
-    symbol: 'Bright Jewel or Pearl',
-    content: {
-      introduction: 'Chitra bridges the practical sign of Virgo and the aesthetic sign of Libra. Symbolized by a bright jewel, it represents beauty, structure, and artistic brilliance. Ruled by Tvastar, the celestial architect, Chitra is the Nakshatra of creation, design, and giving form to the formless. It is associated with magic, illusion, and visual splendor.',
-      personalityTraits: 'Chitra natives are highly charismatic, attractive, and possess an impeccable sense of aesthetics. They are natural designers and architects, constantly seeking to create beauty around them. They are intelligent and dynamic, thanks to their ruling planet Mars. However, they can sometimes be overly focused on outward appearances, superficiality, or ego.',
-      careerInterests: 'They excel in visual and structural arts. This includes architecture, interior design, fashion design, jewelry making, photography, sculpting, and engineering.',
-      faqs: [
+    "id": "chitra",
+    "name": "Chitra",
+    "meaning": "The Brilliant / The Beautiful",
+    "deity": "Tvastar (The Celestial Architect)",
+    "rulingPlanet": "Mars",
+    "zodiacSign": "Virgo (23°20′) to Libra (6°40′)",
+    "symbol": "A Bright Jewel or Pearl",
+    "content": {
+      "introduction": "Chitra bridges the signs of Virgo and Libra and is known as the 'Star of Opportunity' and the 'Star of Brilliance'. Symbolized by a glittering, multifaceted jewel or pearl, it represents aesthetics, structure, and the ultimate refinement of matter into art. Ruled by Tvastar (Vishwakarma), the celestial architect of the gods, Chitra is the Nakshatra of unparalleled creativity, design, and the illusion (Maya) of the material world.",
+      "personalityTraits": "Chitra natives are incredibly charismatic, attractive, and have a profound sense of aesthetics. They are the architects, designers, and illusionists of the zodiac. They have a sharp, penetrating intellect (Mars) combined with a love for beauty and balance (Libra). They are perfectionists who are always seeking to improve and beautify their surroundings. They are deeply creative, fiercely independent, and have a magnetic presence.",
+      "careerInterests": "They excel in fields involving design, structure, and aesthetics. Excellent careers include architecture, interior design, fashion, jewelry making, graphic design, surgery, photography, and the film/illusion industry.",
+      "shadowSide": "The shadow side of Chitra is a superficial obsession with external beauty and a tendency to get lost in 'Maya' (illusion). They can be highly critical, narcissistic, and argumentative (due to Mars) when things are not 'perfect'. They may struggle with deep emotional intimacy because they are too focused on the polished, perfect surface.",
+      "fourPadas": [
         {
-          question: 'What is the significance of the celestial architect?',
-          answer: 'Tvastar creates the weapons of the gods and the beautiful forms of the universe. Chitra natives possess this same magical ability to craft and design stunning structures and art.'
+          "pada": 1,
+          "description": "Leo Navamsha (23°20' - 26°40' Virgo): Driven by Sun. Highly dramatic, authoritative, and focused on personal brilliance and self-expression. Excellent leaders."
         },
         {
-          question: 'What is the power of Chitra?',
-          answer: 'Its power is "Punya Chayani Shakti," the power to accumulate merit and create beautiful, magical forms in life.'
+          "pada": 2,
+          "description": "Virgo Navamsha (26°40' - 30°00' Virgo): Driven by Mercury. The most analytical and perfectionist pada. Vargottama placement, making them unparalleled in technical design."
+        },
+        {
+          "pada": 3,
+          "description": "Libra Navamsha (0°00' - 3°20' Libra): Driven by Venus. Vargottama placement. The most artistic, social, and relationship-oriented pada. Highly focused on aesthetics."
+        },
+        {
+          "pada": 4,
+          "description": "Scorpio Navamsha (3°20' - 6°40' Libra): Driven by Mars. The most intense and mystical pada. Seeks to design and structure the hidden, occult, or psychological realms."
+        }
+      ],
+      "compatibility": "Chitra is highly compatible with Vishakha, Hasta, and Swati. It often experiences intense friction with Mrigashira and Purva Bhadrapada.",
+      "faqs": [
+        {
+          "question": "Why is Chitra associated with Maya (Illusion)?",
+          "answer": "Chitra represents the beautiful, glittering jewel. While beautiful, a jewel only reflects light; it does not create it. Chitra natives must learn to see beyond the beautiful illusions of the material world to find spiritual truth."
+        },
+        {
+          "question": "What is the power of Chitra?",
+          "answer": "Its power is \"Punya Chayani Shakti,\" the power to accumulate merit in this life and properly structure and manifest one's karma into beautiful forms."
         }
       ]
     }
   },
   {
-    id: 'swati',
-    name: 'Swati',
-    meaning: 'The Independent One / The Sword',
-    deity: 'Vayu (The Wind God)',
-    rulingPlanet: 'Rahu',
-    zodiacSign: 'Libra (6°40′ – 20°00′)',
-    symbol: 'Young Sprout waving in the wind',
-    content: {
-      introduction: 'Swati resides entirely within the balancing sign of Libra. Symbolized by a young sprout blowing in the wind, it represents adaptability, independence, and the ability to survive in changing circumstances. Ruled by Vayu, the God of Wind, Swati is a Nakshatra of movement, intellect, and gentle strength. It thrives on freedom and fresh air.',
-      personalityTraits: 'Swati natives are fiercely independent, diplomatic, and highly adaptable. They are excellent communicators and possess a natural charm that makes them popular in social settings. Like the wind, they can be restless and constantly on the move. They are fair-minded but can sometimes be indecisive or struggle to plant firm roots due to their desire for freedom.',
-      careerInterests: 'They excel in fields involving communication, movement, and diplomacy. Good careers include business, trade, public relations, aviation, travel industry, law, and independent entrepreneurship.',
-      faqs: [
+    "id": "swati",
+    "name": "Swati",
+    "meaning": "The Independent One / The Sword",
+    "deity": "Vayu (The God of Wind)",
+    "rulingPlanet": "Rahu",
+    "zodiacSign": "Libra (6°40′ – 20°00′)",
+    "symbol": "A Young Plant / A Sword",
+    "content": {
+      "introduction": "Swati resides entirely in the sign of Libra and translates to 'The Independent One' or 'The Sword'. Symbolized by a young shoot blowing in the wind, it represents extreme adaptability, freedom, and surviving against the odds. Ruled by Vayu, the God of Wind, and governed by the expansive node Rahu, Swati is a highly diplomatic, restless, and ambitious Nakshatra that seeks to balance freedom with partnership.",
+      "personalityTraits": "Swati natives are fiercely independent, adaptable, and restless. Like the wind, they hate feeling caged or restricted. They are master diplomats, highly charming, and possess a sweet, communicative nature that allows them to navigate complex social situations with ease. They are late bloomers who start small (like a young shoot) but can achieve massive success later in life through sheer adaptability and persistence.",
+      "careerInterests": "They excel in fields involving communication, travel, and diplomacy. Good careers include aviation, travel industry, public relations, politics, sales, independent entrepreneurship, and any profession requiring negotiation.",
+      "shadowSide": "The shadow side of Swati is extreme indecisiveness and a tendency to manipulate others to maintain their own freedom. Their desire to please everyone can make them seem superficial or two-faced. Because they are ruled by Rahu, they can also suffer from deep, unquenchable material desires and extreme restlessness.",
+      "fourPadas": [
         {
-          question: 'Why is Swati associated with independence?',
-          answer: 'The name Swati translates to "self-going" or independent. The sprout survives the storm not by being rigid, but by bending with the wind, showcasing independent resilience.'
+          "pada": 1,
+          "description": "Sagittarius Navamsha (6°40' - 10°00' Libra): Driven by Jupiter. Highly philosophical, optimistic, and seeks freedom through knowledge and long-distance travel."
         },
         {
-          question: 'What is the power of Swati?',
-          answer: 'Its power is "Pradhvamsa Shakti," the power to scatter like the wind, dispersing negativity and spreading ideas or seeds over vast distances.'
+          "pada": 2,
+          "description": "Capricorn Navamsha (10°00' - 13°20' Libra): Driven by Saturn. Highly ambitious and practical. Uses their diplomatic skills to climb the corporate or social ladder."
+        },
+        {
+          "pada": 3,
+          "description": "Aquarius Navamsha (13°20' - 16°40' Libra): Driven by Saturn. Extremely independent, humanitarian, and unconventional. Vargottama in essence (air in air), creating a brilliant, innovative mind."
+        },
+        {
+          "pada": 4,
+          "description": "Pisces Navamsha (16°40' - 20°00' Libra): Driven by Jupiter. The most spiritual and empathetic pada. Highly adaptable, but can be overly yielding and prone to escapism."
+        }
+      ],
+      "compatibility": "Swati is highly compatible with Ardra, Shatabhisha, and Ashwini. It often faces intense karmic friction with Rohini and Bharani.",
+      "faqs": [
+        {
+          "question": "What does the young shoot blowing in the wind symbolize?",
+          "answer": "It symbolizes resilience and adaptability. A young shoot bends when the harsh wind blows, rather than breaking like a stiff tree. Swati natives survive and thrive by adapting to their circumstances without breaking."
+        },
+        {
+          "question": "What is the power of Swati?",
+          "answer": "Its power is \"Pradhvamsa Shakti,\" the power to scatter like the wind. This means the ability to spread ideas, influence, and oneself far and wide."
         }
       ]
     }
   },
   {
-    id: 'vishakha',
-    name: 'Vishakha',
-    meaning: 'The Forked / Two-Branched',
-    deity: 'Indra (King of Gods) and Agni (God of Fire)',
-    rulingPlanet: 'Jupiter',
-    zodiacSign: 'Libra (20°00′) to Scorpio (3°20′)',
-    symbol: 'Triumphal Arch / Potter\'s Wheel',
-    content: {
-      introduction: 'Vishakha bridges the diplomatic sign of Libra and the intense sign of Scorpio. Symbolized by a triumphal arch, it is a Nakshatra of extreme ambition, victory, and the relentless pursuit of goals. Uniquely ruled by two deities—Indra (power) and Agni (fire)—Vishakha possesses a burning desire to succeed and conquer, often at the expense of social harmony.',
-      personalityTraits: 'Vishakha natives are highly driven, ambitious, and focused on their goals. They are competitive, passionate, and possess immense willpower. They often face two distinct paths in life (the forked branch) and must make difficult choices. While they achieve great success, their intense focus can sometimes lead to jealousy, frustration, or the alienation of others.',
-      careerInterests: 'They thrive in highly competitive and leadership roles. Excellent fields include politics, military leadership, business management, research, sports, and any profession requiring relentless drive.',
-      faqs: [
+    "id": "vishakha",
+    "name": "Vishakha",
+    "meaning": "The Forked / Two-Branched",
+    "deity": "Indra (God of the Gods) and Agni (God of Fire)",
+    "rulingPlanet": "Jupiter",
+    "zodiacSign": "Libra (20°00′) to Scorpio (3°20′)",
+    "symbol": "Triumphal Arch / Potter's Wheel",
+    "content": {
+      "introduction": "Vishakha bridges the airy sign of Libra and the watery, intense sign of Scorpio. Known as the 'Star of Purpose', it is symbolized by a triumphal arch (victory) and a potter's wheel (patient creation). Uniquely ruled by two deities—Indra (ambition/power) and Agni (fire/purification)—Vishakha represents a burning, relentless drive to achieve one's goals and conquer obstacles. It is a highly ambitious, focused, and sometimes ruthless Nakshatra.",
+      "personalityTraits": "Individuals born under Vishakha are fiercely ambitious, goal-oriented, and extremely determined. They possess immense patience (like the potter spinning the wheel) but also a fiery, explosive energy (Agni) when they take action. They are highly intelligent, deeply philosophical (ruled by Jupiter), and make formidable opponents. They are obsessed with achieving their ultimate goals and will endure massive hardships to cross the 'triumphal arch'.",
+      "careerInterests": "They excel in fields requiring strategy, leadership, and relentless focus. Excellent careers include politics, military leadership, scientific research, law, debate, entrepreneurship, and high-level management.",
+      "shadowSide": "The shadow side of Vishakha is extreme obsession, jealousy, and a 'means justify the ends' mentality. Their ambition can become so blinding that they destroy relationships in pursuit of their goals. They often suffer from an intense inner void—once they achieve their goal, they immediately feel empty and must find a new target.",
+      "fourPadas": [
         {
-          question: 'What does the Triumphal Arch symbolize?',
-          answer: 'It symbolizes victory after a long, hard-fought battle. Vishakha natives are focused on crossing that finish line, no matter the obstacles.'
+          "pada": 1,
+          "description": "Aries Navamsha (20°00' - 23°20' Libra): Driven by Mars. Highly aggressive, pioneering, and competitive. Will fiercely fight for their goals and beliefs."
         },
         {
-          question: 'What is the power of Vishakha?',
-          answer: 'Its power is "Vyapana Shakti," the power to achieve and manifest various goals and desires through concentrated effort.'
+          "pada": 2,
+          "description": "Taurus Navamsha (23°20' - 26°40' Libra): Driven by Venus. Focuses their intense ambition on acquiring material wealth, luxury, and artistic perfection."
+        },
+        {
+          "pada": 3,
+          "description": "Gemini Navamsha (26°40' - 30°00' Libra): Driven by Mercury. The intellectual warrior. Excellent at debate, communication, and outsmarting their opponents."
+        },
+        {
+          "pada": 4,
+          "description": "Cancer Navamsha (0°00' - 3°20' Scorpio): Driven by Moon. The most intense and emotionally turbulent pada. Ambition is driven by deep psychological needs and occult interests."
+        }
+      ],
+      "compatibility": "Vishakha is highly compatible with Chitra, Jyeshtha, and Shatabhisha. It often struggles with Krittika and Ashwini.",
+      "faqs": [
+        {
+          "question": "Why is it ruled by two deities?",
+          "answer": "Indra represents the desire for ultimate power, victory, and kingship, while Agni represents the intense fire, purification, and energy required to achieve it. Together, they create an unstoppable force."
+        },
+        {
+          "question": "What is the power of Vishakha?",
+          "answer": "Its power is \"Vyapana Shakti,\" the power to achieve and conquer various goals, plucking the fruits of one's hard labor."
         }
       ]
     }
   },
   {
-    id: 'anuradha',
-    name: 'Anuradha',
-    meaning: 'Following Radha / The Star of Success',
-    deity: 'Mitra (God of Friendship and Partnerships)',
-    rulingPlanet: 'Saturn',
-    zodiacSign: 'Scorpio (3°20′ – 16°40′)',
-    symbol: 'Lotus Flower / Triumphal Archway',
-    content: {
-      introduction: 'Anuradha resides in Scorpio and serves as a soothing balm to the intense, competitive energy of Vishakha. Symbolized by a lotus flower, it represents the ability to bloom and maintain purity in the murky waters of Scorpio. Ruled by Mitra, the god of friendship, Anuradha is a Nakshatra of devotion, harmony, and achieving success through cooperation rather than conquest.',
-      personalityTraits: 'Anuradha natives are extremely devoted, friendly, and possess a strong sense of community. They are natural peacemakers who value relationships and collaboration. Despite the emotional depths of Scorpio, they maintain an optimistic and persevering spirit (granted by Saturn). They are deeply romantic and spiritual but can sometimes struggle with melancholy or over-dependence on others.',
-      careerInterests: 'They excel in collaborative and community-focused roles. Good careers include human resources, event management, diplomacy, healing, travel industry, spiritual leadership, and organizational roles.',
-      faqs: [
+    "id": "anuradha",
+    "name": "Anuradha",
+    "meaning": "Following Radha / The Spark",
+    "deity": "Mitra (God of Friendship and Alliances)",
+    "rulingPlanet": "Saturn",
+    "zodiacSign": "Scorpio (3°20′ – 16°40′)",
+    "symbol": "Lotus Flower / Triumphal Archway",
+    "content": {
+      "introduction": "Anuradha resides entirely within the intense, watery sign of Scorpio. Following the fierce ambition of Vishakha, Anuradha translates to 'Following Radha' (the ultimate devotee), representing the shift from purely material ambition to spiritual devotion and universal love. Symbolized by a lotus flower, which grows in muddy waters but remains pure, it is the star of success through emotional resilience, deep friendships, and spiritual awakening.",
+      "personalityTraits": "Anuradha natives are deeply emotional, intensely devoted, and highly resilient. They possess a natural ability to form deep, meaningful friendships and alliances across all social boundaries. They are highly intuitive, deeply spiritual, and often have a strong interest in the occult or hidden mysteries (Scorpio influence). They are incredibly hardworking (Saturn influence) and possess the unique ability to maintain their purity and optimism even in the darkest or most difficult environments.",
+      "careerInterests": "They excel in professions requiring diplomacy, deep investigation, and healing. Good careers include psychology, astrology, diplomacy, human resources, scientific research, mining, and spiritual counseling.",
+      "shadowSide": "The shadow side of Anuradha is a tendency to be overly controlling, secretive, and emotionally dependent. Their deep need for connection can make them clingy or prone to intense jealousy. Because they are ruled by Saturn in the sign of Scorpio, they often face severe emotional hardships or delays early in life, leading to periods of melancholy.",
+      "fourPadas": [
         {
-          question: 'Why is it symbolized by a lotus?',
-          answer: 'The lotus grows in mud but remains pristine. It signifies the Anuradha native\'s ability to maintain purity, devotion, and optimism even amidst the difficult, transformative energy of Scorpio.'
+          "pada": 1,
+          "description": "Leo Navamsha (3°20' - 6°40' Scorpio): Driven by Sun. Highly dignified, proud, and seeks leadership roles within their spiritual or social communities."
         },
         {
-          question: 'What is the power of Anuradha?',
-          answer: 'Its power is "Radhana Shakti," the power of worship and devotion, allowing one to achieve goals through love, friendship, and dedication.'
+          "pada": 2,
+          "description": "Virgo Navamsha (6°40' - 10°00' Scorpio): Driven by Mercury. Highly analytical and practical. Excels at organizing people and deep, structured research."
+        },
+        {
+          "pada": 3,
+          "description": "Libra Navamsha (10°00' - 13°20' Scorpio): Driven by Venus. The most artistic and sociable pada. Excels in diplomacy, forming alliances, and creating harmony in dark situations."
+        },
+        {
+          "pada": 4,
+          "description": "Scorpio Navamsha (13°20' - 16°40' Scorpio): Driven by Mars. Vargottama placement. Extremely intense, deeply occult-oriented, and undergoes massive emotional transformations."
+        }
+      ],
+      "compatibility": "Anuradha is highly compatible with Jyeshtha, Vishakha, and Rohini. It often clashes with Bharani and Purva Bhadrapada.",
+      "faqs": [
+        {
+          "question": "What does the Lotus symbol mean for Anuradha?",
+          "answer": "The lotus grows in muddy, stagnant water but blossoms beautifully above it, untouched by the dirt. This symbolizes the Anuradha native's ability to survive intense hardships (Scorpio mud) and bloom into spiritual purity and success."
+        },
+        {
+          "question": "What is the power of Anuradha?",
+          "answer": "Its power is \"Radhana Shakti,\" the power of worship, devotion, and the ability to achieve one's goals through universal friendship and love."
         }
       ]
     }
   },
   {
-    id: 'jyeshtha',
-    name: 'Jyeshtha',
-    meaning: 'The Eldest / The Senior Most',
-    deity: 'Indra (King of the Gods)',
-    rulingPlanet: 'Mercury',
-    zodiacSign: 'Scorpio (16°40′ – 30°00′)',
-    symbol: 'Circular Amulet / Umbrella',
-    content: {
-      introduction: 'Jyeshtha is the final Nakshatra in the second cycle, marking the end of the soul\'s journey through the first 18 lunar mansions. Residing at the end of Scorpio, it translates to "The Eldest" and represents seniority, authority, and protective power. Ruled by Indra, the king of the gods, Jyeshtha carries an intense energy of leadership, battle, and the responsibility of the elder.',
-      personalityTraits: 'Jyeshtha natives possess a commanding presence, sharp intellect, and a protective nature. They are natural leaders who take on responsibilities for their family or community. They are highly analytical (due to Mercury) and deeply emotional (due to Scorpio). However, they can struggle with jealousy, ego, and the pressure of always needing to be in charge or respected.',
-      careerInterests: 'They thrive in authoritative and protective roles. Excellent fields include military command, police force, executive management, politics, occult sciences, and investigative journalism.',
-      faqs: [
+    "id": "jyeshtha",
+    "name": "Jyeshtha",
+    "meaning": "The Eldest / The Senior Most",
+    "deity": "Indra (King of the Gods)",
+    "rulingPlanet": "Mercury",
+    "zodiacSign": "Scorpio (16°40′ – 30°00′)",
+    "symbol": "Circular Amulet / Umbrella / Earring",
+    "content": {
+      "introduction": "Jyeshtha is the final Nakshatra of the second cosmic cycle, residing at the very end of the intense sign of Scorpio (the Gandanta point). Translating to 'The Eldest' or 'The Senior Most', it represents the peak of material and occult power before the soul transitions into the spiritual realm of Sagittarius. Symbolized by a circular amulet or an umbrella (symbols of protection and authority), Jyeshtha is ruled by Indra, the king of the gods. It is a star of immense authority, profound occult knowledge, and intense psychological battles.",
+      "personalityTraits": "Jyeshtha natives are natural leaders, highly intelligent, and fiercely independent. They demand respect and often assume the role of the 'eldest' or the protector in their families and communities, regardless of their actual age. They are incredibly sharp, perceptive, and possess a deeply probing mind. They are fearless defenders of the weak but can also be ruthless in destroying their enemies.",
+      "careerInterests": "They excel in high-level leadership, investigative, and protective roles. Excellent careers include military leadership, politics, police/detective work, occult sciences, psychology, surgery, and executive management.",
+      "shadowSide": "The shadow side of Jyeshtha is intense arrogance, a massive ego, and a tendency to become dictatorial. Because they feel they know best, they can be highly controlling and refuse to take advice. They often suffer from deep insecurities and paranoia, feeling that others are trying to usurp their 'throne'.",
+      "fourPadas": [
         {
-          question: 'What does the umbrella symbol mean?',
-          answer: 'The umbrella is a traditional symbol of royalty and protection. It signifies Jyeshtha\'s role in providing shelter and protection to those under their authority.'
+          "pada": 1,
+          "description": "Sagittarius Navamsha (16°40' - 20°00' Scorpio): Driven by Jupiter. Highly philosophical and moral. Uses their authority and sharp intellect to fight for justice and higher truths."
         },
         {
-          question: 'What is the power of Jyeshtha?',
-          answer: 'Its power is "Arohana Shakti," the power to rise, conquer, and gain supremacy over obstacles and enemies.'
+          "pada": 2,
+          "description": "Capricorn Navamsha (20°00' - 23°20' Scorpio): Driven by Saturn. Highly disciplined, ambitious, and practical. Excellent at building and maintaining structures of power."
+        },
+        {
+          "pada": 3,
+          "description": "Aquarius Navamsha (23°20' - 26°40' Scorpio): Driven by Saturn. Unconventional, scientific, and humanitarian. Uses their authority to protect the masses and innovate."
+        },
+        {
+          "pada": 4,
+          "description": "Pisces Navamsha (26°40' - 30°00' Scorpio): Driven by Jupiter. The Gandanta point. Extremely emotional, mystical, and prone to profound spiritual crises and awakenings."
+        }
+      ],
+      "compatibility": "Jyeshtha is highly compatible with Anuradha, Vishakha, and Magha. It often faces intense, explosive friction with Ashwini and Mula.",
+      "faqs": [
+        {
+          "question": "Why is Jyeshtha a difficult Nakshatra?",
+          "answer": "It sits at the Gandanta point—the turbulent junction between water (Scorpio) and fire (Sagittarius). It represents the painful psychological tearing of the ego as the soul prepares to give up material power for spiritual truth."
+        },
+        {
+          "question": "What is the power of Jyeshtha?",
+          "answer": "Its power is \"Arohana Shakti,\" the power to rise above, conquer, and gain supremacy over obstacles and enemies."
         }
       ]
     }

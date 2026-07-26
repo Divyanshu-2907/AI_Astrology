@@ -12,6 +12,7 @@ interface Props {
 	ogImage?: string;
 	ogType?: string;
 	lang?: string;
+	noindex?: boolean;
 }
 
 const { 
@@ -20,7 +21,8 @@ const {
 	canonicalUrl = Astro.url.href.endsWith('/') && Astro.url.pathname !== '/' ? Astro.url.href.slice(0, -1) : Astro.url.href, 
 	ogImage = new URL('/og-image.png', Astro.url.href).href,
 	ogType = 'website',
-	lang = 'en'
+	lang = 'en',
+	noindex = false
 } = Astro.props;
 
 import { getLangFromUrl } from '../i18n/utils';
@@ -45,6 +47,7 @@ const hiUrl = isHindi ? `https://freeastrologyai.com${currentPath}` : `https://f
 		
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		{noindex && <meta name="robots" content="noindex, follow" />}
 		<link rel="canonical" href={canonicalUrl} />
 		<link rel="alternate" hreflang="en" href={enUrl} />
 		<link rel="alternate" hreflang="hi" href={hiUrl} />

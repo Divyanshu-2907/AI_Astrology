@@ -22,7 +22,7 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 
     <div class="grid grid-cols-1 gap-8">
       {posts.map(post => (
-        <a href={`/hi/articles/${post.slug.replace('hi/', '')}`} class="glass-card p-6 md:p-8 block hover:-translate-y-1 transition-transform duration-300">
+        <a href={`/hi/articles/${(post.slug || post.id).replace('hi/', '')}`} class="glass-card p-6 md:p-8 block hover:-translate-y-1 transition-transform duration-300">
           <div class="flex flex-col md:flex-row gap-6">
             <div class="flex-1">
               <div class="flex items-center gap-4 mb-4">

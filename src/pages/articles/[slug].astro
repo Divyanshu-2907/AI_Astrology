@@ -9,7 +9,7 @@ export async function getStaticPaths() {
     return data.lang === 'en';
   });
   return blogEntries.map(entry => ({
-    params: { slug: entry.slug.replace('en/', '') },
+    params: { slug: (entry.slug || entry.id).replace('en/', '') },
     props: { entry },
   }));
 }

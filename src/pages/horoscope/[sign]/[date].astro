@@ -5,11 +5,6 @@ import HoroscopeInternalLinks from '../../../components/HoroscopeInternalLinks.a
 import JsonLdArticle from '../../../components/JsonLdArticle.astro';
 import JsonLdFAQ from '../../../components/JsonLdFAQ.astro';
 
-export function getStaticPaths() {
-  // We need to define paths for signs if we want to prerender, but since it's SSR (output: 'server'),
-  // we don't strictly need getStaticPaths, but Astro might complain if we don't return params or if it's dynamic.
-  // Wait, if output is server, Astro allows dynamic params without getStaticPaths.
-}
 
 const { sign, date } = Astro.params;
 const lang = getLangFromUrl(Astro.url);
@@ -17,6 +12,10 @@ const lang = getLangFromUrl(Astro.url);
 const displayDate = new Date(date as string).toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-US', {
   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
 });
+
+// Calculate if the horoscope is older than 7 days to noindex it
+const isHistorical = (Date.now() - new Date(date as string).getTime()) > 7 * 24 * 60 * 60 * 1000;
+
 
 import { env } from 'cloudflare:workers';
 
@@ -95,6 +94,7 @@ try {
 <BaseLayout 
   title={contentData ? contentData.seo_title : `${sign} Horoscope for ${displayDate} | AI Astrology`}
   description={contentData ? contentData.meta_description : `Read the daily astrological insights for ${sign} on ${displayDate}.`}
+  noindex={isHistorical}
 >
   {contentData && (
     <>

@@ -46,6 +46,23 @@ const { house } = Astro.props;
       </div>
 
       <div class="glass-card p-8">
+        <h2 class="text-2xl font-serif text-theme-main mb-4">वैदिक बनाम पश्चिमी दृष्टिकोण (Vedic vs Western)</h2>
+        <p class="text-theme-muted leading-relaxed">{house.content.vedicVsWestern}</p>
+      </div>
+
+      <div class="glass-card p-8 border-l-4 border-l-primary">
+        <h2 class="text-2xl font-serif text-theme-main mb-6">{house.name} में ग्रहों का प्रभाव</h2>
+        <div class="space-y-6">
+          {house.content.planetsInHouse.map(p => (
+            <div class="bg-glass-border/30 p-4 rounded-xl">
+              <h3 class="text-lg font-medium text-theme-main mb-2">{p.planet}</h3>
+              <p class="text-theme-muted text-sm leading-relaxed">{p.influence}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="glass-card p-8">
         <h2 class="text-2xl font-serif text-theme-main mb-6">अक्सर पूछे जाने वाले प्रश्न (FAQs)</h2>
         <div class="space-y-6">
           {house.content.faqs.map(faq => (

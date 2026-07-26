@@ -6,15 +6,10 @@ import cloudflare from '@astrojs/cloudflare';
 
 const signs = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
 const generatedPages = [];
-for (const s1 of signs) {
-  for (const s2 of signs) {
-    if (s1 !== s2) generatedPages.push(`https://freeastrologyai.com/compatibility/${s1}-${s2}`);
-  }
-}
 
-// Add the last 30 days of horoscope pages
+// Add the last 7 days of horoscope pages (older ones are noindexed)
 const today = new Date();
-for (let i = 0; i < 30; i++) {
+for (let i = 0; i < 7; i++) {
   const date = new Date(today);
   date.setDate(date.getDate() - i);
   const dateStr = date.toISOString().split('T')[0];
