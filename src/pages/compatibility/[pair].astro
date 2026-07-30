@@ -5,6 +5,7 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import CompatibilityComponent from '../../components/pages/Compatibility.astro';
 import { getLangFromUrl } from '../../i18n/utils';
+import { getCompatibility } from '../../lib/compatibility';
 
 export const prerender = true;
 
@@ -29,13 +30,14 @@ const s2 = capitalize(sign2);
 
 const lang = getLangFromUrl(Astro.url);
 const ogImage = new URL(`/api/og-compatibility?signs=${pair}&lang=${lang}`, Astro.url.origin).href;
+
+const compatData = getCompatibility(s1, s2, 'en');
 ---
 
 <BaseLayout 
   title={`${s1} and ${s2} Compatibility — Love, Friendship & Marriage | AI Astrology`}
   description={`Discover ${s1} and ${s2} compatibility in love, friendship, and marriage. Get a detailed compatibility score, analysis, and relationship advice.`}
   ogImage={ogImage}
-  noindex={true}
 >
   <!-- Redirect to the compatibility tool with pre-filled signs -->
   <script define:vars={{ sign1, sign2 }}>
@@ -56,9 +58,20 @@ const ogImage = new URL(`/api/og-compatibility?signs=${pair}&lang=${lang}`, Astr
       <h2 class="text-2xl font-serif text-theme-main mb-4">{s1} and {s2}: Understanding Your Connection</h2>
       <p class="text-theme-muted mb-4">When {s1} meets {s2}, the cosmic energies create a unique and fascinating dynamic. Understanding how these two signs interact can provide profound insights into your relationship, whether you are exploring a romantic connection, building a friendship, or navigating a professional partnership.</p>
 
-      <p class="text-theme-muted mb-4">In Vedic astrology, compatibility between signs is determined by multiple factors including the elements they belong to, their ruling planets, their modal quality (Cardinal, Fixed, or Mutable), and the angular relationship between them in the zodiac wheel. These factors combine to create the distinctive energy pattern that defines {s1} and {s2} relationships.</p>
+      <p class="text-theme-muted mb-4 text-lg font-medium text-white">{compatData.overall}</p>
 
-      <p class="text-theme-muted mb-4">While sun sign compatibility offers a valuable starting point, a complete astrological compatibility analysis — known as Kundali matching in Vedic astrology — examines the full birth charts of both individuals. This includes the Moon sign (which governs emotions and instincts), Venus (which rules love and attraction), Mars (which governs desire and energy), and the 8 Ashtakoot factors that Vedic astrology uses to assess relationship harmony on a scale of 36 points.</p>
+      <h3 class="text-xl font-serif text-theme-main mt-6 mb-3">Love & Romance Compatibility ({Math.round(compatData.love.score)}%)</h3>
+      <p class="text-theme-muted mb-4">{compatData.love.analysis} In Vedic astrology, compatibility between signs is determined by multiple factors including the elements they belong to, their ruling planets, and their modal quality. These factors combine to create the distinctive energy pattern that defines {s1} and {s2} romantic relationships.</p>
+
+      <h3 class="text-xl font-serif text-theme-main mt-6 mb-3">Friendship & Communication</h3>
+      <p class="text-theme-muted mb-4">{compatData.friendship.analysis} {compatData.communication.analysis} While sun sign compatibility offers a valuable starting point, a complete astrological compatibility analysis — known as Kundali matching in Vedic astrology — examines the full birth charts of both individuals.</p>
+
+      <h3 class="text-xl font-serif text-theme-main mt-6 mb-3">Potential Challenges</h3>
+      <ul class="text-theme-muted mb-6 list-disc pl-6 space-y-2">
+        {compatData.challenges.map(challenge => (
+          <li>{challenge}</li>
+        ))}
+      </ul>
 
       <p class="text-theme-muted">Use the AI Astrology compatibility calculator to instantly discover the love compatibility, friendship compatibility, and overall harmony score for {s1} and {s2}. For a comprehensive relationship analysis based on your exact birth data, try our full Kundali Matching tool which provides a detailed report including Ashtakoot score, Mangal Dosha analysis, and personalized relationship guidance.</p>
     </section>
