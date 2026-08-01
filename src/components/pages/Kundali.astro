@@ -221,9 +221,11 @@ if (Astro.request.method === 'POST') {
                       </h2>
                       <div class="prose prose-invert max-w-none text-theme-muted">
                           <p>
-                            {lang === 'hi' 
-                                ? `आपका लग्न (Lagna) <strong>${chartData.lagna}</strong> है, जो आपको एक स्वाभाविक अग्रणी बनाता है। सूर्य अपनी ही राशि में आपके 5वें भाव में स्थित होने के कारण, आपमें मजबूत रचनात्मक बुद्धि और स्वाभाविक नेतृत्व के गुण हैं।` 
-                                : `Your Ascendant (Lagna) is <strong>${chartData.lagna}</strong>, which makes you a natural pioneer. With the Sun placed in your 5th house in its own sign, you possess strong creative intelligence and natural leadership qualities.`}
+                            {lang === 'hi' ? (
+                                <>आपका लग्न (Lagna) <strong>{chartData.lagna}</strong> है, जो आपको एक स्वाभाविक अग्रणी बनाता है। सूर्य अपनी ही राशि में आपके 5वें भाव में स्थित होने के कारण, आपमें मजबूत रचनात्मक बुद्धि और स्वाभाविक नेतृत्व के गुण हैं।</>
+                            ) : (
+                                <>Your Ascendant (Lagna) is <strong>{chartData.lagna}</strong>, which makes you a natural pioneer. With the Sun placed in your 5th house in its own sign, you possess strong creative intelligence and natural leadership qualities.</>
+                            )}
                           </p>
                           <p>
                             {lang === 'hi'
