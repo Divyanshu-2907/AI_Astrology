@@ -385,6 +385,7 @@
 [data-theme="light"] .tool-card[data-tool="compatibility"]::before { background: var(--tool-color-4); }
 [data-theme="light"] .tool-card[data-tool="panchang"]::before { background: var(--tool-color-5); }
 [data-theme="light"] .tool-card[data-tool="tarot"]::before { background: var(--tool-color-6); }
+[data-theme="light"] .tool-card[data-tool="kundali-matching"]::before { background: var(--tool-color-1); }
 
 [data-theme="light"] .tool-card-name {
   color: var(--text-heading) !important;

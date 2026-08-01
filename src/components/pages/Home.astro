@@ -97,7 +97,7 @@ const faqs = [
 
   <!-- Quick Tools -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20 mb-24">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <a href={getRelativeLocaleUrl(lang, '/horoscope')} class="tool-card p-6 hover:-translate-y-1 transition-transform group" data-tool="horoscope">
         <div class="tool-icon-box inline-block p-3 text-3xl mb-4 group-hover:scale-110 transition-transform origin-left text-primary">✨</div>
         <h3 class="tool-card-name font-serif text-xl text-theme-main mb-2">{lang === 'hi' ? 'आज का राशिफल' : "Today's Horoscope"}</h3>
@@ -120,6 +120,18 @@ const faqs = [
         <div class="tool-icon-box inline-block p-3 text-3xl mb-4 group-hover:scale-110 transition-transform origin-left text-rose-400">💞</div>
         <h3 class="tool-card-name font-serif text-xl text-theme-main mb-2">{lang === 'hi' ? 'अनुकूलता' : 'Compatibility'}</h3>
         <p class="tool-card-desc text-sm text-theme-muted mb-4">{lang === 'hi' ? 'जांचें कि दो राशियां कितनी अच्छी तरह मेल खाती हैं।' : 'Check how well two zodiac signs match.'}</p>
+        <span class="tool-card-link text-highlight text-sm font-medium">{lang === 'hi' ? 'निःशुल्क प्रयास करें' : 'Try free'} &rarr;</span>
+      </a>
+      <a href={getRelativeLocaleUrl(lang, '/kundali-matching')} class="tool-card p-6 hover:-translate-y-1 transition-transform group" data-tool="kundali-matching">
+        <div class="tool-icon-box inline-block p-3 text-3xl mb-4 group-hover:scale-110 transition-transform origin-left text-purple-400">💍</div>
+        <h3 class="tool-card-name font-serif text-xl text-theme-main mb-2">{lang === 'hi' ? 'कुंडली मिलान' : 'Kundali Matching'}</h3>
+        <p class="tool-card-desc text-sm text-theme-muted mb-4">{lang === 'hi' ? 'विवाह के लिए विस्तृत अष्टकूट गुण मिलान।' : 'Detailed Ashtakoot Guna Milan for marriage compatibility.'}</p>
+        <span class="tool-card-link text-highlight text-sm font-medium">{lang === 'hi' ? 'निःशुल्क प्रयास करें' : 'Try free'} &rarr;</span>
+      </a>
+      <a href={getRelativeLocaleUrl(lang, '/panchang')} class="tool-card p-6 hover:-translate-y-1 transition-transform group" data-tool="panchang">
+        <div class="tool-icon-box inline-block p-3 text-3xl mb-4 group-hover:scale-110 transition-transform origin-left text-emerald-400">📅</div>
+        <h3 class="tool-card-name font-serif text-xl text-theme-main mb-2">{lang === 'hi' ? 'पंचांग' : 'Panchang'}</h3>
+        <p class="tool-card-desc text-sm text-theme-muted mb-4">{lang === 'hi' ? 'आज के शुभ मुहूर्त और पंचांग विवरण की जांच करें।' : 'Check today\'s auspicious timings and calendar.'}</p>
         <span class="tool-card-link text-highlight text-sm font-medium">{lang === 'hi' ? 'निःशुल्क प्रयास करें' : 'Try free'} &rarr;</span>
       </a>
     </div>
