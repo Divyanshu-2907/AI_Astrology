@@ -35,12 +35,12 @@ const faqs = [
         <form id="numerology-form" class="space-y-6">
           <div>
             <label for="fullName" class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'पूरा जन्म नाम' : 'Full Birth Name'}</label>
-            <input type="text" id="fullName" required placeholder={lang === 'hi' ? "उदा. राम कुमार" : "e.g. John Doe"} class="w-full bg-background/50 border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+            <input type="text" id="fullName" required placeholder={lang === 'hi' ? "उदा. राम कुमार" : "e.g. John Doe"} class="w-full bg-glass-bg border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
             <p class="text-xs text-gray-500 mt-1">{lang === 'hi' ? 'अपना सटीक नाम दर्ज करें जैसा कि आपके जन्म प्रमाण पत्र पर दिखाई देता है।' : 'Enter your exact name as it appears on your birth certificate.'}</p>
           </div>
           <div>
             <label for="dob" class="block text-sm font-medium text-theme-muted mb-2">{lang === 'hi' ? 'जन्म की तारीख' : 'Date of Birth'}</label>
-            <input type="date" id="dob" required class="w-full bg-background/50 border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors [color-scheme:dark]">
+            <input type="date" id="dob" required class="w-full bg-glass-bg border border-glass-border rounded-lg px-4 py-3 text-theme-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
           </div>
           <button type="submit" class="btn-primary w-full py-3">{lang === 'hi' ? 'मेरे नंबरों की गणना करें' : 'Calculate My Numbers'}</button>
         </form>

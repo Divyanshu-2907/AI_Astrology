@@ -12,6 +12,8 @@
   --color-theme-bg: var(--theme-bg);
   --color-theme-main: var(--theme-text-main);
   --color-theme-muted: var(--theme-text-muted);
+  --color-glass-bg: var(--theme-glass-bg);
+  --color-glass-border: var(--theme-glass-border);
 }
 
 @layer base {

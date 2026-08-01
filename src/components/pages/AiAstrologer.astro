@@ -12,7 +12,7 @@ const lang = getLangFromUrl(Astro.url);
   
   <div id="chat-container" data-lang={lang} class="h-[80vh] flex flex-col glass-card overflow-hidden">
     <!-- Header -->
-    <div class="p-6 border-b border-glass-border bg-background/50 flex justify-between items-center">
+    <div class="p-6 border-b border-glass-border bg-glass-bg flex justify-between items-center">
       <div class="flex items-center">
         <div class="w-10 h-10 rounded-full bg-highlight flex items-center justify-center text-xl mr-4">🔮</div>
         <div>
@@ -44,7 +44,7 @@ const lang = getLangFromUrl(Astro.url);
     </div>
     
     <!-- Input Area -->
-    <div class="p-4 border-t border-glass-border bg-background/50">
+    <div class="p-4 border-t border-glass-border bg-glass-bg">
       <form id="chat-form" class="relative">
         <input 
           type="text" 
