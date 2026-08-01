@@ -1,10 +1,9 @@
 ---
 title: "The Ultimate Guide to Rahu and Ketu (The Lunar Nodes)"
 description: "Everything you need to know about Rahu and Ketu, the shadow planets of Vedic astrology, and how they shape your karma and destiny."
-date: "2026-08-01"
+pubDate: 2026-08-01
 author: "AI Astrology"
-tags: ["Astrology Basics", "Vedic Astrology", "Planets", "Karma"]
-image: "/images/blog/rahu-ketu.jpg"
+lang: "en"
 ---
 
 ## What Are Rahu and Ketu?

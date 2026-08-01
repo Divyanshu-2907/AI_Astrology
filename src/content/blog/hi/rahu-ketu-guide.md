@@ -1,10 +1,9 @@
 ---
 title: "राहु और केतु (छाया ग्रह) के लिए अंतिम मार्गदर्शिका"
 description: "राहु और केतु, वैदिक ज्योतिष के छाया ग्रहों के बारे में वह सब कुछ जो आपको जानना आवश्यक है, और वे आपके कर्म और भाग्य को कैसे आकार देते हैं।"
-date: "2026-08-01"
+pubDate: 2026-08-01
 author: "AI Astrology"
-tags: ["Astrology Basics", "Vedic Astrology", "Planets", "Karma"]
-image: "/images/blog/rahu-ketu.jpg"
+lang: "hi"
 ---
 
 ## राहु और केतु क्या हैं?

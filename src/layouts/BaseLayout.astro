@@ -18,19 +18,22 @@ interface Props {
 const { 
 	title, 
 	description, 
-	canonicalUrl = Astro.url.href.endsWith('/') && Astro.url.pathname !== '/' ? Astro.url.href.slice(0, -1) : Astro.url.href, 
-	ogImage = new URL('/og-image.png', Astro.url.href).href,
+	canonicalUrl,
+	ogImage = new URL('/og-image.png', 'https://freeastrologyai.com').href,
 	ogType = 'website',
 	lang = 'en',
 	noindex = false
 } = Astro.props;
 
+const baseUrl = 'https://freeastrologyai.com';
+const currentPathRaw = Astro.url.pathname;
+const currentPath = currentPathRaw.endsWith('/') && currentPathRaw !== '/' ? currentPathRaw.slice(0, -1) : currentPathRaw;
+const finalCanonicalUrl = canonicalUrl || `${baseUrl}${currentPath}`;
+
 import { getLangFromUrl } from '../i18n/utils';
 const currentLang = getLangFromUrl(Astro.url) || lang;
 
 // Build the alternate URL
-const currentPathRaw = Astro.url.pathname;
-const currentPath = currentPathRaw.endsWith('/') && currentPathRaw !== '/' ? currentPathRaw.slice(0, -1) : currentPathRaw;
 const isHindi = currentPath.startsWith('/hi');
 const enUrl = isHindi ? `https://freeastrologyai.com${currentPath.replace('/hi', '')}` : `https://freeastrologyai.com${currentPath}`;
 const hiUrl = isHindi ? `https://freeastrologyai.com${currentPath}` : `https://freeastrologyai.com/hi${currentPath}`;
@@ -48,7 +51,7 @@ const hiUrl = isHindi ? `https://freeastrologyai.com${currentPath}` : `https://f
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		{noindex && <meta name="robots" content="noindex, follow" />}
-		<link rel="canonical" href={canonicalUrl} />
+		<link rel="canonical" href={finalCanonicalUrl} />
 		<link rel="alternate" hreflang="en" href={enUrl} />
 		<link rel="alternate" hreflang="hi" href={hiUrl} />
 		<link rel="alternate" hreflang="x-default" href={enUrl} />
@@ -63,14 +66,14 @@ const hiUrl = isHindi ? `https://freeastrologyai.com${currentPath}` : `https://f
 		<meta property="og:locale" content={isHindi ? "hi_IN" : "en_US"} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:url" content={finalCanonicalUrl} />
 		<meta property="og:image" content={ogImage} />
 		<meta property="og:type" content={ogType} />
 
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:domain" content="freeastrologyai.com" />
-		<meta name="twitter:url" content={canonicalUrl} />
+		<meta name="twitter:url" content={finalCanonicalUrl} />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImage} />

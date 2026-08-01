@@ -1,10 +1,9 @@
 ---
 title: "ज्योतिष में 12 भावों को समझना"
 description: "ज्योतिष में 12 भावों (Houses) के लिए एक संपूर्ण मार्गदर्शिका और जानें कि वे आपके जीवन, करियर, रिश्तों और भाग्य के बारे में क्या बताते हैं।"
-date: "2026-08-01"
+pubDate: 2026-08-01
 author: "AI Astrology"
-tags: ["Astrology Basics", "Birth Chart", "Houses"]
-image: "/images/blog/astrology-houses.jpg"
+lang: "hi"
 ---
 
 ## ज्योतिष में 12 भाव क्या हैं?

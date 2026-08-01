@@ -1,10 +1,9 @@
 ---
 title: "आपकी शुक्र राशि आपके प्रेम जीवन के बारे में क्या बताती है"
 description: "जानें कि आपकी शुक्र राशि आपकी रोमांटिक अनुकूलता, आकर्षण शैली और रिश्ते में आपको वास्तव में क्या चाहिए, यह कैसे निर्धारित करती है।"
-date: "2026-08-01"
+pubDate: 2026-08-01
 author: "AI Astrology"
-tags: ["Astrology Basics", "Love & Relationships", "Venus"]
-image: "/images/blog/venus-astrology.jpg"
+lang: "hi"
 ---
 
 ## प्रेम और आकर्षण का ग्रह

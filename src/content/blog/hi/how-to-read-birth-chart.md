@@ -1,10 +1,9 @@
 ---
 title: "अपनी जन्म कुंडली कैसे पढ़ें: एक शुरुआती गाइड"
 description: "उत्तर भारतीय वैदिक ज्योतिष जन्म कुंडली को पढ़ने के मूल बातें जानें, जिसमें भाव, राशियां और ग्रहों की स्थिति शामिल है।"
-date: "2026-08-01"
+pubDate: 2026-08-01
 author: "AI Astrology"
-tags: ["Astrology Basics", "Vedic Astrology", "Birth Chart", "Tutorial"]
-image: "/images/blog/birth-chart-guide.jpg"
+lang: "hi"
 ---
 
 ## जन्म कुंडली क्या है?

@@ -5,7 +5,12 @@ import { getLangFromUrl, getRelativeLocaleUrl } from '../../../i18n/utils';
 const { date } = Astro.params;
 const lang = getLangFromUrl(Astro.url);
 
-const displayDate = new Date(date as string).toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-US', {
+const parsedDate = new Date(date as string);
+if (isNaN(parsedDate.getTime())) {
+  return new Response(null, { status: 404, statusText: 'Not found' });
+}
+
+const displayDate = parsedDate.toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-US', {
   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
 });
 

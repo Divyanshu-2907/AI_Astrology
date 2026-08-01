@@ -1,10 +1,9 @@
 ---
 title: "Understanding the 12 Astrological Houses"
 description: "A complete guide to the 12 houses in astrology and what they reveal about your life, career, relationships, and destiny."
-date: "2026-08-01"
+pubDate: 2026-08-01
 author: "AI Astrology"
-tags: ["Astrology Basics", "Birth Chart", "Houses"]
-image: "/images/blog/astrology-houses.jpg"
+lang: "en"
 ---
 
 ## What Are the 12 Houses in Astrology?

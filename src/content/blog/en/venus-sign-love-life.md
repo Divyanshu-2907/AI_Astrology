@@ -1,10 +1,9 @@
 ---
 title: "What Your Venus Sign Says About Your Love Life"
 description: "Discover how your Venus sign dictates your romantic compatibility, attraction style, and what you truly need in a relationship."
-date: "2026-08-01"
+pubDate: 2026-08-01
 author: "AI Astrology"
-tags: ["Astrology Basics", "Love & Relationships", "Venus"]
-image: "/images/blog/venus-astrology.jpg"
+lang: "en"
 ---
 
 ## The Planet of Love and Attraction

@@ -1,10 +1,9 @@
 ---
 title: "How to Read Your Own Birth Chart (Kundali): A Beginner's Guide"
 description: "Learn the basics of how to read a North Indian Vedic astrology birth chart (Kundali), including houses, signs, and planetary placements."
-date: "2026-08-01"
+pubDate: 2026-08-01
 author: "AI Astrology"
-tags: ["Astrology Basics", "Vedic Astrology", "Birth Chart", "Tutorial"]
-image: "/images/blog/birth-chart-guide.jpg"
+lang: "en"
 ---
 
 ## What is a Birth Chart (Kundali)?
