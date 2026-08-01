@@ -1,6 +1,7 @@
 ---
 import ToolLayout from '../layouts/ToolLayout.astro';
 import { zodiacs } from '../data/zodiacs';
+import AdSlot from '../components/AdSlot.astro';
 
 export const prerender = true;
 
@@ -53,6 +54,10 @@ const { zodiac } = Astro.props;
       <div class="glass-card p-8">
         <h2 class="text-2xl font-serif text-theme-main mb-4">Love and Relationships</h2>
         <p class="text-theme-muted leading-relaxed">{zodiac.content.loveAndRelationships}</p>
+      </div>
+
+      <div class="py-4">
+        <AdSlot />
       </div>
 
       <div class="glass-card p-8">

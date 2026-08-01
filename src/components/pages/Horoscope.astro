@@ -2,6 +2,7 @@
 import ToolLayout from '../../layouts/ToolLayout.astro';
 import ZodiacCard from '../../components/ZodiacCard.astro';
 import FaqJsonLd from '../FaqJsonLd.astro';
+import AdSlot from '../AdSlot.astro';
 import { getLangFromUrl } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -109,6 +110,8 @@ const signs = lang === 'hi' ? [
       });
     });
   </script>
+
+  <AdSlot />
 
   <div class="prose prose-invert max-w-none glass-card p-8">
     <h2 class="text-2xl font-serif mb-4 text-theme-main">{lang === 'hi' ? 'अपना दैनिक राशिफल समझना' : 'Understanding Your Daily Horoscope'}</h2>
