@@ -4,6 +4,11 @@ export const generateHoroscope = async (sign: string, timeframe: 'today' | 'week
     // 1. Resolve API Key
     const apiKey = envContext?.GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
     
+    const envResolved = envContext?.GEMINI_API_KEY ? 'Astro.locals.runtime.env' : 
+                        (import.meta.env.GEMINI_API_KEY ? 'import.meta.env' : 
+                        (process.env.GEMINI_API_KEY ? 'process.env' : 'none'));
+    console.log(`[VERIFY] API Key resolved from: ${envResolved}`);
+    
     if (!apiKey || apiKey === "placeholder") {
         throw new Error("GEMINI_API_KEY is missing or invalid.");
     }

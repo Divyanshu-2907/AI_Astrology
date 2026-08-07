@@ -12,6 +12,7 @@ const faqs = [
 ];
 
 const lang = getLangFromUrl(Astro.url);
+Astro.response.headers.set('X-Robots-Tag', 'noindex');
 ---
 
 <BaseLayout 
