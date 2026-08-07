@@ -4,8 +4,9 @@ interface Props {
   format?: string;
 }
 
-const { slot = 'XXXXXXXXXX', format = 'auto' } = Astro.props;
+const { slot = import.meta.env.PUBLIC_ADSENSE_SLOT_ID || 'XXXXXXXXXX', format = 'auto' } = Astro.props;
 const isDev = import.meta.env.DEV;
+const clientId = import.meta.env.PUBLIC_ADSENSE_CLIENT_ID || 'ca-pub-XXXXXXXXXX';
 ---
 
 {isDev ? (
@@ -17,7 +18,7 @@ const isDev = import.meta.env.DEV;
   <div class="ad-container my-4 text-center overflow-hidden">
     <ins class="adsbygoogle"
       style="display:block"
-      data-ad-client="ca-pub-XXXXXXXXXX"
+      data-ad-client={clientId}
       data-ad-slot={slot}
       data-ad-format={format}
       data-full-width-responsive="true"></ins>
