@@ -24,7 +24,17 @@ const signData = signs.find(s => s.sign === sign) || signs[0];
 const { name, glyph, element, planet } = signData;
 
 // Generate horoscope dynamically based on the requested period!
-const horoscopeText = await generateHoroscope(name, period);
+let horoscopeText = "";
+try {
+  const envContext = Astro.locals.runtime?.env;
+  horoscopeText = await generateHoroscope(name, period, envContext);
+} catch (e) {
+  console.error(`Error loading horoscope for ${sign}:`, e);
+  Astro.response.status = 503;
+  Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  horoscopeText = `The cosmic energies for ${name} are currently realigning. We are unable to generate your personalized reading at this exact moment. Please check back shortly.`;
+}
+
 const periodDisplay = period === 'today' ? 'Daily' : period.charAt(0).toUpperCase() + period.slice(1);
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 

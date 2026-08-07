@@ -1,9 +1,10 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 
-export const POST: APIRoute = async ({ request }) => {
-  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || process.env.PUBLIC_SUPABASE_URL || '';
-  const supabaseKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+export const POST: APIRoute = async ({ request, locals }) => {
+  const envContext = locals.runtime?.env;
+  const supabaseUrl = envContext?.PUBLIC_SUPABASE_URL || import.meta.env.PUBLIC_SUPABASE_URL || process.env.PUBLIC_SUPABASE_URL || '';
+  const supabaseKey = envContext?.SUPABASE_SERVICE_ROLE_KEY || import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
   
   if (!supabaseUrl || !supabaseKey) {
     return new Response(JSON.stringify({ error: 'Supabase credentials missing' }), { status: 500 });
@@ -63,7 +64,7 @@ IMPORTANT RULES:
 
 ${chartContext || 'No birth data provided yet. Ask the user to share their birth details for a personalized reading.'}`;
 
-    const geminiKey = import.meta.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    const geminiKey = envContext?.GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
     if (!geminiKey) {
       return new Response(JSON.stringify({ error: 'Gemini API key missing' }), { status: 500 });
     }
